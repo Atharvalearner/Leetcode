@@ -1,0 +1,28 @@
+class Solution {
+    public int specialArray(int[] nums) {
+        Arrays.sort(nums);      //for binary searching we must sort array in ascending order
+        if(nums.length == 1 && nums[0] > 0){        // after sorting check weather 1st elemnt is -ve or less than 0 
+            return 1;
+        }
+        int start = 0;
+        int end = nums.length;
+        while(start <= end){
+            int mid = (start + end) / 2;
+            int count = 0;
+            //count how many elements are greater or equal to the current element
+            for(int i : nums){
+                if(i >= mid){   // check the i weather it >= to mid if yess then count is increment.
+                    count++;
+                }
+            }
+            if(mid < count){
+                start = mid + 1;
+            }else if(mid > count){
+                end = mid - 1;
+            }else{
+                return mid;
+            }
+        }
+        return -1;   
+    }
+}

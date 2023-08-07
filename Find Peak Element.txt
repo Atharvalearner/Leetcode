@@ -1,0 +1,15 @@
+class Solution {
+    public int findPeakElement(int[] nums) {
+        int start = 0;
+        int end = nums.length - 1;
+        while(start < end){
+            int mid = start + (end - start) / 2;
+            if(nums[mid] < nums[mid+1]){        // it check weather mid is less than mid+1 if yes then peak element is lie in right side of mid hence , make start = mid + 1 else it lie in left side then make mid as an end. 
+                start = mid + 1;
+            }else{
+                end = mid;
+            }
+        }
+        return start;
+    }
+}

@@ -1,0 +1,27 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length - 1;
+        while(start <= end){
+            int mid = (start + end) / 2;
+            if(nums[mid] == target){    // if target is equal to mid element then return mid element.
+                return mid;
+            }
+            if(nums[start] <= nums[mid]){   // if mid is greater than start then it is sorted already we iterate and check that the target is found or not.
+                if(target < nums[mid] && target >= nums[start]){    // if target is less than mid and greater or equal to start then search target in left side of mid.
+                    end = mid - 1;
+                }else{
+                    start = mid + 1;
+                }
+            }
+            if(nums[mid] <= nums[end]){     // if mid is less than end then it is sorted already we only iterate and check that the target is found or not.
+                if(target > nums[mid] && target <= nums[end]){      // if target is greater than mid and less or equal to end then search target in rigth side of mid.
+                    start = mid + 1;
+                }else{
+                    end = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+}
