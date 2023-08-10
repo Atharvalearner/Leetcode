@@ -1,0 +1,32 @@
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int n1 = nums1.length;
+        int n2 = nums2.length;
+        int n = n1 + n2;
+        int[] merge = new int[n];   //take an merge array which is addition length of both arrays. 
+        int i = 0,j = 0,k = 0;      //set i,j,k = 0 which is indexs of nums1 ,nums2 , merge array for initializing.
+        while(i <= n1 && j <= n2){      //loop for iterate over both arrays.
+            if(i == n1){        //when i = n1 then it iterate over j means nums2 and fill the elements of nums2 in merge array and increment both.
+                while(j < n2){
+                    merge[k++] = nums2[j++];
+                }break;
+            }else if(j == n2){      //when j = n2 then it iterate over i means nums1 and fill the elements of nums1 in merge array increment both.
+                while(i < n1){
+                    merge[k++] = nums1[i++];
+                }break;
+            }
+            //for sorting in ascending order 
+            if(nums1[i] < nums2[j]){    //it check i < j if yes then it add element of nums1 of i into merge array. else it add element of nums2 of j into merge array.
+                merge[k++] = nums1[i++];
+            }else{
+                merge[k++] = nums2[j++];
+            }
+        }
+        // calculating median
+        if(n % 2 == 0){     //if no. of elements in merge array is even then return the middle 2 elements median.
+            return (float) (merge[n/2 - 1] + merge[n/2]) / 2;
+        }else{      //if no. of elements in merge array id odd then return the middle element.
+            return merge[n/2];
+        }
+    }
+}
