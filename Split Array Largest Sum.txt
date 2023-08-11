@@ -1,0 +1,32 @@
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        int start = 0,end = 0;     // get two pointers & set it to 0;
+        for(int num : nums){       //iterate over array and check start or num is greater, and return the result in further.
+            start = Math.max(start,num);
+            end += num;
+        }
+        int res = start;    
+        while(start <= end){
+            int mid = start + (end - start) / 2;
+            if(isSplit(nums,mid,k)){    //call isSplit and check given array are possible to split or not if yes the make result as mid and iterate ove left. else iterate over right of mid.
+                res = mid;
+                end = mid - 1;
+            }else{
+                start = mid + 1;
+            }
+        }
+        return res;
+    }
+    public boolean isSplit(int[] nums,int mid,int k){
+        int sum = 0;
+        int count = 1;
+        for(int num : nums){    //iterete over array
+            sum += num;         //sum is addition of prev sum + num.
+            if(sum > mid){      //if calculated sum is greater than mid then make sum equal to mid and increment the count.
+                sum = num;
+                count++;
+            }
+        }
+        return count <= k;      //return true if count is less or equal to k.
+    }
+}
