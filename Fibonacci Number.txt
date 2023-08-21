@@ -1,0 +1,8 @@
+class Solution {
+    public int fib(int n) {
+        if(n < 2){      // starting two fibonacci no. is as it is as of index no. hence, we set n<2 if true then return it as it is.
+            return n;
+        }
+        return fib(n-1) + fib(n-2);     //formula for n fibo i.e. addition of (n-1)+(n-2).
+    }
+}

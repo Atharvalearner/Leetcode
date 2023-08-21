@@ -1,0 +1,42 @@
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        Set<List<Integer>> set = new HashSet<>();
+        for(int i = 0; i < nums.length - 3; i++) {
+            for(int j = i + 1; j < nums.length - 2; j++) {
+                int k = j + 1;
+                int l = nums.length - 1;
+                while(k < l) {
+                    long sum = (long)nums[i] + (long)nums[j] + (long)nums[k] + (long)nums[l];
+                    if(sum == target){
+                        set.add(List.of(nums[i],nums[j],nums[k],nums[l]));
+                        k++;
+                        l--;
+                    }
+                    else if(sum < target)
+                        k++;
+                    else
+                        l--;
+                }
+            }
+        }
+        return new ArrayList<>(set);
+    }
+}
+/*
+#Approach
+Sort the input array of integers nums.
+Initialize an empty set, and an empty 2D vector output.
+Use nested loops to iterate through all possible combinations of quadruplets in nums.
+For each combination, use two pointers (k and l) to traverse the sub-array between the second and second-to-last elements of the combination.
+At each iteration of the innermost while loop, calculate the sum of the current quadruplet and check if it is equal to the target.
+If the sum is equal to the target, insert the quadruplet into the set and increment both pointers (k and l).
+If the sum is less than the target, increment the pointer k.
+If the sum is greater than the target, decrement the pointer l.
+After all quadruplets have been checked, iterate through the set s and add each quadruplet to the output vector.
+Return the output vector.
+
+#Complexity
+Time complexity: O(n^3)
+Space complexity: O(n)
+*/

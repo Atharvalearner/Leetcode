@@ -1,0 +1,40 @@
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        Set<List<Integer>> ans = new HashSet<>();
+        List<List<Integer>> res = new ArrayList<>();
+        for(int start=0;start<nums.length;start++){
+            int pointer = start+1;
+            int end = nums.length - 1;
+            while(pointer < end){
+                int sum = nums[start] + nums[pointer] + nums[end];
+                if(sum == 0){
+                    ans.add(Arrays.asList(nums[start],nums[pointer],nums[end]));
+                    pointer++;
+                    end--;
+                }else if(sum < 0){
+                    pointer++;
+                }else{
+                    end--;
+                }
+            }
+        }
+        res.addAll(ans);
+        return res;
+    }
+}
+/*
+# Approach
+1. Sort the input array
+2. Initialize a set to store the unique triplets and an output vector to store the final result.
+3. Iterate through the array with a variable start, starting from index 0.
+4. Initialize two pointers, pointer and end, with pointer starting at start+1 and end starting at the end of the array.
+5. In the while loop, check if the sum of nums[start], nums[pointer], and nums[end] is equal to 0. If it is, insert the triplet into the set and increment pointer and decrement end to move the pointers.
+6. If the sum is less than 0, increment pointer. If the sum is greater than 0, decrement end.
+7. After the while loop, iterate through the set and add each triplet to the output vector.
+8. Return the output vector
+# Complexity
+- Time complexity: O(n^2 logn)
+- Space complexity: O(n)
+# Code
+*/

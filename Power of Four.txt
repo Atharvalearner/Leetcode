@@ -1,0 +1,13 @@
+class Solution {
+    public boolean isPowerOfFour(int n) {
+        if(n == 1){         // If n == 1 means n is divisible by 4 and it is power of four. hence , we return as true.
+            return true;
+        }else if(n == 0){       // If n == 0 means n is not divisible by 4 and some reminder is generate. hence,it return false.
+            return false;
+        }else if(n%4 != 0){     // If n%4 != 0 means n is not divisible by 4 and it alse not power of four. hence , we return as false.
+            return false;
+        }else{
+            return isPowerOfFour(n/4);      //recursion call until above conditions are satisfied.
+        }
+    }
+}

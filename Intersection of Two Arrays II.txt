@@ -1,0 +1,42 @@
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int i = 0, j = 0;
+        List<Integer> res = new ArrayList<>();
+        while(true){
+            if(i >= nums1.length || j >= nums2.length){
+                break;
+            }
+            if(nums1[i] == nums2[j]){
+                res.add(nums1[i]);
+                i++;
+                j++;
+            }else if(nums1[i] > nums2[j]){
+                j++;
+            }else{
+                i++;
+            }
+        }
+        int[] ans = new int[res.size()];
+        for(int x = 0;x<res.size();x++){
+            ans[x] = res.get(x);
+        }
+        return ans;
+    }
+}
+
+/* 
+1  . first we sort the both arrays.
+2  . we take two variables i & j = 0.
+3  . for storing the result we take an arraylist;
+4  . we take while condition 
+     cases : 
+        a ) if any of arrays elements are out of length then break the loop.
+        b ) if both arrays having same element then add that element in res list.and increment both array as i++ & j++.
+        c ) if first array element is greater than second array element then increment the second array pointer as j++.
+        d ) else first array element is lesser than second array element hence increment first array pointer as i++;
+5  . for converting that arraylist into array we take array as ans.
+6  . for filling that arraylist elements into that ans array we use for loop.
+7  . return answer.
+*/
