@@ -1,0 +1,18 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+        Arrays.sort(nums);
+        int i = nums.length - 2;
+        int j = nums.length - 1;
+        int prod = (nums[i] - 1) * (nums[j] - 1);
+        return prod;
+    }
+}
+
+/*
+# Approach
+1. we want to sort first the array.
+2. we declare the variable i & j as last 2nd and last element of array.
+3. as we know tha we want Return the maximum value of (nums[i]-1)*(nums[j]-1).
+4. so we declare prod as result of (nums[i] - 1) * (nums[j] - 1).
+5. return the result. 
+*/
