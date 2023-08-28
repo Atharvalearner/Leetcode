@@ -1,0 +1,25 @@
+class Solution {
+    public int numberOfSteps(int num) {
+        int count = 0;
+        while(num > 0){
+            if(num % 2 == 0){
+                num = num / 2;
+            }else{
+                num = num - 1;
+            }
+            count++;
+        }
+        return count;
+    }
+}
+
+/*
+#Approach:
+
+set count to 0.
+loop check until the given no. is less than 0.
+if given no. is generate reminder 0 , so no. is even ,hence number / 2.
+else no. is odd ,hence no. is substract by 1.
+and make count increment.
+return count.
+*/

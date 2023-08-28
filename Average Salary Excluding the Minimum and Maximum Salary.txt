@@ -1,0 +1,24 @@
+class Solution {
+  public double average(int[] salary) {
+    int sum = 0, min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+    for (var s : salary) {
+      sum += s;
+      min = Math.min(min, s);
+      max = Math.max(max, s);
+    }
+    return (double) (sum - min - max) / (salary.length - 2);
+  }
+}
+
+/*
+#Approach : 
+declare sum as 0,min and max using inbuild.
+for each value of salary i.e. S, we add them and
+using min and max function we find min and max.
+exclued the min and max from total sum
+and divide it with no. of elements exept min and max hence salary.length-2.
+
+#Complexity : 
+Time complexity: O(n)
+Space complexity: O(1)
+*/
