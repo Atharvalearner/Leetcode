@@ -1,0 +1,32 @@
+class Solution {
+    ListNode node;
+    public boolean isPalindrome(ListNode head) {
+        node = head;
+        return check(head);
+    }
+    public boolean check(ListNode head){
+        if(head == null){
+            return true;
+        }
+        boolean ans = check(head.next);
+        if(ans){
+            if(head.val == node.val){
+                node = node.next;
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+/*
+#Approach : 
+declare the node which point to starting of list i.e. head
+now call check for head
+if head == null means it is last node are found hence return true
+declare the boolean variable ans as recursion call for next of head
+if head.next is not eqaul to null means it is true then
+it check first and last node are same or not
+if yes then node increment to next and return true
+else head.next is eqaul to null then return false.
+*/

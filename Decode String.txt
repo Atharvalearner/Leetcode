@@ -1,0 +1,36 @@
+class Solution {
+    private int pos = 0;
+    public String decodeString(String s) {
+    	int n = s.length(), repeat = 0;
+    	StringBuilder buf = new StringBuilder();
+    	while (pos < n) {
+    		char c = s.charAt(pos);
+    		if (c >= 'a' && c <= 'z') {
+    			buf.append(c);
+    		} else if (c >= '0' && c <= '9') {
+    			repeat = repeat * 10 + (c - '0');
+    		} else if (c == '[') {
+    			pos++;
+    			String str = decodeString(s);
+    			for (int i = 0; i < repeat; i++)
+   					buf.append(str);
+    			repeat = 0;
+    		} else if (c == ']')
+    			break;
+    		pos++;
+    	}
+    	return buf.toString();
+    }
+}
+
+/*
+# Approach
+1. pos is is a pointer which goes until length of string.
+2. for storing result we give StringBuilder as buf.
+3. let char c which points to character of string.
+4. if c is any alphabet then we directly append it to result string.
+5. else if it as any integer then we having formula for repeating the characters of string of k times as follows: repeat * 10 + (c - '0')
+6. else if it is an opening bracket "[" then we increment the pos pointer.And Becuase of strings are immutable it always create new object .hence we call it recursive String str for string s. and append the character of that str  to result string. and reset the repeat to 0.
+7. else c is closing bracket "]" hence we break it and increment the pos to next.
+8. return the result string.
+*/

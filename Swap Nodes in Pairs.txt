@@ -1,0 +1,20 @@
+public class Solution {
+    public ListNode swapPairs(ListNode head) {
+        if ((head == null)||(head.next == null))
+            return head;
+        ListNode n = head.next;
+        head.next = swapPairs(head.next.next);
+        n.next = head;
+        return n;
+    }
+}
+
+/*
+Approach
+first check that head is null or not and head next is also check if yes means node is end their so return head.
+else take new node of name n and point it to head.next
+make recursion head.next as swapPairs of next of head.next
+make n.next as head
+so swap was perform from step 2 to 4
+return the head.
+*/

@@ -1,0 +1,29 @@
+class Solution {
+    public int strStr(String str, String target) {
+        if(str == null || target == null){
+            return -1;
+        }
+        int p1 = str.length();
+        int p2 = target.length();
+        for(int i=0;i<p1-p2+1;i++){
+            int count = 0;
+            while(count <p2 && str.charAt(i+count) == target.charAt(count)){
+                count++;
+            }
+            if(count == p2){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
+/*
+#Approach :
+let p1 is length of str (haystack string) and p2 is length of target(needle string).
+give for loop from 0 till length of p1-p2+1.
+let give count intialize from 0.
+while count is greater than p2 and character of haystack at i+count is equal to character of needle at count then increment the count .
+and if count is equal to p2 means needle is found in haystack so return the index of needle.
+else return -1.
+*/

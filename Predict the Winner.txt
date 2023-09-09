@@ -1,0 +1,22 @@
+class Solution {
+    public boolean predictTheWinner(int[] nums) {
+        return ans(nums,0,nums.length-1,0,0,true);
+    }
+    // Main mortive is to make p1 win at any cost
+    boolean ans(int[] nums,int start,int end,int p1,int p2,boolean turn){
+        if(start == end){
+            if(turn){
+                p1 = p1 + nums[start];
+            }else{
+                p2 = p2 + nums[start];
+            }
+            return p1 >= p2;
+        }
+         // If turn is false its p2's turn or else it's p1's turn
+        if(turn){   // if taking the first element in each case doesn't give p1 win then take the end element
+            return ans(nums,start+1,end,p1+nums[start],p2,false) || ans(nums,start,end-1,p1+nums[end],p2,false);
+        }else{      // if p2 get defeated in any case i.e either taking first or last element  that means this is a winning case for p1
+            return ans(nums,start+1,end,p1,p2+nums[start],true) && ans(nums,start,end-1,p1,p2+nums[end],true);
+        }
+    }
+}

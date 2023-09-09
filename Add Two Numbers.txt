@@ -1,0 +1,40 @@
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode res = new ListNode(0);
+        ListNode cur = res;
+        int carry = 0;
+        while(l1 != null || l2 != null || carry == 1){
+            int sum = 0;
+            if(l1 != null){
+                sum += l1.val;
+                l1 = l1.next;
+            }
+            if(l2 != null){
+                sum += l2.val;
+                l2 = l2.next;
+            }
+            sum += carry;
+            carry = sum/10;
+            ListNode node = new ListNode(sum%10);
+            cur.next = node;
+            cur = cur.next;
+        }
+        return res.next;
+    }
+}
+
+/*
+# Approach :
+1. create another list in which we will get our sum. So, that list intially we will called as res list.
+2. create one pointer cur which is pointing on res node and traverse along with it.
+3. sum up these node value, for that we will create one another variable sum and put the sum of l1 & l2 them into our res list.
+4. So, we start it from all the way left to right. 
+5. the carry values we get after sum up.
+6. we will intialize one more variable name carry if we found carry of let's say 10. First we will modulo it like carry = sum % 10 i.e. carry = 10 % 10 i.e. 0 we will add 0 into our node and after that what we will do is get the carry as carry = sum / 10 i.e. carry = 10 / 10 i.e. 1. Now we are having carry as 1. So, in the next node sum of l1 & l2 we will add carry as well.
+7. For sum use this formula : sum = l1 + l2 + carry.
+8. return the result as res list.
+
+# Complexity:
+- Time complexity: O(m+n)
+- Space complexity: O(m+n)
+*/

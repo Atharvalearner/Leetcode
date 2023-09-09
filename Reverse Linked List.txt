@@ -1,0 +1,21 @@
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode n = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return n;
+    }
+}
+
+
+/*
+# Approach :
+1. first we can check head or next of head is not equal to node.
+2. then declare new listnode n and call recursion as reverseList and assign parameter as head.next
+3. now , assign next of head.next as head.
+4. and head.next is assign as null.
+5. return the declared listnode n. 
+*/

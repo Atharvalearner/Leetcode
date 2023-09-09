@@ -1,0 +1,26 @@
+class Solution {
+    public boolean searchMatrix(int[][] nums, int target) {
+        int row = 0;
+        int col = nums[0].length - 1;
+        while(col >= 0 && row <= nums.length-1){
+            if(nums[row][col] == target){
+                return true;
+            }else if(nums[row][col] > target){
+                col--;
+            }else{
+                row++;
+            }
+        }
+        return false;
+    }
+}
+
+
+/*
+#Approach :
+We start search the matrix from top right corner.
+Initialize the current position to top right corner.
+if the target is greater than the value in current position then the target can not be in entire row of current position because the row is sorted.
+if the target is less than the value in current position, then the target can not in the entire column because the column is sorted too.
+We can rule out one row or one column each time, so the time complexity is O(m+n).
+*/

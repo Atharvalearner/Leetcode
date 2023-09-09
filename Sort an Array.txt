@@ -1,0 +1,58 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+        merge(nums,0,nums.length-1);
+        return nums;
+    }
+    static void merge(int[] nums,int s,int e){
+        if(s < e){
+            int mid = s + (e - s) / 2;
+            merge(nums,s,mid);
+            merge(nums,mid+1,e);
+            mergeArr(nums,s,mid,e);
+        }
+    }
+    static void mergeArr(int[] nums,int s,int m,int e){
+        int p1 = m - s + 1;
+        int p2 = e - m;
+        int[] left = new int[p1];
+        int[] right = new int[p2];
+        for(int i=0;i<p1;i++){
+            left[i] = nums[s+i];
+        }
+        for(int i=0;i<p2;i++){
+            right[i] = nums[m+i+1];
+        }
+        int i=0,j=0,k=s;
+        while(i < p1 || j < p2){
+            if(j == p2 || i < p1 && left[i] < right[j]){
+                nums[k++] = left[i++];
+            }else{
+                nums[k++] = right[j++];
+            }
+        }
+    }
+}
+
+/*
+#Approach : 
+Take merge function which takes array , start and end.
+I ) apply base condition as s < e
+II ) find the mid of respected start and end.
+III ) divide the array into 2 arrays as follows:
+first from start to mid and
+secong from mid + 1 to end of array.
+IV ) now, for sorting elements call mergeArr function.
+take an mergeArr function with parameters array , start , mid and end.
+now, for finding the length of that divided array apply simple logic.
+for first part of array length = mid - start + 1. and for 2nd part length should be end - mid.
+for sort the both the parts declare left and right as arrays of respective length.
+now iterate over both parts and add elements in array.
+after that declare i , j = 0 and k = s.
+set the base condition as i and j are not over iterate the respective array.
+if i of left array is less than j of right then add the left[i] into result array and increment both k and i.
+else add the rigth[j] into result array and increment both k and j.
+
+#Complexity : 
+Time complexity: O(n log n)
+Space complexity: O(n)
+*/
