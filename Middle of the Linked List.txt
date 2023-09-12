@@ -1,0 +1,30 @@
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode p1 = head;
+        int count = 0;
+        while(p1 != null){
+            count++;
+            p1 = p1.next;
+        }
+        count = count / 2 + 1;
+        ListNode p2 = head;
+        for(int i=1;i<count;++i){
+            p2 = p2.next;
+        }
+        return p2;
+    }
+}
+
+/*
+# Intuition :
+we count the nodes and divide it and get mid and return nodes from mid to last node.
+
+# Approach :
+1. initialize p1 listnode from head.
+2. let count initializes from 0.
+3. we want the length of linked list so we count how many nodes are present. for that we give while condition it increaments count and move p1 to next node until p1 == null.
+4. when counts complete we find mid as count/2 + 1.
+5. let make new p2 listnode for print the range nodes.
+6. it start from 1 to count and p2 goes to next of present node.
+7. return the p2 as result linklist.
+*/

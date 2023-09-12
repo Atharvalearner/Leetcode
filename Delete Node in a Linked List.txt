@@ -1,0 +1,15 @@
+class Solution {
+    public void deleteNode(ListNode node) {
+		node.val = node.next.val;
+		node.next = node.next.next;
+    }
+}
+
+/*
+# Approach :
+1. we want to delete node so, we iterate and check where is node .
+2. when node is found then we only point the previous node of node to next of our delete node.
+
+# Complexity :
+- Time complexity: O(n-1)
+*/
