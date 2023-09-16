@@ -1,0 +1,23 @@
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+      ListNode slow = head, fast = head;
+      while(fast != null && fast.next != null){
+        slow = slow.next;
+        fast = fast.next.next;
+        if(slow == fast){
+          return true;
+        }
+      }
+      return false;
+    }
+}
+
+/*
+# Intuition :
+Two pointers menthod.
+
+# Approach :
+1. lets take 2 pointers slow and fast where slow iterate one-one node but fast iterate with 2 node space.
+2. while fast or next of fast is equal to null means it doesn't have any cycle then return false.
+3. else slow == fast means it having an cycle then return true.
+*/

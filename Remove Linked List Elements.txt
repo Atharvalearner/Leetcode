@@ -1,0 +1,29 @@
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        while(head != null && head.val == val){
+            head = head.next;
+        }
+        if(head == null){
+            return head;
+        }
+        ListNode p = head;
+        while(p.next != null){
+            if(p.next.val == val){
+                p.next = p.next.next;
+            }else{
+                p = p.next;
+            }
+        }
+        return head;
+    }
+}
+
+/*
+# Approach :
+1. check head is not equal to null and value of head is equal to val,if yes then move head to next node.
+2. if head is null then return the list.
+3. for iterate we take p pointer.
+4. while next of p is not equal to null, we check next value of p is equal to val, if yes then move pointer to next node.
+5. else p goes to next.
+6. return head.
+*/

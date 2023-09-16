@@ -1,0 +1,30 @@
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null){
+           return head;
+        }
+        ListNode p = head;
+        while(p.next != null){
+            if(p.val == p.next.val){
+                p.next = p.next.next;
+            }else{
+                p = p.next;
+            }
+        }
+        return head;
+    }
+}
+
+/*
+# Approach :
+1. if head is at null means list is oven then we return the head.
+2. let take an pointer p for iteration
+3. we can iterate until null is found
+4. if value of p and next node of p is same means duplicate are found and we want to skip that duplicate by moving next of p to next of p.next
+5. else it will be new value node then we move forward
+6. return head as an result.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)
+*/
