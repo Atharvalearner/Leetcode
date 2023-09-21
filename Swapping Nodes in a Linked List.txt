@@ -1,0 +1,42 @@
+class Solution {
+    public ListNode swapNodes(ListNode head, int k) {
+        ListNode left = head;
+        ListNode right = head;
+        int len = 0;
+        while(left != null){
+            len++;
+            if(len == k){
+                break;
+            }else{
+                left = left.next;
+            }
+        }
+        ListNode iterate = left;
+        while(iterate.next != null){
+            iterate = iterate.next;
+            right = right.next;
+        }
+        int temp = left.val;
+        left.val = right.val;
+        right.val = temp;
+
+        return head;
+    }
+}
+
+/*
+# Intuition :
+ We can use Two Pointers.
+
+# Approach :
+1. Find the k−th node from the left.
+2. if left node is equal to k then break and save that node else move pointer to left.
+3. Make left node as the current node, right node from the front.
+4. when the current node reach end, right node is just the k−th last element.
+5. Swap their values.
+6. return the head.
+
+# Complexity :
+- Time complexity: O(n)
+- Space complexity: O(1)
+*/

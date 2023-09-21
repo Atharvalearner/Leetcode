@@ -1,0 +1,35 @@
+class Solution {
+    public boolean isHappy(int n) {
+        int slow = n;
+        int fast = n;
+        do{
+            slow = squareOfn(slow);
+            fast = squareOfn(squareOfn(fast));
+        }while(slow != fast);
+        if(slow == 1){
+            return true;
+        }
+        return false;
+    }
+    public int squareOfn(int n){
+        int ans = 0;
+        while(n > 0){
+            int rem = n % 10;
+            ans += rem * rem;
+            n /= 10;
+        }
+        return ans;
+    }
+}
+
+/*
+# Intuition :
+Floyd's tortoise or slow and fast pointer method.
+
+# Approach :
+1. lets take 2 pointers slow and fast 
+2. slow goes one by one and fast move 2 step forward
+3. we need to find the square of each digit of n, so we take a new function squareOfn, which gives us answer of n.
+4. if slow and fast answer is equal that means n is not happy it will goes in cycle answer and it will return false.
+5. else it is true.
+*/

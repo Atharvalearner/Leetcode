@@ -1,0 +1,41 @@
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(k <= 0 || head == null || head.next == null){
+          return head;
+        }
+        ListNode p = head;
+        int len = 1;
+        while(p.next != null){
+          p = p.next;
+          len++;
+        }
+        p.next = head;
+        int rotations = k % len;
+        int skip = len - rotations;
+        ListNode newLst = head;
+        for(int i=1;i<skip;i++){
+          newLst = newLst.next;
+        }
+        head = newLst.next;
+        newLst.next = null;
+        return head;
+    }
+}
+
+/*
+# Intuition :
+I just use simple basic logic i.e. skip the remaining nodes and make last of next node as head and make last nodes next as null. 
+
+# Approach :
+1. we 1st iterate and find length of list.
+2. then we substract the k nodes(no. of rotations) from total length and then skip other nodes during operation.
+3. if k > nodes in list then that means rotations are repeatdly perform hence we uses modulo formula rotations = k % len which give us direct no. of rotations want to perform.
+4. we take newLst as pointer for finding new last node of updated list.
+5. 1st we skip nodes until our skip node is not end and then make next node of newLast as head.
+6. and make newLast next as null for ending new list.
+7. return the head.  
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity: O(1)
+*/

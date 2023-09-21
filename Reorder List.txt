@@ -1,0 +1,61 @@
+class Solution {
+    public void reorderList(ListNode head) {
+        if(head == null || head.next == null){
+            return;
+        }
+        ListNode mid = findMid(head);
+        ListNode headScnd = reveseSH(mid);
+        ListNode headFst = head;
+        while(headFst != null && headScnd != null){
+            ListNode temp = headFst.next;
+            headFst.next = headScnd;
+            headFst = temp;
+
+            temp = headScnd.next;
+            headScnd.next = headFst;
+            headScnd = temp;
+        }
+        if(headFst != null){
+            headFst.next = null;
+        }
+    }
+    public ListNode findMid(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    public ListNode reveseSH(ListNode head){
+        if(head == null){
+            return head;
+        }
+        ListNode prev = null;
+        ListNode present = head;
+        ListNode next = present.next;
+        while(present != null){
+            present.next = prev;
+            prev = present;
+            present = next;
+            if(next != null){
+                next = next.next;
+            }
+        }
+        return prev;
+    }
+}
+
+/*
+# Approach :
+1. we devide list in 2 parts.
+2. and find mid node using findMid function in which we uses the fast and slow pointers.
+3. then the 2nd part (all nodes after mid node) are reverse.
+4. we reverse that 2nd part of list using reveseSH function which use simple logic.
+5. then arrange the list node as 1st node of 1st part and 1st node of reverse list and go on until list is not end.
+
+# Complexity :
+- Time complexity: O(n)
+- Space complexity: O(1)
+*/
