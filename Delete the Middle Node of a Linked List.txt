@@ -1,0 +1,29 @@
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        if(head == null || head.next == null){
+            return null;
+        }
+       ListNode slow = head;
+       ListNode fast = head.next.next;
+       while(fast != null && fast.next != null){
+           slow = slow.next;
+           fast = fast.next.next;
+       }
+       slow.next = slow.next.next;
+       return head;
+    }
+}
+
+/*
+# Intuition :
+just use slow and fast pointer methode to find mid and joint the previous node of mid to next of mid.
+
+# Approach :
+1. use slow and fast pointers method and find mid
+2. then make next of slow as next of slow.next
+3. return the head.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)
+*/

@@ -1,0 +1,40 @@
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode left = new ListNode(0);
+        ListNode right = new ListNode(0);
+        ListNode lt = left;
+        ListNode rt = right;
+        while(head != null){
+          if(head.val < x){  // if value of x is less then we add head to left list and move left pointer(lt).
+            lt.next = head;
+            lt = lt.next;
+          }else{        // if value of x is greater then we add head to right list and move right pointer(rt).
+            rt.next = head;
+            rt = rt.next;
+          }
+          head = head.next; // move head to next node.
+        }
+        lt.next = right.next;    // make lt last node next as first node of right list.
+        rt.next = null;    // make next of right last node as null
+        return left.next;
+    }
+}
+
+/*
+# Intuition :
+Make 2 list left and right and store nodes which lesser and greater than x respectively.
+Then merge both the list and return the answer.
+
+# Approach :
+1. take 2 lists left and right initializes from 0.
+2. let lt and rt are 2 lists which initialize as left and right.
+3. if value of head is lesser than x then head will be add to left list.
+4. else value of head is greater than x then head will add to right list. and move head to next.
+5. Then we have 2 list that value less than x nodes present in left list and greater value than x nodes are present in right, we need to merge them into one list.
+6. we just point the last node of left to first node of right and make last node of right next as null to end their.
+7. return the left list. 
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)
+*/
