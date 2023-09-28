@@ -1,0 +1,10 @@
+class Solution {
+    public int lengthOfList(ListNode head){
+        int len = 0;
+        while(head != null){
+            head = head.next;
+            len++;
+        }
+        return len;
+    }
+}

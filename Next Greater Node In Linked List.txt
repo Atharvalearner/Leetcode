@@ -1,0 +1,40 @@
+class Solution {
+    public int[] nextLargerNodes(ListNode head) {
+        int[] arr = new int[lengthOfList(head)];
+        int i = 0;
+        while(head != null){
+            arr[i++] = findNxtLargeNode(head,head.val);
+            head = head.next;
+        }
+        return arr;
+    }
+    public int lengthOfList(ListNode head){
+        int len = 0;
+        while(head != null){
+            head = head.next;
+            len++;
+        }
+        return len;
+    }
+    public int findNxtLargeNode(ListNode head,int val){
+        int nodeVal = 0;
+        while(head != null){
+            if(head.val > val){
+                nodeVal = head.val;
+                break;
+            }
+            head = head.next;
+        }
+        return nodeVal;
+    }
+}
+
+/*
+# Approach :
+1. we first need to find length of list using lengthOfList(head) function.
+2. for each node we want to check greater node hence we initialize i variable as 0.
+3. then for each node we find next greater node using findNxtLargeNode function which having head and value of head as an parameters.
+4. findNxtLargeNode in this function we check head.val is greater or not if yes then add that heads value in nodeval. and after finding first greater node then we break the condition.
+5. and move the head pointer to next.
+6. return the arr.
+*/

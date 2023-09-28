@@ -1,0 +1,62 @@
+class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        ListNode cur = new ListNode(0);
+        cur.next = head;
+        ListNode pre = cur;
+        ListNode insrt = cur;
+        while(head != null && head.next != null){
+            if(head.val <= head.next.val){      //in ascending order , no need to change
+                head = head.next;
+            }else{
+                pre = cur;      
+                insrt = head.next;
+                while(pre.next.val < insrt.val){
+                    pre = pre.next;
+                }
+                head.next = insrt.next;
+                insrt.next = pre.next;
+                pre.next = insrt;
+            }
+        }
+        return cur.next;
+    }
+}
+
+# Explanation :
+	head : 1 -> 2 -> 4 -> 3 ->null
+	cur : (0)-> 1 -> 2 -> 4 ->3 -> null
+
+	1 -> 2 -> 4 -> 3 -> null
+		 |    |
+	   head  (head.val <= head.next.val)  => continue
+	  
+				   head
+				 	 |
+	(0) -> 1 -> 2 -> 4 -> 3 -> null
+			    |         |
+		    preNode    insertNode
+	Find preNode by checking it value with insertNode
+	Connect next of head to next of insertNode 
+	
+	(0) -> 1 -> 2 -> 4 -> null   (connect head to next of insertion node to break the node from the list and to add it in correct position)
+	
+	
+	(0) -> 1 -> 2  -> 4  -> null  (connect next of insertion node to to pre node )
+				|
+				3
+				
+	(0) -> 1 -> 2 -> 3 -> 4 -> null  (finally connect the next of pre node to add the insertion node into list)
+
+# Approach :
+move the prenode to the start of the dummyhead
+the node to insert in its correct position is the node next to the actual head
+find the pos to insert the current node (insertNode) by checking if pre node values are less than the value of the node to be inserted.
+now next of the pre node is the place where the cuurent node (insertNode) to be inserted.
+connect the original head to next of insertion node to break the node from the list and to add it in correct position
+connect next of insertion node to to pre node
+finally connect the next of pre node to add the insertion node into list
+
+# Complexity:
+Time complexity:O(n)
+Space complexity:O(1)
+*/

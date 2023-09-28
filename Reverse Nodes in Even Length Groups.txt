@@ -1,0 +1,50 @@
+class Solution {
+    public ListNode reverseEvenLengthGroups(ListNode head) {
+        if(head.next == null || head.next.next == null){
+            return head;
+        }
+        ListNode p = head;
+        int group = 1;
+        while(p != null && p.next != null){
+            group++;
+            int countNodes = 0;     //first check number of nodes 
+            ListNode itrt = p.next;
+            while(itrt != null && countNodes < group){
+                itrt = itrt.next;
+                countNodes++;
+            }
+            if(countNodes % 2 == 0){        //now we have count now we will check if it is even then do reverse else skip
+                ListNode curr = p.next, prev = null, next = null;
+                for (int i = 0; i < countNodes; i++) {
+                    next = curr.next;
+                    curr.next = prev;
+                    prev = curr;
+                    curr = next;
+                }
+
+                ListNode tail = p.next;
+                tail.next = curr;
+                p.next = prev;
+                p = tail;
+            }else{
+                for(int i=0;i<countNodes;i++){
+                    p = p.next;
+                }
+            }
+        }
+        return head;
+    }
+}
+
+/*
+# Intuition:
+Divide list into groups ,count no. of nodes in groups, if group is even then reverse that else return as it is.  
+
+# Approach:
+1. first we want to check length of each group.
+2. first group contains 1 node so we not need to check , hence we intialize group as 1.
+3. let p is pointer to iterate head. and countNodes are intialize as 0 which count nodes of group.
+4. if group are even then we reverse that group.
+5. else group is odd then only add as it is in head.
+6. return head. 
+*/

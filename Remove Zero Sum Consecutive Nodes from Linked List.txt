@@ -1,0 +1,51 @@
+class Solution {
+    public ListNode removeZeroSumSublists(ListNode head) {
+        ListNode h1 = new ListNode(0);
+        h1.next = head;
+        ListNode prev = h1;
+        ListNode temp = head;
+        while(temp != null){
+            ListNode node = skipZeroSum(temp);
+            if(node != temp){       // if ans of skipZeroSum(temp) != temp then next of prev is set as node and temp is also as node.
+                prev.next = node;
+                temp = node;
+            }else{      // if ans and temp is equal means we make prev as temp and move temp pointer.
+                prev = temp;
+                temp = temp.next;
+            }
+        }
+        return h1.next;
+    }
+    public ListNode skipZeroSum(ListNode p){
+        int sum = 0;
+        ListNode temp = p;
+        while(temp != null){
+            sum += temp.val;
+            if(sum == 0){
+                return temp.next;
+            }else{
+                temp = temp.next;
+            }
+        }
+        return p;
+    }
+}
+
+/*
+# Approach :
+1. Create a pseudo head say head1, set head1.next = head.
+2. Create a prev pointer, point it to head1.
+3. Create temp pointer to traverse through the list.
+4. Traverse the list.
+5. for each iteration call skipZerosum(temp) function
+it iterates through temp till the end of the list.
+6. if sum is found to be zero for a node, node.next is passed back to the parent function , to let it know until when to skip to
+else temp is returned as it is
+7. if retuned node from skipZerosum(temp) is not equal to temp , skip upto the node ( prev.next = node and temp = node )
+else prev = temp , temp = temp.next
+Return head.next
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)
+*/
