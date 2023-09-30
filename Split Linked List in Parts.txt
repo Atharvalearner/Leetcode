@@ -1,0 +1,54 @@
+class Solution {
+    public ListNode[] splitListToParts(ListNode head, int k) {
+        ListNode p = head;
+        int count = 0;
+        while(p != null){
+            count++;
+            p = p.next;
+        }
+        int pSize = count / k;
+        int rem = count % k;
+        ListNode[] res = new ListNode[k];
+        p = head;
+        for(int i=0;i<k;i++){
+            int subListSize = (i < rem) ? (pSize + 1) : pSize;
+            if(subListSize == 0){
+                res[i] = null;
+            }else{
+                ListNode subHead = p;
+                for(int j=0;j<subListSize-1;j++){
+                    p = p.next;
+                }
+                ListNode nextNode = p.next;
+                p.next = null;
+                res[i] = subHead;
+                p = nextNode;
+            }
+        }
+        return res;
+    }
+}
+
+/*
+# Intuition :
+find the length of list and divide list into k parts.
+
+# Approach :
+1. **Calculate the length of the linked list**
+2. **Determine the size of each part**
+    1 ) Calculate part_size by dividing length by k. This gives you the base size of each part.
+    2 ) Calculate rem by taking the remainder of length divided by k(modulus method). This represents the number of parts that will have one extra element.
+3. **Split the linked list into parts**
+    1 ) Initialize an empty list res to store the resulting linked list parts.
+    2 ) Reset the p pointer to the head of the linked list.
+    3 ) Use a for loop to iterate k times, where k is the number of parts to split the list into.
+    4 ) Calculate sublist_size based on whether the current part p(i) should have an extra element. If i is less than rem, add 1 to psize, otherwise, use psize.
+    5 ) If sublist_size is 0 (which can happen if k is greater than the length of the linked list), append None to the result list to represent an empty part.
+    6 ) Otherwise, create a subhead pointer to the p node, which will be the head of the sublist.
+    7 ) Use a nested for loop to traverse the sublist until you reach the end of the sublist (which is sublist_size - 1 nodes). Update the p pointer accordingly.
+    8 ) Store the next node (nextNode) after the sublist in nextNode.
+    9 ) Set the next pointer of the p node to None to separate the sublist from the original list.
+    10 ) Append the subhead to the result list, representing one of the parts of the split linked list.
+    11 ) Update the p pointer to nextNode to prepare for the next iteration.
+    12 ) Return the result
+*/
