@@ -1,0 +1,37 @@
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode p = head;      // for iterate over list we take p listNode.
+        int len = 0;        // for finding length of list we intialize len as 0.
+        while(p != null && len < k){
+            len++;
+            p = p.next;
+        }
+        if(len < k){        // after counting no. of nodes in list it check k is greater or not.
+            return head;
+        }
+        int n = k;
+        ListNode tail = head;   // take new list tail points to head.
+        ListNode front = reverse(head,n);    // reverse the n nodes from head.
+        tail.next = reverseKGroup(p,n);     // next of tail we joint the next reverse group.
+        return front;
+    }
+    public ListNode reverse(ListNode head,int k){       // as we know simple reverse method for list.
+        ListNode prev = null, curr = head, next = head;
+        while(k-- != 0){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+}
+
+/*
+# Approach
+1. first we find the length of List.
+2. then we check is that length is greater or equal to k or not if (len < k) means their is an remaining last nodes, hence we return head.
+3. let take an ListNode tail points to head and front gives us reverse list of head upto n nodes.
+4. we want to joint the last node of our reverse list hence we set tail.next = reverseKGroup(p,n) that means last node of tail points to next new reverseKgroup of list.
+5. return the front list.
+*/

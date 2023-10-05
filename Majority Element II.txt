@@ -1,0 +1,38 @@
+class Solution {
+    public List<Integer> majorityElement(int[] arr) {
+        List<Integer> ans = new ArrayList<>();  // creating new arraylist
+        for(int i=0;i<arr.length;i++){  // iterate every element in array
+            if(ans.size() == 0 || ans.get(0) != arr[i]){    // it is base parameter 
+                int count = 0;
+                for(int j=0;j<arr.length;j++){  // iterate through array
+                    if(arr[j] == arr[i]){   // check the element frequency
+                        count++;
+                    }
+                }
+                if(count > (arr.length / 3)){   // if count of no. is greater than n/3 then add that element to ans arraylist.
+                    ans.add(arr[i]);
+                }
+            }
+            if(ans.size() == 2){    // if size of ans arraylist is 2 then break it.
+                break;
+            }
+        }
+        return ans;
+    }
+}
+
+/*
+# Intuition:
+The brute force approach involves iterating through the array and counting the occurrences of each element. If an element appears more than [ n/3 ] times, it is considered a majority element.
+
+# Approach:
+1. Initialize an empty list result to store the majority elements.
+2. Iterate through the array nums.
+3. For each unique element in nums, count its occurrences in the array.
+4. If the count is greater than [n/3], add it to the result list.
+5. Return the result list as the answer.
+
+# Complexity:
+- Time complexity:O(n^2)
+- Space complexity:O(1)
+*/

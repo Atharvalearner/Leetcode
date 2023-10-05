@@ -1,0 +1,32 @@
+class Solution {
+    public int reverse(int x) {
+        long finalNum = 0;
+        while(x != 0){
+            int d = x % 10;
+            finalNum += d;
+            finalNum = finalNum * 10;
+            x = x / 10;
+        }
+        finalNum = finalNum / 10;
+        if(finalNum > Integer.MAX_VALUE || finalNum < Integer.MIN_VALUE){
+            return 0;
+        }
+        return (int)finalNum;
+    }
+}
+
+/*
+# Intuition :
+we just find reminder of x when we divide it with 10 and we only iterate while x is not equal to 0.
+
+# Approach :
+ 1. using a while loop to extract the last digit of the input integer x .
+ 2. then we add that extarcted last digit with finalNum.
+ 3. At each iteration, finalNum is multiplied by 10 so that the next extracted digit can be added as the next significant digit.
+ 4. After the loop, finalNum is divided by 10 to remove the extra trailing zero.
+ 5. because of having signed 32-bit integer range [-231, 231 - 1] this constraint we use if condition if our finalNum is greater than [231 - 1] or less than [-231] then we return 0.
+
+# Complexity :
+- Time complexity:O(log x)
+- Space complexity:O(1)
+*/

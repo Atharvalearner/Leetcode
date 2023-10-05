@@ -1,0 +1,33 @@
+class Solution {
+    public int romanToInt(String s) {
+        int ans = 0,number = 0,prev = 0;
+        for(int i=s.length()-1;i>=0;i--){
+            switch(s.charAt(i)){
+                case 'I' -> number = 1;
+                case 'V' -> number = 5;
+                case 'X' -> number = 10;
+                case 'L' -> number = 50;
+                case 'C' -> number = 100;
+                case 'D' -> number = 500;
+                case 'M' -> number = 1000;
+            }
+            if(number < prev){
+                ans -= number;
+            }else{
+                ans += number;
+            }
+            prev = number;
+        }
+        return ans;
+    }
+}
+
+/*
+# Approach :
+1. we intialize 3 variables ans,number and prev as 0.
+2. we iterate overall the string character hence we start iterating from last index of string while it will not become to 0 and we decrement it at a every iteration.
+3. in switch cases we just assign the values to number of respected Romen letter.
+4. we check after every iteration is that number is greater than prev or not if yes ,then we add ans with that number.else we substract that no. from ans.
+5. and after that we assign prev as number for futher operation.
+6. return the ans.
+*/

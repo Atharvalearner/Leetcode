@@ -1,0 +1,60 @@
+class Solution {
+    public int[] nodesBetweenCriticalPoints(ListNode head) {
+        if(head == null || head.next == null || head.next.next == null){
+            return new int[]{-1,-1};
+        }
+        int n = 2,first = -1,nlast = -1,plast=-1;
+        int count = 0;
+        int minD =  Integer.MAX_VALUE;
+        int maxD =  Integer.MIN_VALUE;
+        ListNode prev = head;
+        ListNode curr = head.next;
+        ListNode next = curr.next;
+        while(next != null){
+            if(curr.val < prev.val && curr.val < next.val || curr.val > prev.val && curr.val > next.val){
+                count++;
+                if(count == 1){
+                    first = n;
+                }else if(count == 2){
+                    nlast = n;
+                    minD = Math.min(minD,nlast-first);
+                    maxD = Math.max(maxD,nlast-first);
+                }else{
+                    plast = nlast;
+                    nlast = n;
+                    minD = Math.min(minD,nlast-plast);
+                    maxD = Math.max(maxD,nlast-first);
+                }
+            }
+            prev = curr;
+            curr = next;
+            next = next.next;
+            n++;
+        }
+        if(count <= 1){
+            return new int[]{-1,-1};
+        }
+        return new int[]{minD,maxD};
+    }
+}
+
+/*
+# Intuition :
+count the critical nodes and find min and max distance of that critical points.
+
+# Approach :
+1. if list size is less than or equal to 2 then return ans as [-1,-1].
+2. we take 3 pointers prev,curr and next as head, head.next and curr.next for simplified way to understand.
+3. let take n = 2, first = -1,nlast = -1,plast= -1 for counting the critical nodes.
+4. we iterate the list till next is not null.
+5. as description says,
+    1 ) A node is a local maxima if the current node has a value strictly greater than the previous node and the next node.
+    2 ) A node is a local minima if the current node has a value strictly smaller than the previous node and the next node.
+6. we increment the count for counting the nodes which counts the critical nodes in list.
+7. if(count == 1)means their is only 1 node is critical hence, we set first as n.
+8. else if(count==2) means their is 2 critical nodes hence, nlast set as n and using Math function we calculate the min and max distance nlast-first.
+9. else, we set plast = nlast and nlast = n for calculate the min and max distance as nlast-plast and  nlast-first respectively.
+10. After iterating we move all 3 pointers i.e. prev as curr , curr as next , and next as next.next and increment n by 1.
+11. if count of critical node is less than or equal to 1 that means we want to return [-1,-1], as discription said.
+12. else return the min and max distance.
+*/
