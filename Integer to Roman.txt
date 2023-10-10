@@ -1,0 +1,25 @@
+class Solution {
+    public String intToRoman(int num) {
+        String ans = "";
+        int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        String[] str = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<values.length;i++){
+            while(num >= values[i]){
+                num -= values[i];
+                sb.append(str[i]);
+            }
+        }
+        return sb.toString();
+    }
+}
+
+/*
+# Approach :
+1. we intialize String ans as "".
+2. for each value of integer we give respective roman symbols as array of values and str in descending order.
+3. for storing result we set a new StringBuilder sb.
+4. we iterate througth values array.
+5. while num is greater or equal to values of i, we just substract the given value from num,for further iteration. And then we append that nums respective roman symbol of i to sb.
+6. return the ans sb as converting the ans into string format.
+*/

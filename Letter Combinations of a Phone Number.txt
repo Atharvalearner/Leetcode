@@ -1,0 +1,36 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        if(digits == null || digits.length() == 0){
+            return new ArrayList<>();
+        }
+        return conversion(digits,"");
+    }
+    public List<String> conversion(String str,String ans){
+        if(str.isEmpty()){  // if string is not having any character then return the answer. 
+            List<String> res = new ArrayList<>();
+            res.add(ans);
+            return res;
+        }
+        List<String> list = new ArrayList<>();
+        int num = str.charAt(0) - '0'; 
+        int startLetterNo = (num - 2) * 3;  // it gives us starting number of letters of respective digit.
+        int endLetterNo = (num - 1) * 3;    // it gives us ending number of letters of respective digit.
+        if(num == 7){       // for digit 7 we having 4 letters hence our ending is increase by 1. 
+            endLetterNo = ((num - 1) * 3) + 1;
+        }
+        if(num == 8){   // for digit 8 we having 3 letters hence our staring is from 19th letter upto ending at 22th letter. 
+            startLetterNo = ((num - 2) * 3) + 1;
+            endLetterNo = ((num - 1) * 3) + 1;
+        }
+        if(num == 9){   // for digit 9 we having 4 letters hence our staring is from 22th letter upto ending at 26th letter. 
+            startLetterNo = ((num - 2) * 3) + 1;
+            endLetterNo = ((num - 1) * 3) + 2;
+        }
+        // for iterate over given digit and finding respective letter combination and add it to list and call the conversion recursively for next character.
+        for(int i=startLetterNo;i<endLetterNo;i++){
+            char ch = (char)(i + 'a');
+            list.addAll(conversion(str.substring(1),ans + ch));
+        }
+        return list;
+    }
+}

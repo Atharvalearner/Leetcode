@@ -1,0 +1,63 @@
+class Solution {
+    public int totalNQueens(int n) {
+        boolean[][] board = new boolean[n][n];
+        return queen(board,0);
+    }
+    static int queen(boolean[][] board,int row){
+        if(row == board.length){
+            return 1;
+        }
+        int count = 0;
+        for(int col=0;col<board.length;col++){
+            if(isSafe(board,row,col)){
+                board[row][col] = true;
+                count += queen(board,row+1);
+                board[row][col] = false;
+            }
+        }
+        return count;
+    }
+    static boolean isSafe(boolean[][] board,int row,int col){
+        for(int i=0;i<row;i++){      //check vertically if any queen is present than it return false.
+            if(board[i][col]){
+                return false;
+            }
+        }
+        int leftMax = Math.min(row,col);
+        for(int i=1;i<=leftMax;i++){    //check on left diagonaly from present bolck if any queen is present than it return false.
+            if(board[row-i][col-i]){    // because we need to check diagonaly we substact i from row and col. 
+                return false;
+            }
+        }
+        int rightMax = Math.min(row,board.length-col-1);
+        for(int i=1;i<=rightMax;i++){   //check on right diagonaly from present bolck if any queen is present than it return false.
+            if(board[row-i][col+i]){     // because we need to check diagonaly we substact i from row and add i to col. 
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+/*
+# Intuition :
+This problem is same as N-Queen problem only change is instead of making arraylist of output board we need to find no. of ways to arrange that board.
+
+# Approach :
+1. we need to create the chess board of grid n*n hence we intialize new board.
+
+2. In **queen function** we take 2 parameters board,row :
+    i ) In that we check row is reach to length of borad or last row if yes that means we need to return the solution
+    ii ) else we need to place the queen in right place by iterate through each column of board we check that current row and column of board is Safe or not 
+    iii ) if it is safe then we place the queen in that place and increment the count and As we know we cannot place 2 queens in same row hence we cannot waste our time to checking the next queen is place in current row hence we call recursively queen function with incrementing the row by 1.
+    iv ) for default block representation we set board as false for next row operations.
+    v ) return the count of solutions.
+3. for **placing the queen in safe place** in board we take a boolean isSafe function which returns verticaly,horizontally and diagonally in left and right direction queen is safe or not.
+    I) for ***vertical row check***, we iterate through each row and col and check current place of queen is equal to 'Q' if yes means their is already queen present hence we return false.
+    II) for ***left diagonal*** (we only check in previous rows because we cannot put queens on next remaining rows )check, we find 1st row or column which is minimum ,from that minimum no. till we iterate and check diagonally by row-i and col-i is equal to 'Q' if yes then we cannot place our queen their hence we retuen false.
+    III) for ***right diagonal*** (we only check in previous rows because we cannot put queens on next remaining rows )check, we find 1st row or next columns which is minimum ,from that minimum no. till we iterate and check diagonally by row-i and col+i is equal to 'Q' if yes then we cannot place our queen their hence we retuen false.
+
+# Complexity :
+- Time complexity:O(n!^n)
+- Space complexity:O(n*2)
+*/

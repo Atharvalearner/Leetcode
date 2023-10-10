@@ -1,0 +1,84 @@
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        char [][] board = new char[n][n];
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board.length; j++) {
+                board[i][j] = '.';
+            }
+        }
+        List<List<String>> ans = new ArrayList<>();
+        queen(board, 0, ans);
+        return ans;
+    }
+    static void queen(char[][] board, int row, List<List<String>> list) {
+        if(row == board.length) {       //if row are at last row then we return the ans.
+            list.add(construct(board));
+            return;
+        }
+        for (int col = 0; col < board.length; col++) {      // for placing the queen in safe block we check it using isSafe
+            if(isSafe(board, row, col)) {   //if it is true then we increment the row we recursion call of queen function.
+                board[row][col] = 'Q';
+                queen(board, row + 1, list);
+                board[row][col] = '.';
+            }
+        }
+    }
+    static List<String> construct(char[][] board) {     //for constructing the board ans we take this function
+        List<String> internal = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            String row = new String(board[i]);
+            internal.add(row);
+        }
+        return internal;
+    }
+    static boolean isSafe(char[][] board, int row, int col) {
+        //for checking vertical row
+        for (int i = 0; i < row; i++) {
+            if(board[i][col] == 'Q') {
+                return false;
+            }
+        }
+        //for checking left diagonal
+        int maxLeft = Math.min(row, col);
+        for (int i = 1; i <= maxLeft; i++) {
+            if(board[row - i][col - i] == 'Q') {
+                return false;
+            }
+        }
+        //for checking right diagonal
+        int maxRight = Math.min(row, board.length - 1 - col);
+        for (int i = 1; i <= maxRight; i++) {
+            if(board[row - i][col + i] == 'Q') {
+                return false;
+            }
+        }
+        return true;        // for making board again default we set it as true.
+    }
+}
+
+/*
+# Intuition:
+Simple Logical approach is used in which we place the queen in safe place by making functions.
+
+# Approach:
+1. we need to create the chess board of grid n*n hence we intialize new board.
+2. In starting we give each block of board default '.'
+3. for storing result we take new Arraylist ans.
+4. In queen function we take 3 parameters board,row and list. 
+    i ) In that we check row is reach to length of borad or last row if yes that means we need to return the solution
+    ii ) else we need to place the queen in right place by iterate through each column of board we check that current row and column of board is Safe or not 
+    iii ) if it is safe then we place the queen in that place and As we know we cannot place 2 queens in same row hence we cannot waste our time to checking the next queen is place in current row hence we call recursively queen function with incrementing the row.
+    iv ) for default block representation we place '.' that place of board.
+5. In construct function we return the list hence we take return type as List<String> with parameter of board:
+    (i) in that we take new internal List<String> for storing result.
+    (ii) for each index of board we convert that index into string row.
+    (iii) then we add that row into our internal List.
+6. for placing the queen in safe place in board we take a boolean isSafe function which returns verticaly,horizontally and diagonally in left and right direction queen is safe or not.
+    I) for vertical row check, we iterate through each row and col and check current place of queen is equal to 'Q' if yes means their is already queen present hence we return false.
+    II) for left diagonal (we only check in previous rows because we cannot put queens on next remaining rows )check, we find 1st row or column which is minimum ,from that minimum no. till we iterate and check diagonally by row-i and col-i is equal to 'Q' if yes then we cannot place our queen their hence we retuen false.
+    III) for right diagonal (we only check in previous rows because we cannot put queens on next remaining rows )check, we find 1st row or next columns which is minimum ,from that minimum no. till we iterate and check diagonally by row-i and col+i is equal to 'Q' if yes then we cannot place our queen their hence we retuen false.
+
+# Complexity:
+- Time complexity:O(n! * n)
+- Space complexity:O(n^2)
+*/
