@@ -1,0 +1,22 @@
+class Solution {
+    public int xorOperation(int n, int start) {
+        int[] res = new int[n];
+        int ans = 0;
+        for(int i = 0;i < n;i++){
+            res[i] = start + (2 * i);
+            ans = ans ^ res[i];
+        }
+        return ans;
+    }
+}
+
+# Approach :
+1. let create res an array for storing the values of array according to our condition start + (2 * i).
+2. then initialize ans variable to store the ans.
+3. we iterate the array from 0 till n-1 and find res[i] values.
+4. then find the XOR, we XOR the previous ans with current res of i.
+5. return the ans
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)

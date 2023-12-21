@@ -1,0 +1,27 @@
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+        while(n > 0){
+            int last = (n & 1);     // gives last digit
+            n = n >> 1;                 // make right shift
+            int scndLast = (n & 1);     // gives second last digit
+            if(last == scndLast){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+# Approach : 
+0. we iterate over n in binary formate until it will not become 0.
+1. for checking consecative bits are not equal ,we take 2 variables Last and scndLast.
+2. last gives last bit of n,
+3. make right shift by 1 (n = n >> 1) for find second last bit.
+4. scndLast gives second last bit of n.
+5. then check last and scndLast is same if yes that means alternate bits are found then return false.
+6. else return true.
+
+# Complexity :
+- Time complexity: O(n)
+- Space complexity:

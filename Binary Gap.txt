@@ -1,0 +1,29 @@
+class Solution {
+    public int binaryGap(int n) {
+        int count = 0;
+        int maxDist = 0;
+        while( n > 0){
+            int last = (n & 1);
+            if(last == 1){
+                maxDist = Math.max(count,maxDist);
+                count = 1;
+            }else if(count > 0){
+                count++;
+            }
+            n = n >> 1;
+        }
+        return maxDist;
+    }
+}
+
+# Approach:
+1. Initialize count and maxDist variable to store the counting of 1's and Maximum distance between 1's respectively.
+2. iterate over binary bits of N until it will not become 0.
+3. if the last bit is 1 then check the maximum distance with camparing the the present count with previous maximum distance, and set the count as 1.
+4. else if count is greater than 0 means the 1 are present hence increment the count.
+5. move right shift by 1 in n.
+6. return the maxDist 
+
+# Complexity :
+- Time complexity: O(n)
+- Space complexity: O(1)

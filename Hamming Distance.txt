@@ -1,0 +1,29 @@
+class Solution {
+    public int hammingDistance(int x, int y) {
+        int count = 0;
+        while(x > 0 || y > 0){
+            int lastX = (x & 1);        // gives last bit of X
+            int lastY = (y & 1);        // gives last bit of Y
+            if(lastX != lastY){     // if last bit of x and y is not equal then increment count.
+                count++;
+            }
+            x = x >> 1;     // move right by 1 bit
+            y = y >> 1;
+        }
+        return count;
+    }
+}
+
+# Intuition :
+we want to check how many different bits are present among x and y.and return the count of it.
+
+# Approach :
+1. we iterate the x and y in binary formate.
+2. initialize the count variable to store result.
+3. if last-bit of X and last-bit of Y is not equal then we increment the count.
+4. else we move right(RightShift) by 1 bit of both x and y.
+5. return the count.
+
+# Complexity :
+- Time complexity:O(1)
+- Space complexity:O(1)

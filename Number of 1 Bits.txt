@@ -1,0 +1,28 @@
+public class Solution {
+    public int hammingWeight(int n) {
+        int count = 0;
+        while(n != 0){
+            int last = (n & 1);
+            if(last == 1){
+                count++;
+            }
+            n = n >>> 1;    // for unsigned operator we use >>> , if it is signed operator we use >>.
+        }
+        return count;
+    }
+}
+
+# Approach :
+1. iterate over n from right to left ,initialize count variable to store the count of 1's bits.
+2. we need to put the last bit(LSB) of n hence we initialize Last variable as n&1 which gives us last bit of n.
+    - eg. 00110**1** => here last = n&1 gives '1', that is LSB.
+3. if that last bit is 1 then increment the count.
+4. move 1 bit left of n (Left shift).
+5. return count.  
+
+**Note:**
+Java supports two types of right shift operators. The >> operator is a signed right shift operator and **>>>** is an unsigned right shift operator. The left operands value is moved right by the number of bits specified by the right operand
+
+# Complexity :
+- Time complexity: O(n)
+- Space complexity:

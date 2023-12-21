@@ -1,0 +1,35 @@
+class Solution {
+    public int[] countBits(int n) {
+        int[] ans = new int[n + 1];
+        for(int i=0;i<=n;i++){
+            ans[i] = countIBits(i);
+        }
+        return ans;
+    }
+    public int countIBits(int i){
+        int count = 0;
+        while(i != 0){
+            int last = (i & 1);
+            if(last == 1){
+                count++;
+            }
+            i = i >> 1; 
+        }
+        return count;
+    }
+}
+
+# Approach :
+1. initialize ans variable to store result in array formate with size of n + 1.
+2. for every i (element) we count bits using countIBits function.
+3. In countIBits, we iterate over n from right to left ,initialize  count variable to store the count of 1's bits.
+    -  we need to put the last bit(LSB) of n hence we initialize Last variable as n&1 which gives us last bit of n.
+        - eg. 00110**1** => here last = n&1 gives '1', that is LSB.
+     - if that last bit is 1 then increment the count.
+     - move 1 bit left of n (Left shift).
+     - return count.  
+4. return the ans.
+
+# Complexity :
+- Time complexity: O(nlogn)
+- Space complexity: O(1)

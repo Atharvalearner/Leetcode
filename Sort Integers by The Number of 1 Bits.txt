@@ -1,0 +1,35 @@
+class Solution {
+    public int[] sortByBits(int[] arr) {
+        Arrays.sort(arr);
+        int[] res = new int[arr.length];
+        int count = 0;
+        for(int i=0;i<16;i++){
+            for(int j=0;j<arr.length;j++){
+                if(countOnes( arr[j] ) == i){
+                    res[count] = arr[j];
+                    count++;
+                }
+            }
+        }
+        return res;
+    }
+    public int countOnes(int n){
+        int count = 0;
+        while(n > 0){
+            int last = (n & 1);
+            if(last == 1){
+                count++;
+            }
+            n = n >> 1;
+        }
+        return count;
+    }
+} 
+
+# Approach :
+1. Sort the array in ascending order.
+2. for storing the result we initialize res variable.
+3. we iterate up to 16 bits according to our constraint.and iterate over array upto arrays length.
+4. for counting number of ones we create countOnes function which gives us number of 1'sof every number in an array.
+5. if counting of 1's is equal to current i then we store that j into result and increment the count.
+6. return the res.

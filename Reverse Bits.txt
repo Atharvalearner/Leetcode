@@ -1,0 +1,24 @@
+public class Solution {
+    public int reverseBits(int n) {
+        int result = 0;
+        for(int i=0;i<32;i++){
+            result = (result << 1) | (n & 1);
+            n = n >> 1;
+        }
+        return result;
+    }
+}
+
+# Approach :
+1. Initialize result for storing result.
+2. The binary number are 32 bit hence we iterate through 32-bits.
+3. result = (result << 1) | (n & 1) means 
+        - (result << 1) means move to left (LeftShift) by 1 bit for make space to next bit to store.
+        - (n & 1) means AND the current bit of n with 1.
+        - then OR operator will add this bit to result.
+4. n = n >> 1 means move n by 1 bit towards Right (RightShift).
+5. return the result. 
+
+# Complexity :
+- Time complexity: O(1)
+- Space complexity: O(1)

@@ -1,0 +1,22 @@
+class Solution {
+    public int[] decode(int[] encoded, int first) {
+        int[] res = new int[encoded.length+1];
+        res[0] = first;
+        for(int i=0;i < encoded.length;i++){
+            res[i+1] = res[i] ^ encoded[i];
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. Initialize the res array for storing the result of length encoded.length + 1(according to constraint).
+2. As we know our 1st element of res is first variable .hence, we direct declare res[0] as first.
+3. Then we iterate over encoded array and find XOR Values.
+4. because of we already declare our first element of result ,we find XOR value from i+1 index of encoded array.
+5. result of i+1 is result of previos i index and current i index of encoded array.
+6. return the result array.
+
+# Complexity : 
+- Time complexity: O(n)
+- Space complexity: O(n)

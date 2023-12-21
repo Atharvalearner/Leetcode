@@ -1,0 +1,33 @@
+# Code
+```
+class Solution {
+    public String addBinary(String a, String b) {
+        String ans = "";
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+        while(i >= 0 || j >= 0 || carry == 1){
+            int sum = carry;
+            if(i >= 0){
+                sum += a.charAt(i--) - '0';
+            }
+            if(j >= 0){
+                sum += b.charAt(j--) - '0';
+            }
+            carry = sum / 2;
+            ans = (sum % 2) + ans;
+        }
+        return ans;
+    }
+}
+
+# Approach: 
+
+1. Initialize an empty string called ans to store the answer of strings.
+2. Initialize a variable carry to store the carry.
+3. Start from the last digit(RightMost) of both input strings and move towards the left.
+4. In each iteration, add the current digits of both strings and the carry generated in the previous iteration.
+5. Compute the sum modulo 2 and append the result to the result string.
+6. Compute the carry as the integer division of the sum by 2.
+7. Repeat steps 4-6 until there are no more digits in both input strings and the carry is zero.
+8. Reverse the result string and return it.

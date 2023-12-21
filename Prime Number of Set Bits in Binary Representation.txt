@@ -1,0 +1,45 @@
+class Solution {
+    public int countPrimeSetBits(int left, int right) {
+        int count = 0;
+        for(int i=left;i <= right;i++){      //iterate from left to right
+            int prime = countOnes(i);       // count number of 1's
+            if(isPrime(prime)){             //check given number contains prime set bits or not ,if yes then inrement the count.
+                count++;
+            }
+        }
+        return count;
+    }
+    public int countOnes(int n) {
+        int count = 0;  
+        while(n != 0){              // iterate till n is not 0.
+            int last = (n & 1);     // find the last bit of given number.
+            if(last == 1){          // if last bit is 1 then increment count
+                count++;
+            }
+            n = n >>> 1;            // move 1 bit right
+        }
+        return count;
+    }
+    public boolean isPrime(int number){
+        if(number <= 1){                       // if number is less than 1 then it is not prime hence it declared as false.
+            return false;
+        }
+        for(int i=2; i*i <= number; i++){       // iterate from 2 to square root if i when it is less than given number.
+            if(number % i == 0){                // if given number is modulo by i and answer is 0, then return false.
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+# Approach :
+1. we iterate the number in the range from left to right.
+2. then find the number of set bits, i.e number of 1's, using countOnes.
+3. then check the given number contains prime number of set bits or not using isPrime function.
+4. if given number is prime then increment the count.
+5. return the count.
+
+# Complexity :
+- Time complexity: O(n)
+- Space complexity: O(1)

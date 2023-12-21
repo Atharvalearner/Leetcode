@@ -1,0 +1,27 @@
+class Solution {
+    public int subsetXORSum(int[] nums) {
+        return subset(nums,0,0);
+    }
+    public int subset(int[] nums,int index,int result){
+        if(index == nums.length){
+            return result;
+        }
+        int withElement = subset(nums,index+1,result^nums[index]);
+        int withoutElement = subset(nums,index+1,result);
+        return withElement + withoutElement;
+    }
+}
+
+# Intuition: 
+The number of subsets for any array is equal to 2^lengthOfArray.
+
+# Approach :
+1. let make a function subset which find subsets and calculate their xors and sum up.
+2. we having 2 scenarios:
+I ) we take current index element: if we take element then make recursive call for next index position and XOR the previous result with current index element.
+II ) we cannot taken current index element: if we can't take current index element then make recursive call for next index and store the result as it is.
+3. return the sum of withElement and withoutElement.
+
+# Complexity :
+Time complexity:O(2^n)
+Space complexity:
