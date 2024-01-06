@@ -1,0 +1,41 @@
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> stack = new Stack<>();
+        for(int num: asteroids){
+            if(num > 0){
+                stack.push(num);
+            }else{
+                while(!stack.isEmpty() && stack.peek() > 0 && stack.peek() < -num){
+                    stack.pop();
+                }
+                if(stack.isEmpty() || stack.peek() < 0){
+                    stack.push(num);
+                }
+                if(stack.peek() == -num){
+                    stack.pop();
+                }
+            }
+        }
+        int[] result = new int[stack.size()];
+        int indexNo = stack.size() - 1;
+        while(!stack.isEmpty()){
+            result[indexNo--] = stack.pop();
+        }
+        return result;
+    }
+}
+
+# Approach :
+1. we perform the operation using stack.
+2. we iterate over the given array.
+3. if current num > 0 then we push it into stack.
+4. else we check stack is empty or not if yes and check stack peek is > 0 and stack peek < -num if ues then only we pop the top element from the stack.
+5. if stack is empty or stack peek < 0 means the current num is -ve in magnitude hence we push it into the stack.
+6. if stack peek is equal to -num means stack peek and current num having same magnitude but opposite signs hence that collides and nothing is remains hence we pop the peek element form stack.
+7. because of return type is array we also write result in result array which are the size of stack.
+8. we pop the element form stack until it will not become empty and append it into result array and decrement the index.
+9. return the result array.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

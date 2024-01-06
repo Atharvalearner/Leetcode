@@ -1,0 +1,24 @@
+class Solution {
+    public String removeDuplicates(String s) {
+        StringBuilder res = new StringBuilder("");
+        for(char ch : s.toCharArray()){
+            if(res.length() != 0 && ch == res.charAt(res.length() - 1)){
+                res.deleteCharAt(res.length() - 1);
+            }else{
+                res.append(ch);
+            }
+        }
+        return res.toString();
+    }
+}
+
+# Approach :
+1. For the storing result we uses StringBuilder.
+2. we iterate every charater in string.
+3. if res length is 0 means we iterate all the character and current character and last character of res is equal then we found adjecent duplicates. hence, we delete the last character of res.
+4. else their is no adjecent duplicte then we append that character into res.
+5. return the result string. 
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)

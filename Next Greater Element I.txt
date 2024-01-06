@@ -1,0 +1,39 @@
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+    Stack<Integer> stack = new Stack<>();
+        for (int i =0;i<nums1.length;i++){
+           for(int j=0;j<nums2.length;j++){
+               if(nums1[i]==nums2[j]){
+                  stack.push(greaterFunc(j,nums2));
+               }
+           }
+        }   
+        int[] result = new int[stack.size()];
+        for (int i = result.length - 1; i >= 0; i--) {
+            result[i] = stack.pop();
+        }
+        return result;
+    }
+     public int greaterFunc(int k,int[] nums2){
+        for(int i=k;i<nums2.length-1;i++){
+            if(nums2[i+1]>nums2[k]){
+                return nums2[i+1];
+            }
+        }
+        return -1;
+    }
+}
+
+# Intuition :
+The code aims to find the next greater element in nums2 for each element in nums1. It uses a stack to track the elements and a helper function greaterFunc to find the next greater element.
+
+# Approach :
+1. Iterate through the elements of nums1.
+2. For each element in nums1, iterate through the elements of nums2 to find the corresponding element.
+3. When a match is found, call greaterFunc with the index and nums2 array to find the next greater element for that index in nums2.
+4. Push the result into a stack.
+5. Finally, pop elements from the stack to form the result array.
+
+# Complexity :
+- Time complexity:O(N1 * N2)
+- Space complexity: O(N2)

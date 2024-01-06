@@ -1,0 +1,36 @@
+class Solution {
+    public String removeOuterParentheses(String s) {
+        StringBuilder sb = new StringBuilder("");
+        Stack<Character> stack = new Stack<>();
+        for(char ch : s.toCharArray()){
+            if(ch == '('){
+                if( stack.size() > 0 ){
+                    sb.append(ch);
+                }
+                stack.push(ch);
+            }else{
+                stack.pop();
+                if(stack.size() > 0){
+                    sb.append(ch);
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
+
+# Intuition :
+The approach used is to keep track of the parentheses using a stack. Whenever an opening parenthesis is encountered, it is pushed onto the stack. Whenever a closing parenthesis is encountered, the last opening parenthesis is popped from the stack.
+
+If the stack size is greater than zero after pushing or popping, it means that the parenthesis is not an outer parenthesis, and it is added to the result string. If the stack size is zero, it means that the parenthesis is an outer parenthesis and it is not added to the result string.
+
+# Approach :
+1. for constructing the result string we user StringBuilder.
+2. for performing the operation characters we uses stack.
+3. if '(' is occurs then  push it into stack and if stack size is greater than 0 means stack having some characters hence it is not outer parenthesis . hence, we add it into our result string sb.
+4. else '}' occurs then pop the element from the stack, and check the if stack size is greater than 0 means stack having some characters hence it is not outer parenthesis . hence, we add it into our result string sb.
+5. return the result string in String format. 
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

@@ -1,0 +1,24 @@
+class Solution {
+    public String convertToTitle(int columnNumber) {
+        StringBuilder res = new StringBuilder();
+        while(columnNumber > 0){
+            int reminder = (columnNumber - 1) % 26;
+            char currentCharacter = (char) ('A' + reminder);
+            res.insert(0, currentCharacter);
+            columnNumber = (columnNumber - 1) / 26;
+        }
+        return res.toString();
+    }
+}
+
+# Approach :
+1. The approach taken here involves repeatedly dividing the given number by 26 (the base) in short we calculate the modulo.
+2. also calculating the remainder. The remainder is then mapped to a character ('A' to 'Z') to form a part of the column title.
+3. The process continues until the number becomes 0. 
+4. During each iteration, the remainder is calculated as (n - 1) % 26 to ensure the correct mapping to alphabet character.
+5. after finding currentCharacter with respective number we just insert it from begining of the result string.
+6. return the result string.
+
+# Complexity :
+- Time complexity:
+- Space complexity:

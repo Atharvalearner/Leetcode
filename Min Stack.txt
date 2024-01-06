@@ -1,0 +1,33 @@
+class MinStack {
+    Stack<Integer> st;              // Declare a stack
+    int min = Integer.MAX_VALUE;        // intialize min variable
+    public MinStack() {
+        st = new Stack<>();     // create stack.
+    }
+    
+    public void push(int val) {
+        if(val <= min){         // if value is less or equal to min then push the min into stack and set value as min.
+            st.push(min);
+            min = val;
+        }
+        st.push(val);
+    }
+    
+    public void pop() {
+        if(st.pop() == min){        // while popping the top most element is equal to min then only pop the top element.
+            min = st.pop();
+        }
+    }
+    
+    public int top() {
+        return st.peek();
+    }
+    
+    public int getMin() {
+        return min;
+    }
+}
+
+# Complexity :
+- Time complexity:O(1)
+- Space complexity:O(n)

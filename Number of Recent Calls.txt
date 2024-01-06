@@ -1,0 +1,21 @@
+class RecentCounter {
+    Queue<Integer> res;
+    public RecentCounter() {
+        res = new LinkedList();     // Initialize res as Linklist.
+    }
+    
+    public int ping(int t) {
+        res.add(t);                 // add the current t in res.
+        while(!res.isEmpty() && (t - res.peek()) > 3000){       // constraint condition is checked if it true then remove the 1st element form list.
+            res.poll();
+        }
+        return res.size();      // return the remaining res size.
+    }
+}
+
+# Approach :
+1. we require queue for storing the data.
+2. in RecentCounter we intialize the res as LinkList.
+3. In ping add t in res.
+4. we check the constraint is satisfy or not i.e the range of request are not become empty and not must be less than 3000, if it satisfy the condition then we remove the front element from the list using poll() method.
+5. return the existing size of res.

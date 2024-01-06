@@ -1,0 +1,28 @@
+class Solution {
+    public int minAddToMakeValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for(char ch : s.toCharArray()){
+            if(ch == ')'){
+                if(!stack.isEmpty() && stack.peek() == '('){
+                    stack.pop();
+                }else{
+                    stack.push(ch);
+                }
+            }else{
+                stack.push(ch);
+            }
+        }
+        return stack.size();
+    }
+}
+
+# Approach :
+1.Initialize new stack to store the characters of string.
+2.we iterate all over the string.
+3.if character is ')' and stack is not empty then check stack peek character if it is '(' means that is valid paranthesis then pop that peek.
+4.else we push '(' to stack.
+5.after iterate all over string character, we can see that only those cbaracters are remains in the stack which are invalide or opened, hence we return that invalid paranthesis by stack size.
+
+#Complexity :
+Time complexity:O(n)
+Space complexity:O(1)

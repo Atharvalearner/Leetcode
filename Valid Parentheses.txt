@@ -1,0 +1,38 @@
+class Solution {
+    public boolean isValid(String string) {
+        Stack<Character> s = new Stack<>();
+        for(char ch : string.toCharArray()){
+            if(ch == '(' || ch == '[' || ch == '{'){
+                s.push(ch);
+            }else{
+                if(ch == ')'){
+                    if(s.isEmpty() || s.pop() != '('){
+                        return false;
+                    }
+                }
+                if(ch == ']'){
+                    if(s.isEmpty() || s.pop() != '['){
+                        return false;
+                    }
+                }
+                if(ch == '}'){
+                    if(s.isEmpty() || s.pop() != '{'){
+                        return false;
+                    }
+                }
+            }
+        }
+        return s.isEmpty();
+    }
+} 
+
+# Approach :
+1. to store the characters we initialize a new stack s of Character data type.
+2. we iterate through string every character and check the bracket is open or closed.
+3. if bracket is open then just push it into the stack.
+4. else if closing bracket is found but the top most element is not matching or stack is empty then we return it as false.
+5. return the stack is empty or not.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)

@@ -1,0 +1,43 @@
+class Solution {
+    public int[] mostCompetitive(int[] nums, int k) {
+        if(nums.length == k){
+            return nums;
+        }
+        int n = nums.length;
+        int remainSize = n;
+        Stack<Integer> stack = new Stack<>();
+        for(int i=0; i<n ;i++){
+            remainSize = n - i - 1;
+            while(!stack.isEmpty() && stack.size()+remainSize >= k && stack.peek() > nums[i]){
+                stack.pop();
+            }
+            stack.push(nums[i]);
+        }
+        Stack<Integer> reverseStack = new Stack<>();
+        while(!stack.isEmpty()){
+            reverseStack.push(stack.pop());
+        }
+        int[] ans = new int[k];
+        int j = 0;
+        while(j < k && !reverseStack.isEmpty()){
+            ans[j++] = reverseStack.peek();
+            reverseStack.pop();
+        }
+        return ans;
+    }
+}
+
+# Intuition :
+competitive sebsequence is just an array sequence of k length with lightest element of given array.
+
+uses 2 stack one for store element increasing order and 2nd use for store that 1st stack in reverse order then convert that 2nd reverse stack into array formate.
+
+# Approach :
+1. we take 2 stacks 1st for stoaring the elements in increasing order in the stack with size k.
+2. and 2nd stack is reversing that stack for converting the result in original form.
+3. remainSize is the remaining size after pushing and poping the element to and from the stack.
+4. we will pop the element from stack when stack is not empty and stack size + remaining size is greater than equal to k and the current element of array is less than peek of stack, if this 3 conditions are occurs then we pop the element from stack.
+5. else we push the current element into the stack.
+6. we reverse the stack by poping element from stack and push it into reverse stack.
+7. we need the result int array formate hence we convert stack into array by adding the peek element from the stack to result array and after adding we pop that element.
+8. return the ans as result array

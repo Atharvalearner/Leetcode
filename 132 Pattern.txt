@@ -1,0 +1,29 @@
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        Stack<Integer> stack = new Stack<>();
+        int k = Integer.MIN_VALUE;
+        for(int i=nums.length-1; i >= 0; i--){
+            if(nums[i] < k){
+                return true;
+            }
+            while(!stack.isEmpty() && stack.peek() < nums[i]){
+                k = stack.pop();
+            }
+            stack.push(nums[i]);
+        }
+        return false;
+    }
+}
+
+# Approach :
+1. Initialize the stack for performing the operation.
+2. assign k as negative minimum value.
+3. we will iterate the array from right to left.
+4. if current element of array is less than k means k > j > i  we found the 132 pattern , hence we return true.
+5. we assign the k value as pop element from stack while stack is not empty and stack peek element is less than current element of array.
+6. else we directly push current element into the stack.
+7. else we return false.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)

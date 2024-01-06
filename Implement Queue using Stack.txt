@@ -1,0 +1,41 @@
+class MyQueue {
+    Stack<Integer> s1;
+    Stack<Integer> s2;
+    public MyQueue() {
+        s1 = new Stack<>();
+        s2 = new Stack<>();    
+    }
+    public void push(int val) {
+        s1.push(val);
+    }
+    public int pop() {
+        int top = peek();
+        s2.pop();
+        return top;
+    }
+    public int peek() {
+        if(s2.empty()){
+            while( !s1.empty()){
+                s2.push(s1.pop());
+            }
+        }
+        return s2.peek();
+    }
+    public boolean empty() {
+        return s1.empty() && s2.empty();
+    }
+}
+
+# Intuition :
+we requires 2 stacks one for push element into queue and another for pop/peek the element of queue and for interchanging the elements we requires that 2 stacks.
+
+# Approach :
+1. initializes 2 stacks s1 and s2.
+2. we uses s1 stack for pushing the element into queue ( it will work as rear pointer in queue ) hence we push the value into s1 stack.
+3. for poping we find the top element of s2 stack using peek and pop that element from s2 and return the top.
+4. peek function returns topmost element of s2 stack. if s2 stack is empty then we transfer all the elements from s1 to s2 by poping the elements from s1 and push it into s2 stack untill s1 is not become empty.
+5. empty method return true if s1 and s2 are empty else return false.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)
