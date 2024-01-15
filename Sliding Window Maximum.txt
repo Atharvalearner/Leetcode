@@ -1,0 +1,32 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        Deque<Integer> queue = new ArrayDeque<>();
+        int[] result = new int[nums.length - k + 1];
+        int x = 0;
+        for(int i=0;i<nums.length;i++){
+            while(!queue.isEmpty() && queue.getFirst() <= i-k){
+                queue.removeFirst();
+            }
+            while(!queue.isEmpty() && nums[i] >= nums[queue.getLast()]){
+                queue.removeLast();
+            }
+            queue.addLast(i);
+            if( i >= k-1){
+                result[x++] = nums[queue.getFirst()];
+            }
+        }
+        return result;
+    }
+}
+
+# Approach :
+1. we iterate through given array.
+2. check if queue is not empty and current element of window is smaller than last element of window ,then remove current element from queue.
+3. if queue is not empty and current element is greater than equal to last element of the queue ,then remove the last element from queue.
+4. else we add i to the queue.
+5. if i is greater than equal to window size - 1, then add elements to result array by getting elements from queue.
+6. return the result.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

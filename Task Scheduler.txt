@@ -1,0 +1,41 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] freq = new int[26];
+        for(char ch : tasks){
+            freq[ch-'A']++;
+        }
+        Arrays.sort(freq);
+        int maxValue = freq[25] - 1;
+        int availableSlot = maxValue * n;
+        for(int i=24; i>=0;i--){
+            availableSlot = availableSlot - Math.min(freq[i],maxValue);
+        }
+        return availableSlot > 0 ? availableSlot + tasks.length : tasks.length;
+    }
+}
+
+# Intuition :
+we need find the length to complete the tasks by calculating number of avilable slots and add it with tasks length if n > 0.
+
+# Approach :
+1. let take freq array to store the frequency of characters from tasks.
+2. we iterate each character over tasks and store character frequency.
+3. then sort the freq array in descending order, highest frequency comes first then less than that and so on.
+4. maxValue is the last value of freq we do -1 as we dont want idle state if we are at the very end.
+5. avilableSlot gives available empty slots by formula `availableSlot = maxValue * n` we cannot count the filled spaces we count only empty spaces and idle slots available.
+6. now we update the available slot by filling character into it and substract filled slots from minimum of freq[i] or maxValue.
+7. return the task length if n = 0, that me we don't have any idle slot else we add available slot with tasks length.
+
+/*   eg.
+tasks = ["A","A","A","B","B","B"], n = 2
+freq after sorting = [3, 3, 0, .....] 
+    maxValue = 3 - 1 = 2
+    idleslot = 2 * 2 = 4
+        
+            idleslot -= min(3, 2)
+            4 -= 2
+            = 2
+idleslot > 0 therefore final asnwer = idleslotremaining + taskslength
+= 2 + 6 = 8
+
+*/

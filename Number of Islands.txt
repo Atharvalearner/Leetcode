@@ -1,0 +1,35 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        int count = 0;
+        for(int row = 0;row < grid.length; row++){
+            for(int col = 0;col < grid[row].length;col++){
+                if(grid[row][col] == '1'){
+                    searchIsl(grid,row,col);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    public void searchIsl(char[][] grid,int row,int col){
+        if(row >= 0 && col >= 0 && row < grid.length && col < grid[row].length && grid[row][col] == '1'){
+            grid[row][col] = '0';
+            searchIsl(grid,row+1,col);
+            searchIsl(grid,row-1,col);
+            searchIsl(grid,row,col+1);
+            searchIsl(grid,row,col-1);
+        }
+    }
+}
+
+# Approach :
+1. itearte through the grid.
+2. check if(grid[row][col] == '1') then we recursively check their neighbours are satisfy the island condition or not if yes then count is increament.
+3. searchIsl cannot return anything it just iterate and check row,col is greater than equal to 0 means grid is still iterating and current row and col are '1' is checked.
+4. if this condition is satisfy then set current row and col as '0'.
+5. and recursively checks on top,bottom,right and left is that '1' is present or not.
+6. return the count how many groups of '1's are found.
+
+# Complexity :
+- Time complexity:O(n^m)
+- Space complexity:

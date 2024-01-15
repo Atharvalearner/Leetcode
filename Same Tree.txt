@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isSameTree(TreeNode root1, TreeNode root2) {
+        if(root1 == null && root2 == null){
+            return true;
+        }
+        if(root1 == null || root2 == null){
+            return false;
+        }
+        if(root1.val != root2.val){
+            return false;
+        }
+        return isSameTree(root1.left,root2.left) && isSameTree(root1.right,root2.right);
+    }
+}
+
+# Approach :
+1. The code starts with two base cases.
+2. If both p and q are null, this means both trees are empty, and they are considered identical. In this case, it returns true.
+3. If one of the trees is null while the other is not, the trees cannot be identical, so it returns false.
+4. After handling the base cases, the code compares the values of the current nodes of p and q. If the values do not match, it means the trees are not identical, and it returns false.
+5. If the values of the current nodes match, the code proceeds to recursively check the left and right subtrees of both trees.
+6. The recursive call for the left subtree compares the left child of p with the left child of q.
+7. The recursive call for the right subtree compares the right child of p with the right child of q.
+8. The final result is computed by using the && (logical AND) operator to ensure that both left and right subtrees are identical for the entire tree to be identical.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

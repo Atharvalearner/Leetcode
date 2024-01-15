@@ -1,0 +1,72 @@
+class FrontMiddleBackQueue {
+    Deque<Integer> q1,q2;
+    public FrontMiddleBackQueue() {
+        q1 = new ArrayDeque<Integer>();
+        q2 = new ArrayDeque<Integer>();
+    }
+    public void pushFront(int val) {
+        q1.addFirst(val);
+    }
+    public void pushMiddle(int val) {
+        while(q1.size() > q2.size()){
+            q2.addFirst(q1.removeLast());
+        }
+        while(q1.size() + 1 < q2.size()){
+            q1.addLast(q2.removeFirst());
+        }
+        q1.addLast(val);
+    }
+    public void pushBack(int val) {
+        q2.addLast(val);
+    }
+    public int popFront() {
+        if(! q1.isEmpty()){
+            return q1.removeFirst();
+        }else if(! q2.isEmpty()){
+            return q2.removeFirst();
+        }
+        return -1;
+    }
+    public int popMiddle() {
+        if(q1.isEmpty() && q2.isEmpty()){
+            return -1;
+        }
+        while(q1.size() > q2.size() + 1){
+            q2.addFirst(q1.removeLast());
+        }
+        while(q1.size() < q2.size()){
+            q1.addLast(q2.removeFirst());
+        }
+        return !q1.isEmpty() ? q1.removeLast() : q2.removeFirst();
+    }
+    
+    public int popBack() {
+        if(!q2.isEmpty()){
+            return q2.removeLast();
+        }else if(! q1.isEmpty()){
+            return q1.removeLast();
+        }
+        return -1;
+    }
+}
+
+# Intuition :
+Uses two deques to implement this problem.
+First Queue :- When you call pushFront(), it will be adding to the start of the first queue. So now popFront() is easy just need to return first element from the first queue if exists otherwise return first element from the second queue.
+
+Second Queue:- When you call pushBack(), it will be adding to the end of the second queue. So now popBack() is easy just need to return last element from the second queue if exists otherwise return last element from the first queue.
+
+Now for pushMiddle() and popMiddle(), on every call to these methods try to maintain equal number of elements on both the deques by shifting elements from first deque to second deque in case middle index falls in the first deque and same applies to the other case as well and then finally insert the value.
+
+# Approach :
+1. initialize 2 deques q1 and q2, for push pop from front and back respectively.
+2. when pushFront calls we push the value into q1 firsts position.
+3. when pushBack calls we push the value into q2 last position.
+4. when pushMiddle calls we push the value into q1 last position, if size of q1 and q2 are not equal then we just equalize tham by moving element from q1 to q2 or q2 to q1.
+5. when popFront calls we remove the first element from q1 when q1 is not empty else we remove the first element from q2 when q2 is not empty else we both q1 and q2 is empty then we return -1.
+6. when popBack calls we remove the Last element from q1 when q1 is not empty else we remove the Last element from q2 when q2 is not empty else we both q1 and q2 is empty then we return -1.
+7. when popMiddle calls we remove the last element from q1 when q1 is not empty else we remove the first element from q2 when q2 is not empty else we both q1 and q2 is empty then we return -1, if size of both q1 and q2 are unequal then we equalize first.
+
+# Complexity :
+- Time complexity:O(1)
+- Space complexity:O(n)
