@@ -1,0 +1,37 @@
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        if(Rheight(root) == -1){
+            return false;
+        }
+        return true;
+    }
+    public int Rheight(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        int leftR = Rheight(root.left);
+        int rightR = Rheight(root.right);
+        if(leftR == -1 || rightR == -1){
+            return -1;
+        }
+        if(Math.abs(leftR - rightR) > 1){
+            return -1;
+        }
+        return Math.max(leftR,rightR) + 1;
+    }
+}
+
+# Approach :
+1. if root is null that means we return from that node, hence return true.
+2. using Rheight we calculate height of the root, if height is -1, hence return false.
+3. Rheight iterate left and right nodes by recursion call.
+4. if left or right node is null then return -1.
+5. if left and right subtree having difference more than 1, means the binary tree are unbalanced hence return -1.
+6. in the end return the maximum along leftroot or rightroot and add 1 to it because also count root node.
+  
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:

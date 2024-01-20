@@ -1,0 +1,18 @@
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        return Math.max(left,right)+1;
+    }
+}
+
+# Approach :
+1. first we iterate in left nodes of tree then right by using recursion.
+2. then check which tree node having maximum height by using max function of math and add + 1, because we also consider root node.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(h)

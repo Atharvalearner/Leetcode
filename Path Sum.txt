@@ -1,0 +1,28 @@
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root == null){           // tree is empty
+            return false;
+        }
+        if(root.left == null && root.right == null){        // if leaf node is found
+            if(targetSum == root.val){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        boolean leftNode = hasPathSum(root.left,targetSum - root.val);
+        boolean rightNode = hasPathSum(root.right,targetSum - root.val);
+        return leftNode || rightNode;
+    }
+}
+
+# Approach :
+1. if their no more node or tree is empty then return false.
+2. if we found an leaf node then we check targetSum is equal to current root value if it is equal then return true, else false.
+3. if above conditions are not met ,then recursively check in left and right node of root node and substarct the value of root node from targetSum.
+4. at the time of return we check for leftNode and rightNode the targetsum required result is found or not.
+5. The result of the recursive calls on the left and right subtrees (left_sum and right_sum) are then combined using the logical OR operation. This is because if either the left subtree or the right subtree has a valid path, it means there's a valid path in the entire tree, so the function should return True.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:

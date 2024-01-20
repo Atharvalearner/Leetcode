@@ -1,0 +1,26 @@
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return recursionTree(nums,0,nums.length-1);
+    }
+    public TreeNode recursionTree(int[] nums,int start,int end){
+        if(start > end){
+            return null;
+        }
+        int mid = (start + end) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = recursionTree(nums,start,mid-1);
+        root.right = recursionTree(nums,mid+1,end);
+        return root;
+    }
+}
+
+# Approach :
+0. we iterate from the start 0'th index and end is array length - 1.
+1. we need to set mid element as the root node.
+2. and left remaining array is set as left side node from start to mid-1 elements.
+3. and right remaining array is set as right side node from mid+1 to end of array.
+4. return the tree.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(h)
