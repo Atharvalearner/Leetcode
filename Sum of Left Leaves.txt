@@ -1,0 +1,29 @@
+class Solution {
+    public int sumOfLeftLeaves(TreeNode root) {
+        int sum = 0;
+        if(root == null){
+            return 0;
+        }        
+        if(root.left != null && root.left.left == null && root.left.right == null){
+            sum = sum + root.left.val;
+        }
+        int left = sumOfLeftLeaves(root.left);
+        int right = sumOfLeftLeaves(root.right);
+        return sum + left + right;
+    }
+}
+
+# Intuition :
+find leaf node of left side and sum their values.
+
+# Approach :
+1. let initialize sum as 0.
+2. we just want the sum of left leaf roots summation so we need to find first current root having left root or not.
+3. if left root is exist then check it is leaf root of not by left.left == null and left.right == null if yes then that's the leaf as well as left node which we want according to problem constraint.
+4. hence, we find that root we add itcvalue with sum.
+5. and go for left and right side of root traversing.
+6. return the sum with both side sum values of left and right.  
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

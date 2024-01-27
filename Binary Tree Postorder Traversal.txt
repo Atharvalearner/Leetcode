@@ -1,0 +1,28 @@
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        traversal(root,result);
+        return result;
+    }
+    public void traversal(TreeNode root,List<Integer> res){
+        if(root != null){
+            traversal(root.left,res);
+            traversal(root.right,res);
+            res.add(root.val);
+        }
+    }
+}
+
+# Intuition :
+traverse in order : Left -> Right -> Root
+
+# Approach :
+1. we store the result in arraylist.
+2. we create a method recursion which add the node values in PREORDER Traversal Left -> Right -> Root.
+3. we iterate the current root until it will not become null if null occurs then it traverse back.
+4. first we travese in left if it will not null then right if it will not null then add the value of current root.
+5. return the result. 
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

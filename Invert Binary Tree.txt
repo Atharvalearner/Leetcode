@@ -1,0 +1,28 @@
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){
+            return root;
+        }
+        invertTree(root.left);
+        invertTree(root.right);
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        return root;
+    }
+}
+
+# Intuition :
+we just swaps the position as left node as right and right node as left.
+
+# Approach :
+1. first we need to iterate throught the tree.
+2. hence, we travese left and right nodes using recursion.
+3. then just swaps the nodes invert as, let Initialize temp treeNode as left of root.
+4. then set left of root as right of root.
+5. then set right of root as temp root node.
+6. return root if it is null or empty. 
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)
