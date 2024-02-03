@@ -1,0 +1,36 @@
+class Solution {
+    int count = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        search(root,root.val);
+        return count;
+    }
+    public int search(TreeNode root,int value){
+        if(root == null){
+            return 0;
+        }
+        int left = search(root.left,root.val);      // traverse in left
+        int right = search(root.right,root.val);    // traverse in right
+        count = Math.max(count,left+right);     // set max count from previous count and left+right side count.
+        if(root.val == value){      // if previous root value and current root value is equal then we increment the count.
+            return Math.max(left,right) + 1;        
+        }
+        return 0;
+    }
+}
+
+# Intuition :
+We iterate using PostOrder traversal left -> right -> root.
+if value of left or right is equal to root node then we increment that value count, else we move in left and right node.
+
+# Approach :
+1. Find the left and right node value and check it equals to current root node value or not using PostOrder traversal.
+2. first visit left node and pass their value in recursive call,same will be apply for right side.
+3. check the count of left and right sides count and set count max from previous count and left + right counts.
+4. if root value and recursive call of previous node having same value that means we increment the count value by 1 and return it. 
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

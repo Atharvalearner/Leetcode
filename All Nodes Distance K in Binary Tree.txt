@@ -1,0 +1,55 @@
+class Solution {
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        List<Integer> res = new ArrayList<>();
+        getTargetNodePath(root,target,k,res);
+        return res;
+    }
+    public int getTargetNodePath(TreeNode root, TreeNode target, int k,List<Integer> res){
+        if(root == null){
+            return -1;
+        }
+        if(root == target){
+            printKdistNodes(root,k,null,res);
+            return 1;
+        }
+        int left = getTargetNodePath(root.left,target,k,res);
+        if(left > 0){
+            printKdistNodes(root,k-left,root.left,res);
+            return left + 1;
+        }
+        int right = getTargetNodePath(root.right,target,k,res);
+        if(right > 0){
+            printKdistNodes(root,k-right,root.right,res);
+            return right + 1;
+        }
+        return -1;
+    }
+    public void printKdistNodes(TreeNode root,int remain,TreeNode block,List<Integer> res){
+        if(root == null || root == block || remain < 0){
+            return;
+        }
+        if(remain == 0){
+            res.add(root.val);
+            return;
+        }
+        printKdistNodes(root.left,remain-1,block,res);
+        printKdistNodes(root.right,remain-1,block,res);
+    }
+}
+
+# Intuition :
+find the target node where it exist in the tree, when target is find then find the nodes which are k distance from target.
+
+# Approach :
+1. we find first target node from the given tree by using getTargetNodePath function.
+2. if root is equal to our target then we print the nodes which are k distance from target.
+3. in left if target will find in left subtree then it will return 1 and print the k distance nodes by recursion.
+4. in right if target will find in right subtree then it will return 1 and print the k distance nodes by recursion.
+5. printKdistNodes takes parameters as root node ,remaining count from k, and block side and result arraylist.
+6. block means we cannot move toward that side in the tree if root is equal to block then it return.
+7. if remain becomes to 0, then add the root value into result list and return it.
+8. else iterate in left and right of root and remain-1 is passed because of we move to next node, and pass block and res as it is.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(1)

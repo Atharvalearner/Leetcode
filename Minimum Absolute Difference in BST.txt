@@ -1,0 +1,25 @@
+class Solution {
+    int parent = Integer.MAX_VALUE;
+    int res = Integer.MAX_VALUE;
+    public int getMinimumDifference(TreeNode root) {
+        if(root == null){
+            return res;
+        }
+        getMinimumDifference(root.left);
+        res = Math.min(res,Math.abs(root.val - parent));
+        parent = root.val;
+        getMinimumDifference(root.right);
+        return res;
+    }
+}
+
+# Approach :
+1. We already given an BST so root.left is always < root.val and root.right > root.val
+2. so we logically take that is sorted by increasing left -> root -> right as Inorder traversal.
+3. so we traverse in left directon and update the res as minimum value from previous res and difference between root value and parent value.
+4. after that we set parent ans root.val and traverse in right of root.
+5. return res.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

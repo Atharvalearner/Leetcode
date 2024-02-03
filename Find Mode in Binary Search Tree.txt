@@ -1,0 +1,50 @@
+class Solution {
+    public int[] findMode(TreeNode root) {
+        List<Integer> sortedArray = new ArrayList<>();
+        traverse(root,sortedArray);
+        int maxCount = 0, currNumCount = 0, currNum = 0;
+        List<Integer> ans = new ArrayList<>();
+        for(int num : sortedArray){
+            if(num == currNum){
+                currNumCount++;
+            }else{
+                currNumCount = 1;
+                currNum = num;
+            }
+            if(currNumCount > maxCount){
+                ans = new ArrayList<>();
+                maxCount = currNumCount;
+            }
+            if(currNumCount == maxCount){
+                ans.add(num);
+            }
+        }
+        int[] result = new int[ans.size()];
+        for(int i=0;i < ans.size();i++){
+            result[i] = ans.get(i);
+        }
+        return result;
+    }
+    public void traverse(TreeNode root,List<Integer> sortedArray){
+        if(root == null){
+            return;
+        }
+        traverse(root.left,sortedArray);
+        sortedArray.add(root.val);
+        traverse(root.right,sortedArray);
+    }
+}
+
+# Approach :
+1. First we sort the root in acending order by Inorder traversing(according to BST we known left of root is less in value and right of root is greater in value) inshort we visit the nodes in sorted manner.
+2. Initialize maxCount,currNumCount and currNum as 0.where maxCount stores maxCount frequency of number,currNumCount stores current number frequency and currNum stores value of current number.
+3. Then store the frequency answers in ans arraylist by initializing it.
+4. Then iterate through sortedList and check if sortedlist number is equal to currentNumber or not of equal then we increment the count of that currentNumber.
+5. else the number and currentNumber is different hence, we set the currentNumberCount as 1, and make currentNumber as num.
+6. if count of current number is greater than previous maxCount number then we set maxcount number as current number, means we just update the maxcount.
+7. if maxcount and current number count is equal than we add both number in ans list.
+8. after iterating through list we need the ans in array formate hence we add the ans arraylist numbers into result array.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

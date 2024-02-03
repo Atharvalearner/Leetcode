@@ -1,0 +1,63 @@
+class Solution {
+    public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+        int[] indegree = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (leftChild[i] != -1){
+                indegree[leftChild[i]]++;
+            }
+            if (rightChild[i] != -1){
+                indegree[rightChild[i]]++;
+            }
+        }
+        int root = -1;
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0){
+                root = i;
+            }
+        }
+        if (root == -1){
+            return false;
+        }
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            if (visited[node]){
+                return false;
+            }
+            visited[node] = true;
+            if (leftChild[node] != -1){
+                queue.add(leftChild[node]);
+            }
+            if (rightChild[node] != -1){
+                queue.add(rightChild[node]);
+            }
+        }
+        int trueCount = 0;
+        for (boolean b : visited) {
+            if (b){
+                trueCount++;
+            }
+        }
+        return trueCount == n;
+    }
+}
+
+# Intuition :
+check indegree of each node if indegree is 0 that means it is root node, if it is greater than 1 means it is not validate tree hence return false.
+
+# Approach :
+1. let initialize indegree array which stoares degree of each node in tree.
+2. if left or right child is not present means it is not -1, then we increment degree of that node from leftchild and rightchild respectively.
+3. we find which is root node hence we initialize it with -1, then traverse n nodes and check their indegree if it is 0 that means we found root node, hence set root node as i.
+4. else return false if root is equal to -1 that means root is not exist.
+5. then initialize visited array as boolean of length , and queue also.
+6. add the root node into queue.
+7. if node value of leftChild and rightChild != -1 then we just add that node into queue.
+8. then remove one by one node from queue and check it already visited or not, if it is already visited then we found the cycle or we found the indegree of node is > 1,hence return false.
+9. then check every node is visited or not if yes then increment the truecount and return true, else return false.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

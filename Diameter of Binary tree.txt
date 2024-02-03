@@ -1,0 +1,26 @@
+class Solution {
+    public int diameterOfBinaryTree(TreeNode root) {
+        int max[] = new int[1];
+        height(root,max);
+        return max[0];
+    }
+    public int height(TreeNode root,int[] max){
+        if(root == null){
+            return 0;
+        }
+        int left = height(root.left,max);
+        int right = height(root.right,max);
+        max[0] = Math.max(max[0],left+right);
+        return Math.max(left,right)+1;
+    }
+}
+
+# Approach :
+1. let take an array max of size 1,which stores the max diameter.
+2. height function can calculate the max diameter along the tree and return it.
+3. Main approach is we traverse both left and right direction using recursion and add it and campare it with previous max value and set max as maximum between them.
+4. return the max diameter along left and right and add 1 in it, because edges = nodes - 1.  
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)
