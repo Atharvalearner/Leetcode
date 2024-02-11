@@ -1,0 +1,26 @@
+class Solution {
+    long maxProd = 0;
+    public int maxProduct(TreeNode root) {
+        long sum = sumTree(root);
+        maxSum(root,sum);
+        return (int) (maxProd % (int)(Math.pow(10,9) + 7));
+    }
+    public long sumTree(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        long left = sumTree(root.left);
+        long right = sumTree(root.right);
+        return root.val + left + right;
+    }
+    public long maxSum(TreeNode root,long sum){
+        if(root == null){
+            return 0;
+        }
+        long left = maxSum(root.left,sum);
+        long right = maxSum(root.right,sum);
+        long current = root.val + left + right;
+        maxProd = Math.max(maxProd, current * (sum - current));
+        return current;
+    }
+}

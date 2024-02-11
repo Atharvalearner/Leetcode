@@ -1,0 +1,45 @@
+class Solution {
+    public long kthLargestLevelSum(TreeNode root, int k) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<Long> sums = new ArrayList<>();
+        TreeNode node = root;
+        queue.add(node);
+        int size = 0;
+        long sum;
+        while(!queue.isEmpty()){
+            size = queue.size();
+            sum = 0;
+            while(size-- > 0){
+                node = queue.poll();
+                sum = sum + node.val;
+                if(node.left != null){
+                    queue.add(node.left);
+                }
+                if(node.right != null){
+                    queue.add(node.right);
+                }
+            }
+            sums.add(sum);
+        }
+        Long[] sortList = sums.toArray(new Long[]{});
+        Arrays.sort(sortList);
+        return sortList.length >= k ? sortList[sortList.length - k] : -1;
+    }
+}
+
+# Intuition :
+stores the sum of every level of tree into the array then sort that array and find kth largest sum if exist else return -1.
+
+# Approach :
+1. Here we uses the BFS,while every level the size is doubles, for performing the oprations we uses the queue.
+2. for every level the sum is different because we want the kth largest sum, then we must to store the result of sum in every level.
+3. by adding the node value into queue by left and right node is not null then perform sum.
+4. sum for every level is addition of left + right node values till size of current level not becomes 0.
+5. after performing sum at every level stores result into an list.
+6. after finding all level sums we convert sum list into array format and sort it.
+7. then for kth largest element we substract the k from sorted list length it will gives result output.
+8. else if sorted list array size is greater or equal to than k that means level of tree is lesser than the k hence that value is not exist hence return -1.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)

@@ -1,0 +1,43 @@
+class Solution {
+    public boolean isValidSerialization(String preorder) {
+        if(preorder.length() == 0){
+            return false;
+        }
+        String[] string = preorder.split(",");
+        int degree = 0;
+        int i = 0;
+        while(i < string.length - 1){
+            if(string[i++].equals("#")){
+                if(degree == 0){
+                    return false;
+                }
+                else{
+                    degree--;
+                }
+            }
+            else{
+                degree++;
+            }
+        }
+        if(degree != 0){
+            return false;
+        }
+        return string[string.length - 1].equals("#");
+    }
+}
+
+# Intuition :
+Iterate through the tree and find the degree of nodes if it is integer then increment the degree else if it is # then decrement the degree and if it is # & also degree is 0 then return false.
+the validate or verified tree gives degree last final ans as 0, if given tree gives 0 then return true, else false.
+
+# Approach :
+1. convert the given preorder string into array format by using split() function, as we already given "," as delimeter hence we pass "," in split function.
+2. initialize the degree variable as 0, degree variable stores the degree of previous node and according to the degree we return true or false.
+3. if current string character is Integer then increment the degree by 1.
+4. if current string character is #, then check whether the degree is 0, if yes then return false, else if degree is greater than or less than equal to 0 then decrement the degree.
+5. after iterating the string array till string length - 1 according our contraint degree is not equal to 0, means that is not validate tree, hence return false.
+6. string[string.length - 1].equals("#") this method compares the retrieved last element of the array to the string "#", returning true if they are equal and false otherwise.
+
+# Complexity :
+- Time complexity:O(n)
+- Space complexity:O(n)
