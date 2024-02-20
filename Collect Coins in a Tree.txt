@@ -1,0 +1,61 @@
+class Solution {
+    public int collectTheCoins(int[] coins, int[][] edges) {
+        int n = coins.length;
+        List<Integer>[] graph = new ArrayList[n];
+        int[] degree = new int[n];
+        for(int i = 0; i < n ; i++){
+            graph[i] = new ArrayList<>();
+        }
+        for(int[] edge : edges){
+            degree[edge[0]]++;
+            degree[edge[1]]++;
+            graph[edge[0]].add(edge[1]);
+            graph[edge[1]].add(edge[0]);
+        }
+        Queue<Integer> queue = new ArrayDeque<>();
+        for(int i = 0; i < n; i++){
+            if(degree[i] == 1 && coins[i] == 0){
+                queue.add(i);
+            }
+        }
+        int totalEdges = n - 1;
+        while(!queue.isEmpty()){
+            int current = queue.poll();
+            totalEdges--;
+            for(int neighbour : graph[current]){
+                degree[neighbour]--;
+                if(degree[neighbour] == 1 && coins[neighbour] == 0){
+                    queue.add(neighbour);
+                }
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(degree[i] == 1 && coins[i] == 1){
+                queue.add(i);
+            }
+        }
+        totalEdges = totalEdges - queue.size();
+        for(int nodes : queue){
+            for(int neighbour : graph[nodes]){
+                if(--degree[neighbour] == 1){
+                    totalEdges--;
+                }
+            }
+        }
+        return Math.max(totalEdges * 2, 0);
+    }
+}
+
+# Approach :
+1. make an graph of given edges by initialize adjacency list.
+2. find the degree of all nodes of created graph.
+3. remove non coin leaf nodes that nodes which having degree 1 that means that is leaf nodes and also removes nodes with coins value as 0, by add that nodes into the queue.
+4. after removal of the nodes we set totalEdges as n - 1.
+5. then remove the current edge by poll into the queue and update the degree of that node.
+6. after removal of non-coin leaf nodes we remove 2 degree coin node.
+7. then decrement the count of degree of neighbour nodes and if it is 1 after decrement that means it is leaf hence decrement that edge from totaledges.
+8. return number of edges to perform collect the coins else return 0.
+
+# Complexity :
+Time : O(n + 2e)
+Space : O(n)
