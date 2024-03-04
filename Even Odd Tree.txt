@@ -1,0 +1,42 @@
+class Solution {
+    public boolean isEvenOddTree(TreeNode root) {
+        Queue<TreeNode> queue = new ArrayDeque<>();	// performs faster execution and use for stoaring elements.
+        queue.offer(root);	
+        int level = 0;
+        while(!queue.isEmpty()){
+            int Qsize = queue.size();	// store each level nodes and find its size.
+            TreeNode prevNode = null;	 //to keep track if the nodes in the level are increasing/decreasing and reset it for each level as a null.
+            for(int i = 0; i < Qsize; i++){	// loop for each level to check it is validated tree or not.
+                TreeNode currNode = queue.poll();	// get the current node by removing stored element from queue.
+                if(level % 2 == 0){			// if level is even then it gives modulus as 0 else it will be gives odd value.
+                    if(currNode.val % 2 == 0){		// if level is even then values must be odd and increasing if both are true then return true otherwise return false.
+                        return false;
+                    }
+                    if(prevNode != null  && prevNode.val >= currNode.val){
+                        return false;
+                    }
+                }else{
+                    if(currNode.val % 2 > 0){	// if level is odd then values must be even and decreasing if both are true then return true otherwise return false.
+                        return false;
+                    }
+                    if(prevNode != null  && prevNode.val <= currNode.val){
+                        return false;
+                    }
+                }
+                prevNode = currNode;	// update the previous node as current Node.
+                if(currNode.left != null){	// add the values to the queue for next level iteration, if left and right is null.
+                    queue.offer(currNode.left);
+                }
+                if(currNode.right != null){
+                    queue.offer(currNode.right);
+                }
+            }
+            level++;	// incrementaly update the level for each iteration.
+        }
+        return true;
+    }
+}
+
+# Complexity :
+- Time : O(n)
+- Space : O(n)

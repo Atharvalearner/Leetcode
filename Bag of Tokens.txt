@@ -1,0 +1,42 @@
+class Solution {
+    public int bagOfTokensScore(int[] token, int power) {
+        Arrays.sort(token);	
+        int curr_score = 0, max_score = 0;
+        int left = 0, right = token.length - 1;
+        while( left <= right){
+            if(token[left] <= power){
+                power = power - token[left];
+                curr_score += 1;
+                left++; 
+                max_score = Math.max(max_score, curr_score);
+            }else if(curr_score >= 1){
+                power = power + token[right];
+                curr_score = curr_score - 1;
+                right--;
+            }else{
+                break;
+            }
+        }
+        return max_score;
+    }
+}
+# Intitution :
+play i-th token face up -> lose tokens[i] power -> choose the smallest one.
+play i-th token face down -> gain tokens[i] power -> choose the largest one.
+hence, sort tokens first.
+two pointes - l for tracking face up & r for tracking face down.
+case 1. play l-th tokens face up if its power <= the current power.
+losing tokens[l] power
+case 2. play r-th tokens face down if the current score is at least 1
+case 3. impossible to play
+either you don't enough power or enough score.
+
+# Approach : 
+1. sort and use 2 pointers for increasing/decreasing the power.
+2. if left token value <= power that means face up i.e subtracting the power from token value and increment the current score, set max score from current or previous max score using math function and move to next by left++.
+3. if our current score is greater than or equal to 1 that means we need to face up by using right hand token hence we add right token power to the power and decrement the score and move to next by right--.
+4. else both conditions are not satisfy hence we break out.
+
+# Complexity :
+- Time : O(n log n)
+- Space : O(n)

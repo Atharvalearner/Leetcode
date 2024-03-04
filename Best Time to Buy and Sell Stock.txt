@@ -1,0 +1,11 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min_price = prices[0];	// set it as index 0 initially.
+        int max_profit = 0;
+        for(int i = 1; i < prices.length; i++){
+            max_profit = Math.max(max_profit, prices[i] - min_price); 		// calculate max prof by substracting current price with minimum price which are found by min_price.
+            min_price = Math.min(min_price, prices[i]);		// find the minimum price from the given array.
+        }
+        return max_profit;
+    }
+}

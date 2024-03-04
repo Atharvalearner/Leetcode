@@ -1,0 +1,25 @@
+class Solution {
+    int count = 1;
+    int distance[] = new int[100005];
+    public int longestPath(int[] parent, String s) {
+        List<List<Integer>> list = new ArrayList<>();	// stores lists inside the list 
+        for(int i = 0; i < s.length(); i++ ){
+            list.add(new ArrayList<>());	// for every index we create a new arraylist and store it into list.
+        }
+        for(int i = 1; i < s.length(); i++){
+            list.get(parent[i]).add(i);		// get the list index of parent and add that index to list as value.
+        }
+        traverse(list, s, 0);		// traverse dfs from 0'th index node.
+        return count;
+    }
+    public void traverse(List<List<Integer>> list,String string, int src){
+        distance[src] = 1;		// initialize distance src as 1.
+        for(int child : list.get(src)){		// iterate for each child node of current src of list index.
+            traverse(list, string, child);	// again recursively traverse for child nodes.
+            if(string.charAt(src) != string.charAt(child)){	// check that child and src have same character or not.
+                count = Math.max(count, distance[src] + distance[child]);	// set count as max from previous count or src to child distance.
+                distance[src] = Math.max(distance[src], distance[child] + 1);	// if count distance is changed then update src.
+            }
+        }
+    }
+}

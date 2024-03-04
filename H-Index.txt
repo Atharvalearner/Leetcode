@@ -1,0 +1,21 @@
+class Solution {
+    public int hIndex(int[] citations) {
+        int low = 0 , high = citations.length;
+        while(low < high){
+            int mid = (low + high + 1) / 2;
+            int cnt = 0;
+            for(int i = 0 ; i < citations.length ; i++){
+                if(citations[i] >= mid){	// for each value we count how many citations is greater than or equal to that current element i.e. mid
+                    cnt++;
+                } 
+            } 
+            if(cnt >= mid){	// if count is greater or equal to mid then we find the citations for next elements to the mid position, hence we set mid as low.
+                low = mid;
+            } 
+            else{	// else we find the citations for elements which back of mid, hence we set high as mid - 1.
+                high = mid - 1;
+            } 
+        }
+        return low;
+    }
+}

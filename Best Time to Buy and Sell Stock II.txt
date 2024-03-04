@@ -1,0 +1,11 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int total = 0;
+        for(int i = 1; i < prices.length; i++){
+            if(prices[i] > prices[i-1]){	// if price of previous is less than current then we buy in previous day and sell it in current day and calculate their profit and add it with total.
+                total = total + (prices[i] - prices[i-1]);	// we can buy and sell the stocks for multiple days till array is not end.
+            }
+        }
+        return total;
+    }
+}

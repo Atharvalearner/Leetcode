@@ -1,0 +1,16 @@
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        int[] res = new int[n];
+        for(int i = 0; i < n; i++){	// find the index after rotation using modulo.
+            res[(i + k) % n] = nums[i]; 
+        }
+        for(int i = 0; i < n; i++){	// copy the content of result array to nums array.
+            nums[i] = res[i];
+        }
+    }
+}
+
+# Complexity : 
+- Time : O(n)
+- Space : O(n)

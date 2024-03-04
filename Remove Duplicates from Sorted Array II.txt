@@ -1,0 +1,23 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length <= 2){
+            return nums.length;
+        }
+        int current = 2;
+        for(int i = 2; i < nums.length; i++){
+            if(nums[i] != nums[current-2]){
+                nums[current] = nums[i];
+                current++;
+            }
+        }
+        return current;
+    }
+}
+
+# Approach : 
+1. let take an current pointer which points to current index position of array.
+2. if currentIndex nums value is not equal to back 2 position index from current then that means that numbers duplicate is came or it not exist hence, set current index position as current index of running loop, and then increment the current by 1.
+
+# Complexity :
+- Time : O(n)
+- Space : O(1)

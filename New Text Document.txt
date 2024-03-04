@@ -1,0 +1,21 @@
+class Solution {
+    public String maximumOddBinaryNumber(String s) {
+        int countOne = 0, countZero = 0;	// count number or 1's and 0's
+        for(int ch : s.toCharArray()){	// iterate for each charater
+            if(ch == '1'){	// if current character is 1 then increment 1's count else increment 0's count.
+                countOne++;
+            }else{
+                countZero++;
+            }
+        }
+        StringBuilder st = new StringBuilder();	// to write answer in string we build string using string builder.
+        st.append("1".repeat(countOne - 1));	// set starting bits as number of ones - 1 because we want to append One 1 in the last because of odd binary number.
+        st.append("0".repeat(countZero));	// then append number of zeros into string.
+        st.append("1");			// then append last bit as 1.
+        return st.toString();	// return string.
+    }
+}
+
+#Complexity : 
+- Time : O(n)
+- Space : O(1)
