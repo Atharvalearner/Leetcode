@@ -1,0 +1,29 @@
+class Solution {
+    public int maxFrequencyElements(int[] nums) {
+        HashMap<Integer,Integer> hm = new HashMap<>();	
+        for(int num : nums){
+            hm.put(num, hm.getOrDefault(num,0) + 1);
+        }
+        int res = 0, max = 0;
+        for(int val : hm.values()){
+            if(max == val){
+                res = res + max;
+            }else if(max < val){
+                res = max = val;
+            }
+        }
+        return res;
+    }
+}
+
+# Approach : 
+1. hm that stores pairs of integers. The key of the map will be the integer from the nums array, and the value will be the count of occurrences of that integer.
+2. mp.put(num, hm.getOrDefault(num, 0) + 1) where, hm.getOrDefault(num, 0) retrieves the current count of occurrences of the integer num from the HashMap. If num is not present in the map, it returns 0, hm.getOrDefault(num, 0) + 1 increments the count of occurrences of num by 1, hm.put(num, hm.getOrDefault(num, 0) + 1) puts the updated count back into the HashMap, associating it with the key num.
+3. after storing frequency of keys to hashmap we campare max frequency value with other values.
+4. if max value frequency is equal to current key value frequency then add it with result.
+5. else if max frequency is lesser than current key value frequency then update res as max and max as current value.
+6. return result.
+
+# Complexity :
+- Time : O(n)	// iterating n elements.
+- Space : O(n)	// storing n elements in hashmap.

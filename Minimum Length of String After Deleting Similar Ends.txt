@@ -1,0 +1,19 @@
+class Solution {
+    public int minimumLength(String s) {
+        int left = 0, right = s.length() - 1;	// 2 pointers used.
+        while (left < right && s.charAt(left) == s.charAt(right)) {	//while left < right and left and right character is same then futher operations is perform else it directly return length of the string.
+            char current = s.charAt(left);	// set current as one of the left or right pointer here i have used left.
+            while (left <= right && s.charAt(left) == current) {	// while left < right then check left and their neighbours are same are not if it is same then move left pointer to next.
+                left++;
+            }
+            while (left <= right && s.charAt(right) == current) {	// while left < right then check right and left are same are not if it is same then move right pointer to next.
+                right--;
+            }
+        }
+        return right - left + 1;
+    }
+}
+
+# Complexity :
+- Time : O(n)
+- Space : O(1)

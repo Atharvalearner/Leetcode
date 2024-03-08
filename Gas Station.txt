@@ -1,0 +1,19 @@
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int total_gas = 0, curr_gas = 0;	// total_gas gets the total gas left after completing the circuit, and curr_index keeps track of the current gas left while traversing from one station to another.
+        int start = 0;
+        for(int i = 0; i < gas.length; i++){	
+            total_gas += gas[i] - cost[i];
+            curr_gas += gas[i] - cost[i];
+            if(curr_gas < 0 ){		// if current gas is negative then that means we cannot move to next station so that current index station is not starting station hence, we set start as i + 1.and set current gas as 0.
+                start = i + 1;
+                curr_gas = 0;
+            }
+        }
+        return (total_gas < 0) ? -1 : start;	// if total gas is negative means their no one node where we start and traverse to all stations hence return -1 else return start.
+    }
+}
+
+# Complexity : 
+- Time : O(n)
+- Space : O(1)

@@ -1,0 +1,16 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int sp = 0, tp = 0;	// s and t string pointers respectively.
+        while(sp < s.length() && tp < t.length()){	// track till s or t is not become null.
+            if(s.charAt(sp) == t.charAt(tp)){		// if both the sp and tp index characters are same then increment sp, else move tp pointer to next index.
+                sp++;
+            }
+            tp++;
+        }
+        return sp == s.length();	// if all character of s is same in t then sp pointer value is same to the s length hence return true, otherwise return false.
+    }
+}
+
+# Complexity :
+- Time : O(t) ---where t is length of t string.
+- Space : O(1)
