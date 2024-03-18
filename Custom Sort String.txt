@@ -1,0 +1,23 @@
+class Solution {
+    public String customSortString(String order, String s) {
+        HashMap<Character,Integer> hm = new HashMap<>();	// store s string values.
+        StringBuilder sb = new StringBuilder();		// to develop result string use this.
+        for(char ch : s.toCharArray()){		// store the count of characters of s.
+            hm.put(ch, hm.getOrDefault(ch,0) + 1);
+        }
+        for(char ch : order.toCharArray()){	// if hashmap contains order string character then it will append it on result string and after append it will remove that key value pair from hashmap.
+            if(hm.containsKey(ch)){
+                sb.append(String.valueOf(ch).repeat(Math.max(0,hm.get(ch))));
+                hm.remove(ch);
+            }
+        }
+        for(char ch : hm.keySet()){	// after append matching characters we will be append remaining s string character to result string.
+            sb.append(String.valueOf(ch).repeat(Math.max(0,hm.get(ch))));
+        }
+        return sb.toString();	// return result string.
+    }
+}
+
+# Complexity :
+- Time : O(N)	// N because of hashmaps
+- Space : O(N)

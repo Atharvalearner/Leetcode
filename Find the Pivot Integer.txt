@@ -1,0 +1,23 @@
+class Solution {
+    public int pivotInteger(int n) {
+        int left = 1, right = n;	// left right pointer track left and right numbers.
+        int sum = n * (n + 1) / 2;	// sum calculates total sum of from 1 to n.
+        while(left <= right){
+            int mid = left + (right - left) / 2;	// mid gives mid element.
+            int leftSum = mid * (mid + 1) / 2;		// leftSum calculates sum till mid element.
+            int rightSum = sum - leftSum + mid;		// rightSum calculates sum till end from mid element.
+            if(leftSum == rightSum){		// sum of right and left is same that means we fount pivote element then return it.
+                return mid;
+            }else if(leftSum < rightSum){	// if right sum > left sum then set left point as mid + 1 element and calculate sums.
+                left = mid + 1;
+            }else{			// else set right point as mid - 1 element and again calculate sums.
+                right = mid - 1;
+            }
+        }
+        return -1;	if pivote is not exists then return -1.
+    }
+}
+
+# Complexity :
+- Time : O(log N)	// /log n because we use binary search.
+- Space : O(1)

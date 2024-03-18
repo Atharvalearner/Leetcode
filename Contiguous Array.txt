@@ -1,0 +1,25 @@
+class Solution {
+    public int findMaxLength(int[] nums) {
+        int countZero = 0,countOne = 0, max = 0;
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        hm.put(0,-1);		// it is adding a key-value pair to a HashMap. It associates the key 0 with the value -1.
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == 0){	// count zeros .
+                countZero++;
+            }else{		// count ones.
+                countOne++;
+            }
+            int difference = countZero - countOne;	// calculate differnce of zeros and ones.
+            if(hm.containsKey(difference)){		// if hashmap already contains key value of diff, then it will be updated as an condition.
+                max = Math.max(max, i - hm.get(difference));	// i - hashmap.get(diff) helps calculate the length of the subarray or substring based on the indices stored in the hashmap and the current index i.
+            }else{		// else hashmap stores difference key value with the index i.
+                hm.put(difference,i);
+            }
+        }
+        return max;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

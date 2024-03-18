@@ -1,0 +1,18 @@
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        int arrow = 1;
+        Arrays.sort(points, (a,b) -> Integer.compare(a[1],b[1]));	//compares two elements a and b based on their second element.
+        int end = points[0][1];	// set end point as second element of previous array.
+        for(int i = 1; i < points.length; i++){
+            if(points[i][0] > end){	// if start of current array is lesser than end of previous array then that means common segment is occurs hence we can break both the ballons using 1 arrow so increment arrow and set end point as currnt arrays 2nd element.
+                arrow++;
+                end = points[i][1];
+            }
+        }
+        return arrow;
+    }
+}
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(1)

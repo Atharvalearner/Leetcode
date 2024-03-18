@@ -1,0 +1,30 @@
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0, right = height.length - 1;
+        int max = 0;
+        while(left < right){
+            int width = right - left;
+            int high = Math.min(height[left],height[right]);
+            int area = width * high;
+            max = Math.max(max, area);
+            if(height[left] < height[right]){
+                left++;
+            }else{
+                right--;
+            }
+        }
+        return max;
+    }
+}
+
+# Approach :
+1. we need to find max area in which most water can contains, where area = width * height.
+2. area = (right - left) * min(height[left], height[right])
+3. If we have smaller height on left or right we don't care about it. We always want a higher height line on our left & right.
+4. if left pointer has smaller height, so it will move forward by left++.
+5. if right pointer has smaller height, so it will move backword by right--.
+6. return max area.
+
+# Complexity :
+- Time : O(n)
+- Space : O(1)

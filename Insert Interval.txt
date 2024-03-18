@@ -1,0 +1,35 @@
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> temp = new ArrayList<>();
+        for(int row = 0; row < intervals.length; row++){
+            if(intervals[row][1] < newInterval[0]){
+  		// current interval starts first & not covered by newInterval, add intervals[i] to ans
+                // [curInterval]
+                //               [newInterval]
+                temp.add(intervals[row]);
+            }else if(intervals[row][0] > newInterval[1]){
+		// newInterval starts first and not covered by current interval
+                // add newInterval to ans and set newInterval = curInterval
+                //                [curInterval]
+                // [newInterval]
+                temp.add(newInterval);
+                newInterval = intervals[row];
+            }else{
+		// they are overlapped, merge them
+                // [curInterval]
+                //        [newInterval]
+                // 	OR
+                // [newInterval]
+                //        [curInterval]
+                newInterval[0] = Math.min(intervals[row][0], newInterval[0]);
+                newInterval[1] = Math.max(intervals[row][1], newInterval[1]);
+            }
+        }
+        temp.add(newInterval);
+        return temp.toArray(new int[temp.size()][]);
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)
