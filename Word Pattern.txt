@@ -1,0 +1,32 @@
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+        HashMap<Character,String> hmAssign = new HashMap<>();	// this hashmap assign the characters with words.
+        HashMap<String,Boolean> hmCheck = new HashMap<>();	// in this map we will mark the words as used, means we check it already given to other character key or not.
+        String words[] = s.split(" ");			//assign Each substring becomes an element of the array words.
+        if(words.length != pattern.length()){		// it check if words size and pattern size is equal or not if not then return false. because no.of characters of pattern is must be equal to no. of substring of s. 
+            return false;
+        }
+        for(int i = 0; i < pattern.length(); i++){
+            char ch = pattern.charAt(i);
+
+            if(hmAssign.containsKey(ch) == false){	// if the pattern character has not been mapped into hmAssign.
+                if(hmCheck.containsKey(words[i]) == true){	//if but the word which we will assign to i character has been used in hmCheck that means that substring word of i is already exist to other key value hence return false.
+                    return false;
+                }else{			//else if the word has not been used to map then map it.
+                    hmCheck.put(words[i], true);	// now mark it as used in hmCheck.
+                    hmAssign.put(ch, words[i]);		// and assign that word infront of character key.
+                }
+            }else{		// if that character has already been mapped, now check with whom it has been mapped.
+                String mapCheck = hmAssign.get(ch);
+                if(mapCheck.equals(words[i]) == false){	     // if mapCheck word is not equals to words[i], means already mapped with someone, then return false; 
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

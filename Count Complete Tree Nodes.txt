@@ -1,0 +1,22 @@
+class Solution {
+    public int countNodes(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        int left = countNodes(root.left);
+        int right = countNodes(root.right);
+        return left + right + 1;
+    }
+}
+
+# Intuition :
+just traverse and count left and right nodes and return it.
+
+# Approach :
+1. traverse in left and count how many nodes exist in left.
+2. same process do for right.
+3. sum up left, right and 1, because we also must to include root node , hence return it as left + right + 1.
+
+# Complexity :
+- Time complexity:O(N)
+- Space complexity:O(N)

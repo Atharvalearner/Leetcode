@@ -1,0 +1,21 @@
+class Solution {
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int i = 0; i < nums.length; i++){	// set key value pair of array elements.
+            hm.put(nums[i], hm.getOrDefault(nums[i],0)+1);
+        }
+        for(int i = 0; i < nums.length; i++){	
+            if(hm.get(nums[i]) == 2){		// if value of element is 2 that means it appears twice hence we add it to result array and reduce its count by 1,because during iterating it will appear again and again it will add it to result, hence we reduce its value by 1.
+                res.add(nums[i]);
+                hm.put(nums[i], hm.get(nums[i])-1);
+            }
+        }
+        return res;
+    }
+}
+
+// it is not efficient we also do it using only arraylist.without hashmaps.
+# Complexity :
+- Time : O(N)
+- Space : O(N)

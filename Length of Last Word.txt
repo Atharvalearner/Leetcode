@@ -1,0 +1,19 @@
+class Solution {
+    public int lengthOfLastWord(String s) {
+        int len = 0;
+        for(int i = s.length() - 1; i >= 0; i--){	// We are looking for the last word so let's go backward
+            if(s.charAt(i) == ' '){	// if current character is empty space then check length if it is 0 that means the string is still not get, hence continue, else if length > 0, then we encountered before 1st space of string hence return that length.
+                if(len > 0){
+                    return len;
+                }
+            }else{	// else we encounter eith the string character then increment the length.
+                len++;
+            }
+        }
+        return len;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

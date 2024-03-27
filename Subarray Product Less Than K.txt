@@ -1,0 +1,23 @@
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int res = 0;
+        int prod = 1;	// intialize as 1 because 0 product gives 0.
+        int left = 0;	// left pointer tracks left window side.
+        for(int i = 0; i < nums.length; i++){
+            prod = prod * nums[i];	// product of current number with product.
+            while(prod >= k && left <= i){	// while our product is not become greater than or equal to k and left is lesser than i, till it will calculate product of all window element except left, because it will give prod > k, hence we increment left pointer.
+                prod = prod / nums[left];
+                left++;
+            }
+            if(prod < k){	// if prod is lesser than k value then we add it to result.
+                int ans = i - left + 1;	// it will calculate window size.
+                res = res + ans;
+            }
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

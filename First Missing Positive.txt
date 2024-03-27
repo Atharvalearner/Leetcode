@@ -1,0 +1,25 @@
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        int i = 0;
+        while(i < nums.length){
+            int pos = nums[i] - 1;
+            if(nums[i] <= nums.length && nums[i] > 0 && nums[i] != nums[pos]){	// negative and elements which greater than the size of the array are ignored or skip and check for correct position of index wise is placed or not if not then we simply swap places.
+                int temp = nums[i];
+                nums[i] = nums[pos];
+                nums[pos] = temp;
+            }else{		// else we skip it.
+                i++;
+            }
+        }
+        for(int x = 0; x < nums.length; x++){	// after cycle sort has been applied, we will find the first element which is not at the correct index, and return that index + 1, means it return that element which is absent in between that range.eg. {1,2,4,5} it will return '3'.
+            if(nums[x] != x+1){
+                return x+1;
+            }
+        }
+        return nums.length + 1;	// if every element is at its correct index, then first missing positive integer is nums.length + 1
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

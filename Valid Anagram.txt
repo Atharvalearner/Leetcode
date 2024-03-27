@@ -1,0 +1,25 @@
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        HashMap<Character,Integer> hms = new HashMap<>();
+        for(int i = 0; i < s.length(); i++){	// stores key value pairs of s into hashmap.
+            hms.put(s.charAt(i), hms.getOrDefault(s.charAt(i),0) + 1);
+        }
+        for(int i = 0; i < t.length(); i++){
+            char ch = t.charAt(i);	// get current character of t.
+            if(hms.get(ch) != null){	// It checks if the character ch exists as a key in the HashMap
+                if(hms.get(ch) == 1){	// If the value associated with ch in the HashMap is 1, it removes the entry for ch from the HashMap.
+                    hms.remove(ch);
+                }else{		// If the value associated with ch in the HashMap is greater than 1, it decrements the value by 1
+                    hms.put(ch, hms.get(ch)-1);
+                }
+            }else{		// else that character cannot contains in s hence return false.
+                return false;
+            }
+        }
+        return hms.isEmpty();	// return hashmap is empty or not if empty then return true, else false.
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
