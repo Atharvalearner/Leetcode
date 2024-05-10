@@ -1,0 +1,37 @@
+class Solution {
+    public long countSubarrays(int[] nums, int minK, int maxK) {
+        long count = 0;
+        int left = -1, minVal = -1, maxVal = -1;
+        for(int right = 0; right < nums.length; right++){
+            if(nums[right] < minK || nums[right] > maxK){	// out of box condition occurs hence we move left pointer to right.
+                left = right;
+            }
+            if(nums[right] == minK){	// if current element is minimum then we update it as minVal.
+                minVal = right;
+            }
+            if(nums[right] == maxK){	// if current element is maximum then we update it as maxVal.
+                maxVal = right;
+            }
+            count = count + Math.max(0, Math.min(minVal, maxVal) - left);	// add valid subarray to count.
+        }
+        return count;
+    }
+}
+
+# Intuition :
+We can use a sliding window approach to find all subarrays with minimum value minK and maximum value maxK. We can keep track of the start index of the current subarray and update it whenever we encounter a value that is less than minK or greater than maxK.
+When we find a subarray with both minK and maxK, we can count the number of subarrays that can be formed by taking the minimum index of minK and maxK as the starting point and the current index as the ending point.
+
+# Approach :
+1. Initialize count to 0, left to 0, and minVal and maxVal to -1.
+2. Iterate over the array nums through right pointer.
+3. If the current value array is less than minK or greater than maxK,that means it is out of our condition hence we update left to right+1.
+4. If current element is equal to minK, set minVal to right.
+5. If current element is equal to maxK, set maxVal to right.
+6. If minVal and maxVal are both occurs in our subarray that means it is valid hence we add it to res.
+7. Math.max(0, Math.min(minVal, maxVal) - left). This calculates the number of valid starting indices for the subarray that ends at index left.
+8. Return res.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

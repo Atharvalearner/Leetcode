@@ -1,0 +1,21 @@
+class Solution {
+    public List<String> summaryRanges(int[] nums) {
+        List<String> res = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            int start = nums[i];	// set start as current element.
+            while((i + 1) < nums.length && nums[i] + 1 == nums[i + 1]){	// we track the array till we cannot meet breakpoint or where our current element is not equal current-1, when this arrives we got our breakpoint.
+                i++;
+            }
+            if(nums[i] != start){	// if our current element is not equal to start means we got our range hence we add it into our result list.
+                res.add(start + "->" + nums[i]);
+            }else{		// else we got an breakpoint hence we directly add start to result.
+                res.add("" + start);
+            }
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

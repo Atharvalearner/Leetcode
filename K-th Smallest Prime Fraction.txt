@@ -1,0 +1,37 @@
+class Solution {
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingDouble(a -> (double) a[0] / a[1]));
+        for(int i = 0;i < arr.length; i++){
+            for(int j = i + 1; j < arr.length; j++){
+                minHeap.offer(new int[]{arr[i],arr[j]});
+            }
+        }
+        int[] res = null;
+        for(int i = 0; i < k; i++){
+            res = minHeap.poll();
+        }
+        return res;
+    }
+}
+
+# Intuition :
+The comparator is a lambda expression that compares the arrays based on the result of dividing the first element by the second element. It's comparing doubles because we're dividing integers, and we want to ensure precision in the comparison.
+// Suppose we have an array with elements 2, 4, and 3.
+int[] arr = {2, 4, 3};
+// The priority queue will compare pairs of integers (a[0], a[1]).
+// For example, if we have {2, 4} and {2, 3}, it will compare 2/4 and 2/3.
+// It will prioritize the pair with the smallest result of the division.
+
+minHeap.offer(new int[]{arr[i], arr[j]}) : This line creates a new array with two elements, arr[i] and arr[j], and adds it to the priority queue. The order of elements in the array matters because of how the comparator was defined earlier. The pair with the smallest division result will be at the front of the priority queue.
+
+# Approach: 
+Brute Force (Min Heap) :
+1. a priority queue, we ensure the smallest fractions are always at the top.
+2. We create a min-heap, where each element is a fraction and its corresponding pair of numbers.
+3. calculating fractions for each pair of numbers.
+4. With our heap filled, we retrieve the kth smallest fraction by popping from the top k times.
+5. we return the kth pair.
+
+# Complexity :
+- Time complexity: O(n * n * log k)
+- Space complexity: O(k)

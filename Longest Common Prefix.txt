@@ -1,0 +1,36 @@
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        StringBuilder sb = new StringBuilder();
+        Arrays.sort(strs);
+        String sFirst = strs[0];
+        String sLast = strs[strs.length - 1];
+        int ind = 0;
+        while(ind < sFirst.length() && ind < sLast.length()){
+            if(sFirst.charAt(ind) == sLast.charAt(ind)){
+                sb.append(sFirst.charAt(ind));
+                ind++;
+            }else{
+                break;
+            }
+        }
+        return sb.toString();
+    }
+}
+
+# Intuition :
+By sorting the array and then comparing the first and last elements, the code is able to find the common prefix that would be shared by all strings in the array.
+by comparing the first and last strings of the sorted array, we can easily find the longest common prefix.
+
+# Approach :
+1. Sort the elements of an array of strings called "strs" in alphabetical order using the Arrays.sort(strs) method.
+2. Assign the first element of the sorted array (the smallest string) to a string variable s1.
+3. Assign the last element of the sorted array (the largest string) to a string variable s2.
+4. Initialize an integer variable idx to 0.
+5. Start a while loop that iterate till continues while idx is less than the length of s1 and s2.
+6. check if the character at the current index in s1 is equal to the character at the same index in s2. If the characters are equal, add that character to result string and increment the value of idx by 1.
+7. If the characters are not equal, exit the while loop.
+8. return result string.
+
+# Complexity :
+- Time complexity: O((N log N) + M)     // N log N for sorting the array. and M for iterating the string characters.
+- Space complexity: O(1)

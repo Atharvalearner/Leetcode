@@ -1,0 +1,39 @@
+class Solution {
+    public int subarraysWithKDistinct(int[] nums, int k) {
+        return subArrayWithAtMostK(nums,k) - subArrayWithAtMostK(nums,k-1);	// subarrays with k different eleemnts = subarray with atmost k different elements - subarray with atmost k-1 different elements.
+    }
+    public int subArrayWithAtMostK(int[] nums, int k){
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        int left = 0, right = 0, res = 0;
+        while(right < nums.length){
+            hm.put(nums[right], hm.getOrDefault(nums[right],0) + 1);	// put current key value into hashmap.
+            while(hm.size() > k){		// it will track sliding window untill given condition becomes fails, if it breaks then we decrement the left element value from hashtable and remove it from table if its value is 0, and move left pointer to next.
+                hm.put(nums[left], hm.get(nums[left]) - 1);
+                if(hm.get(nums[left]) == 0){
+                    hm.remove(nums[left]);
+                }
+                left++;
+            }
+            res = res - left + 1;	// else we calculate new subarray size.
+            right++;			// move right pointer.
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. Overall Approach:
+	i. The solution utilizes a sliding window technique to count the number of subarrays with exactly k distinct integers.
+
+2. Counting Subarrays with k Distinct Integers:
+	i. The subarraysWithKDistinct function computes the difference between the count of subarrays with at most k distinct integers and the count of subarrays with at most k-1 distinct integers.
+
+3. Counting Subarrays with At Most k Distinct Integers:
+	i. The subarray_with_atmost_k helper function calculates the count of subarrays with at most k distinct integers.
+	ii. It initializes a sliding window with left and right pointers.
+	iii. It maintains a hashmap map to track the frequency of integers within the window.
+	iv. The right pointer moves to the right, updating the frequency of the current element in map.
+	v. If the count of distinct integers exceeds k, the left pointer is adjusted to shrink the window until the count becomes at most k.
+	vi. The size of each valid subarray ending at the current position (right) is added to the answer.
+4. Returning the Result:
+	After computing the count of subarrays with exactly k distinct integers, the result is returned.

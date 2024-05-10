@@ -1,0 +1,21 @@
+class Solution {
+    public String reverseWords(String s) {
+        String[] arrayOfString = s.split(" ");  // split method will be split the parameter into array. eg {"the sky is blue"} = | the | sky | is | blue | like this.
+        StringBuilder sb = new StringBuilder(); // as we know strings are unmutable hence we use stringbulder for result.
+        int end = arrayOfString.length - 1;
+        for(int i = 0; i <= end; i++){
+            String str = arrayOfString[i];      // get current index stirng.
+            if(!str.isEmpty()){                 // if our current index string is not an empty space then it will append that string into 0th position of result string.
+                sb.insert(0, str);
+                if(i < end){                    // if our current index string is not empty but it also not the end of array hence we insert the space at 0th position because we also want to insert an spaces inbetween two words.
+                    sb.insert(0," ");
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
+
+# Complexity
+- Time complexity: O(N)
+- Space complexity:

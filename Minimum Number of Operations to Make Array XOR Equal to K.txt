@@ -1,0 +1,32 @@
+class Solution {
+    public int minOperations(int[] nums, int k) {
+        int currVal = nums[0];
+        int count = 0;
+        for(int i = 1; i < nums.length; i++){	// it calculate XOR value of all elements of array.
+            currVal = currVal ^ nums[i];
+        }
+        while(k != 0 || currVal != 0){		// we iterate the values till both of one cannot becomes 0.
+            int currKbit = k & 1;		
+            int currValbit = currVal & 1;
+            if(currKbit != currValbit){		// if current k bit and current value bit is not equals means we requires operation to equate hence we increment count.
+                count++;
+            }
+            k = k >> 1;			// make right shift.
+            currVal = currVal >> 1;	// make right shift.
+        }
+        return count;
+    }
+}
+
+# Intuition :
+1. XOR Calculation: Calculate the XOR of array elements.
+2. Bitwise Comparison: Iterate through the bits of target *k' and XOR result.
+3. Differing Bits: Count positions where bits in 'k' and XOR result differ.
+4. Operation Need: Differing bits indicate the need for operations.
+5. Right Shifting: Right-shift both values by one (division by 2).
+6. Loop Termination: Continue until both values become zero.
+7. Counting Operations: The count of differing bits signifies the minimum operations.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

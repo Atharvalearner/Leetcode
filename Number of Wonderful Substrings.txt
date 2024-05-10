@@ -1,0 +1,39 @@
+class Solution {
+    public long wonderfulSubstrings(String word) {
+        long count = 0;
+        int[] freq = new int[1024];
+        int bitmask = 0;
+        freq[0] = 1;
+        for(char ch : word.toCharArray()){
+            int currCharInd = ch - 'a';
+            bitmask = bitmask ^ 1 << currCharInd;
+            count = count + freq[bitmask];
+            for(int i = 0; i < 10; i++){
+                count = count + freq[bitmask ^ (1 << i)];
+            }
+            freq[bitmask]++;
+        }
+        return count;
+    }
+}
+
+# Intuition :
+Frequency Array:
+Maintain a frequency array for each character in the string.
+Iterate through the string and for each substring, check if there is at most one character whose frequency is odd.
+Keep track of the count of such substrings.
+
+# Approach :
+1. Initialize Data Structures:
+	- Initialize an array count of size 1024 (2^10) to store the count of each bitmask value encountered.
+	- Initialize result to 0 to store the final count of wonderful substrings.
+	- Initialize bitmask to 0 to represent the bitmask.
+2. Iterate Through Characters:
+	- Iterate through each character char in the input word.
+	- Calculate the index of the character using char_index = ord(char) - ord('a').
+	- Update the bitmask by XOR-ing it with the bit representing the current character.
+	- Increment result by the count of the current bitmask value stored in the count array.
+	- For each possible position of flipping a bit in the bitmask, increment result by the count of that bitmask value stored in the count array.
+	- Increment the count of the current bitmask value in the count array.
+3. Return Result:
+	Return the final result, which represents the number of wonderful substrings.

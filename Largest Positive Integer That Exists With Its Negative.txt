@@ -1,0 +1,38 @@
+code 1 : ( binary search )
+class Solution {
+    public int findMaxK(int[] nums) {
+        Arrays.sort(nums);		
+        int max = Integer.MIN_VALUE;
+        int left = 0,right = nums.length - 1;
+        while(left < right){
+            int sum = nums[left] + nums[right];		
+            if(sum == 0){
+                max = Math.max(max,nums[right]);
+                left++;
+                right--;
+            }else if(sum > 0){
+                right--;
+            }else{
+                left++;
+            }
+        }
+        return max != Integer.MIN_VALUE ? max : -1;
+    }
+}
+
+Code 2 : ( Hashing )
+
+class Solution {
+    public int findMaxK(int[] nums) {
+        int max = -1;
+        HashSet<Integer> hm = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            hm.add(nums[i]);
+            int neg = nums[i] * (-1);
+            if(hm.contains(neg)){
+                max = Math.max(max, Math.abs(nums[i]));
+            }
+        }
+        return max;
+    }
+}

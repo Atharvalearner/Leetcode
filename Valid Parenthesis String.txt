@@ -1,0 +1,42 @@
+class Solution {
+    public boolean checkValidString(String s) {
+        int open = 0, openMax = 0;
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            if(ch == '('){
+                open++;
+                openMax++;
+            }else if(ch == ')'){
+                open--;
+                openMax--;
+            }else{
+                open--;2
+                openMax++;
+            }
+            if(openMax < 0){
+                return false;
+            }
+            if(open < 0){
+                open = 0;
+            }
+        }
+        return open == 0;
+    }
+}
+
+# Intuition :
+We can keep track of the minimum and maximum number of open parentheses that must be matched and see if it's possible to match all the parentheses in the string. We'll use two variables leftMin and openMax to represent the minimum and maximum number of open parentheses respectively.
+
+# Approach :
+1. Initialize open and openMax to 0.
+2. Iterate through each character in the string s.
+3. If the character is '(', increment both open and openMax by 1.
+4. If the character is ')', decrement both open and openMax by 1.
+5. If the character is '*', decrement open by 1 and increment openMax by 1.
+6. If openMax becomes negative at any point, return False since it means there are more closing parentheses than opening ones.
+7. If open becomes negative, reset it to 0 since we can't have negative open parentheses count.
+8. After iterating through the string, check if open is 0. If it is, return True; otherwise, return False.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

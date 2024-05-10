@@ -1,0 +1,23 @@
+class Solution {
+    public int numRescueBoats(int[] people, int limit) {
+        Arrays.sort(people);		
+        int count = 0;
+        int left = 0, right = people.length - 1;
+        while(left <= right){
+            int sum = people[left] + people[right];	
+            if(sum <= limit){			// if sum is less or equal to limit then we increment boat count and also increment left pointer and decrement right pointer.
+                count++;
+                left++;
+                right--;
+            }else{		// else our sum is greater than limit then we have our right pointer greater hence we just decrement it or just consider to save only right person for that boat. and make increment boat count.
+                count++;
+                right--;
+            }
+        }
+        return count;
+    }
+}
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(1)

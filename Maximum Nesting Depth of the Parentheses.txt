@@ -1,0 +1,19 @@
+class Solution {
+    public int maxDepth(String s) {
+        int max = 0, curr = 0;		// max stores the maximum depth of parenthesis and curr count the current index if current character is '(' then it will increment and update the max else if current character is ')' then current is decrement by 1, it means when we got ( this we increment curr and update max and when we got ) this we decrement curr.
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            if(ch == '('){
+                curr++;
+                max = Math.max(max,curr);
+            }else if(ch == ')'){
+                curr--;
+            }
+        }
+        return max;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

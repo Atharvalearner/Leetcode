@@ -1,0 +1,30 @@
+class Solution {
+    public ListNode doubleIt(ListNode head) {
+        if(head.val > 4){
+            head = new ListNode(0,head);
+        }
+        for(ListNode currNode = head; currNode != null; currNode = currNode.next){
+            currNode.val = (currNode.val * 2) % 10;
+            if(currNode.next != null && currNode.next.val > 4){
+                currNode.val++;
+            }
+        }
+        return head;
+    }
+}
+
+# Intuition :
+We double the value of every node,
+If node.next.val > 4,because the node values are from 0 to 9, and from 0 to 4 the carry is not generated but from 5 to 9 the carry will be generated as 1, hence we pass the carry if nextnode val > 4.
+there will be carry from node.next.
+
+
+# Explanation :
+1. Iterate every node,
+2. double the value node.val = (node.val * 2) % 10,
+3. and check if there is a carry from node.next.
+
+
+# Complexity :
+- Time : O(n)
+- Space : O(1)

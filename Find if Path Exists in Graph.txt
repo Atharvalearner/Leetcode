@@ -1,0 +1,28 @@
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] edge : edges){		// build the graph using given edges.
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+        boolean[] visited = new boolean[n];	// it stores visited nodes.
+        Stack<Integer> stack = new Stack<>();
+        stack.push(source);			// iteration start from source node.
+        while(! stack.isEmpty()){		// iterate the graph till stack not became empty.
+            int curr = stack.pop();		// pop vertex from stack and set it as current node.
+            if(curr == destination){		// if current node is same as destination then e return true.
+                return true;
+            }
+            visited[curr] = true;		// because current node is not destination node hence we set it as visited,because we cannot need to iterate it again.
+            for(int neighbour : graph.get(curr)){	// we iterate the neighbours of source node.
+                if(! visited[neighbour]){		// if neighbour is not visited then we just put it into stack and check it destination or not by recursion.
+                    stack.push(neighbour);
+                }
+            }
+        }
+        return false;
+    }
+}

@@ -1,0 +1,48 @@
+class Solution {
+    public int openLock(String[] deadends, String target) {
+        Set<String> visited = new HashSet<>(Arrays.asList(deadends));
+        if(visited.contains("0000")){
+            return -1;
+        }
+        Queue<Pair<String,Integer>> q = new LinkedList<>();
+        q.offer(new Pair<>("0000",0));
+        Set<String> visit = new HashSet<>();
+        visit.add("0000");
+        while(! q.isEmpty()){
+            Pair<String,Integer> curr = q.poll();
+            String currComb = curr.getKey();
+            int count = curr.getValue();
+            if(currComb.equals(target)){
+                return count;
+            }
+            for(int i = 0; i < 4; i++){
+                for(int temp : new int[]{-1, 1}){
+                    int newDig = (currComb.charAt(i) - '0' + temp + 10) % 10;
+                    String newComb = currComb.substring(0, i) + newDig + currComb.substring(i+1);
+                    if(!visit.contains(newComb) && ! visited.contains(newComb)){
+                        visit.add(newComb);
+                        q.offer(new Pair<>(newComb, count+1));
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+# Approach :
+problem can be solved using a Breadth-First Search (BFS) 
+1.Initialization:
+	Start with the initial combination "0000".
+	Use a set to keep track of dead-end combinations (deadends) for quick lookup.
+	Use a queue (or deque) to perform BFS. Start by adding the initial combination to the queue.
+2. BFS Loop:
+	Begin a loop while the queue is not empty.
+	Dequeue a combination from the front of the queue.
+	If this combination matches the target, return the number of moves taken.
+	If it's a dead-end (in deadends), skip it.
+	Otherwise, generate all possible next combinations by incrementing or decrementing each digit of the current combination (there are 8 possible next combinations for each state).
+	Add valid, unvisited combinations to the queue (i.e., combinations that are not in deadends and have not been visited yet). Mark these combinations as visited to avoid redundant processing.
+3. Edge Cases:
+	If the target is in deadends, return -1 immediately since the target cannot be reached.
+	If the target is "0000", return 0 as no moves are needed.

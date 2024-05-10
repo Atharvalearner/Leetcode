@@ -1,0 +1,40 @@
+class Solution {
+    public String removeKdigits(String num, int k) {
+        Deque<Character> q = new ArrayDeque<>();
+        for(int i = 0; i < num.length(); i++){
+            while(k > 0 && !q.isEmpty() && q.getLast() > num.charAt(i)){	// we remove the front element from queue if front element is greater than current element and decrement the k.
+                q.removeLast();
+                k--;
+            }
+            q.addLast(num.charAt(i));	// else we just push current element in rear of queue.
+        }
+        while(!q.isEmpty() && k > 0){	// this is special case condition where if their is same elements occurs then that is handle by this.here we remove last k elements from queue and decrement k.
+            q.removeLast();
+            k--;
+        }
+        while(!q.isEmpty() && q.getFirst() == '0'){	// here we remove leading zeros 
+            q.removeFirst();
+        }
+        if(q.size() == 0){		// if queue size is 0 then we don't need to process string hence we return it as 0.
+            return "0";
+        }
+        StringBuilder res = new StringBuilder();	// we just convert queue elements into string by using string builder.
+        while(!q.isEmpty()){
+            res.append(q.removeFirst());
+        }
+        return res.toString();
+    }
+}
+
+# Approach :
+1. we uses deque for simplify the operation.
+2. we just add character elements into the queue from rear and pop or remove element from front of queue. 
+3. if rear element is greater than current element then we remove rear element from queue and decrement the k, we do this untill k != 0 and queue not become empty.
+4. For special case condition where if their is same elements occurs then that is handle by remove last k elements from queue and decrement k.
+5. According to given condition as ans cannot contain leading zeros hence we remove the leading zeros.
+6. If queue size is 0 then we don't need to process string hence we return it as 0.
+7. return the result.
+
+# Complexity :
+- Time complexity:O(N)
+- Space complexity:O(N)

@@ -1,0 +1,37 @@
+class Solution {
+    public int compareVersion(String version1, String version2) {
+        int ind1 = 0, ind2 = 0;
+        while(ind1 < version1.length() || ind2 < version2.length()){
+            int currNum1 = 0, currNum2 = 0;
+            while(ind1 < version1.length() && version1.charAt(ind1) != '.'){	
+                currNum1 = (currNum1 * 10) + (version1.charAt(ind1++) - '0');	// it formula for extract number from given numeric value.
+            }
+            while(ind2 < version2.length() && version2.charAt(ind2) != '.'){
+                currNum2 = (currNum2 * 10) + (version2.charAt(ind2++) - '0');	// it formula for extract number from given numeric value.
+
+            }
+            if(currNum1 < currNum2){
+                return -1;
+            }
+            if(currNum1 > currNum2){
+                return 1;
+            }
+            ind1++;
+            ind2++;
+        }
+        return 0;
+    }
+}
+
+# Approach :
+1. Initialization: Initialize two pointers ind1 and ind2 to track the current position in version1 and version2, respectively.
+2. Iteration: Iterate through the characters of both version strings simultaneously until either of the strings is fully processed.
+3. Extracting Version Components: Inside the loop, extract the numeric components of the version strings.
+4. currNum1 = (currNum1 * 10) + (version1.charAt(ind1++) - '0') reads characters from version1 and version2 until a period '.' is encountered. It converts the extracted characters into an integer num1 and num2.
+5. If num1 is less than num2, it means version1 is considered smaller, so return -1. If num1 is greater than num2, version1 is considered larger, so return 1.
+6. Update Pointers: Increment pointers ind1 and ind2 to continue processing the next version component.
+7. Return Default: If all version components are equal, return 0.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

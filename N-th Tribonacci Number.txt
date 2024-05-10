@@ -1,0 +1,37 @@
+class Solution {
+    public int tribonacci(int n) {
+        if(n == 0){
+            return 0;
+        }
+        if(n == 1 || n == 2){
+            return 1;
+        }
+        int[] res = new int[n+1];
+        res[0] = 0;
+        res[1] = 1;
+        res[2] = 1;
+        for(int i = 3; i < n+1; i++){
+            res[i] = res[i-1] + res[i-2] + res[i-3];
+        }
+        return res[n];
+    }
+}
+
+# Intuition :
+Tribonacci series is nothing but addition of previous 3 numbers result to current, eg. T[8] = T[8-1] + T[8-2] + T[8-3]
+                        T[8] = T[7] + T[6] + T[5]
+here we just use iterative approach, for each iteration their iteration value is stores and uses for next iteration, in Simple we uses Dynamin Programming.
+
+# Approach :
+1. According to fibonacci series our first 3 numbers is 
+    First No. is 0, => 0 + 0 = 0.
+    Second No. is 1 => 0 + 1 = 1.
+    Third No. is 1 => 0 + 1 = 1.
+2. Hence we initialize res array 1st three elements as 0,1,1 respectively.
+3. because we already declre 1st three numbers we start iteration from 4rth no. till n + 1.
+4. on every iteration it add last 3 results.
+5. return result of n.
+
+# Complexity :
+- Time complexity: O(N)
+- Space complexity: O(N)

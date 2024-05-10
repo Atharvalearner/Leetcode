@@ -1,0 +1,45 @@
+class Solution {
+    public String[] findRelativeRanks(int[] score) {
+        int n = score.length;
+        PriorityQueue<Pair<Integer,Integer>> heap = new PriorityQueue<>((a,b) -> b.getKey() - a.getKey());
+        for(int i = 0; i < n; i++){
+            heap.add(new Pair<>(score[i],i));
+        }
+        String[] rank = new String[n];
+        int place = 1;
+        while(!heap.isEmpty()){
+            Pair<Integer,Integer> pair = heap.poll();
+            int originalInd = pair.getValue();
+            if(place == 1){
+               rank[originalInd] = "Gold Medal";
+            } else if (place == 2) {
+                rank[originalInd] = "Silver Medal";
+            } else if (place == 3) {
+                rank[originalInd] = "Bronze Medal";
+            } else {
+                rank[originalInd] = String.valueOf(place);
+            }
+            place++;
+        }
+        return rank;
+    }
+}
+
+# Intuition :
+assign ranks to athletes based on their scores in a competition. The idea is to use a heap data structure to efficiently keep track of the athletes' scores along with their original indices. Then, we traverse through the heap to assign ranks to each athlete according to their placement. Finally, we return an array containing the ranks of all athletes.
+
+# Approach:
+1. Heap Creation:
+	We start by creating a heap of pairs (score, index) where score is the athlete's score and index is their original index in the input array.
+	We use a max heap where the scores are negated so that we can pop the highest score first.
+2. Assigning Ranks:
+	We initialize a variable place to keep track of the current placement, starting from 1.
+	While the heap is not empty, we pop elements one by one.
+3. For each popped element, we retrieve its original index and assign a rank based on its placement:
+	If the place is 1, we assign "Gold Medal".
+	If the place is 2, we assign "Silver Medal".
+	If the place is 3, we assign "Bronze Medal".
+	For all other places, we simply assign the place number as a string.
+	After assigning the rank, we increment the place variable.
+4. Output:
+	Finally, we return the array containing the ranks of all athletes.

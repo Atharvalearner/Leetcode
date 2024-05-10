@@ -1,0 +1,47 @@
+class Solution {
+    public long maximumHappinessSum(int[] happiness, int k) {
+        Arrays.sort(happiness);
+        long ans = 0;
+        int index = 0;	// track the index
+        int last = happiness.length;	// length of happiness array
+        for(int i = last-1; i >= last - k; i--){	// it will iterate the k block elements.
+            ans += Math.max(0,happiness[i] - index);	// update the max ans by calculating the happiness of current value minus current index, and it must be positive.
+            index++;	
+        }
+        return ans;
+    }
+}
+
+# Dry - Run :
+Initial State:
+
+Happiness: [1, 2, 3]
+k = 2
+Total happiness sum = 0
+Step 1:
+
+Sort the happiness array in descending order: [3, 2, 1]
+Pick the child with the highest happiness value (3).
+Subtract its index (0) from its happiness value: 3 - 0 = 3
+Add this to the total happiness sum: 0 + 3 = 3
+Decrease the happiness of the remaining children by 1: [2, 1, 0]
+Decrement k: k = 1
+Step 2:
+
+Pick the child with the next highest happiness value (2).
+Subtract its index (1) from its happiness value: 2 - 1 = 1
+Add this to the total happiness sum: 3 + 1 = 4
+Decrease the happiness of the remaining child by 1: [1, 0, 0]
+Decrement k: k = 0
+Step 3:
+
+Since k has reached 0, we stop.
+The total happiness sum is 4.
+Final Output:
+
+Total happiness sum = 4
+So, the output is 4, as explained in the example.
+
+# Complexity :
+Time complexity: O(nlogn + min(k, n))
+Space complexity: O(1)

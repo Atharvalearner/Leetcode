@@ -1,0 +1,61 @@
+# Approach 1 :
+1. Uses DFS, where we going through each node and calculate their current value by simple Maths.
+2. Initialize sum as 0, then for current value = (current_value * 10) + currentRoot value.
+3. eg. 4, 9, 0, 5 then 
+    when currValue = 4 then sum = (0 * 10) + 4 = 4,
+    when currValue = 9 ( left of 4) then sum = (4 * 10) + 9 = 49,
+    when currValue = 0 ( right of 4) then sum = (4 * 10) + 0 = 40,
+    when currValue = 5 ( left of 9) then sum = (49 * 10) + 5 = 495.
+4. hence, we add it into sum when we are on leaf node.
+5. and traverse in both left and right till root is not become null.
+
+```
+class Solution { 
+    public int sumNumbers(TreeNode root) {
+        int sum = 0;
+        return traverse(root,sum);
+    }
+    public int traverse(TreeNode root, int sum){
+        if(root == null){
+            return 0;
+        }
+        sum = (sum * 10) + root.val;
+        if(root.left == null && root.right == null){
+            return sum;
+        }
+        return traverse(root.left,sum) + traverse(root.right,sum);
+    }
+}
+```
+
+# Approach 2:
+1. intialize sum as 0 which is global variable.
+2. helper function is use for traverse and calculate sum.
+3. intialize String str as "",if current root is not null or not leaf then current root value will be concatenate to that str.
+4. if current root is leaf node then we just convert that string format integer value into Integer by using parseInt method and add it to sum.
+5. we iterate the tree left and right till root not become null.
+
+```
+class Solution {
+    int sum=0;
+    public int sumNumbers(TreeNode root) {
+        helper(root,"");
+        return sum;
+    }
+    public void helper(TreeNode root,String str){
+        if(root==null){
+            return;
+        }
+        str+=root.val;
+        if(root.left==null && root.right==null){
+            sum+=Integer.parseInt(str);
+            return;
+        }
+        helper(root.left,str);
+        helper(root.right,str);
+    }
+} 
+```
+# Complexity
+- Time complexity: O(N)
+- Space complexity: O(H)

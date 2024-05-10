@@ -1,0 +1,66 @@
+class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        if (n == 1) {
+            return Collections.singletonList(0); // Only one node, return the root
+        }
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        int[] degrees = new int[n];
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            graph.computeIfAbsent(u, k -> new ArrayList<>()).add(v);
+            graph.computeIfAbsent(v, k -> new ArrayList<>()).add(u);
+            degrees[u]++;
+            degrees[v]++;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (degrees[i] == 1) {
+                queue.offer(i);
+            }
+        }
+        int remainingNodes = n;
+        while (remainingNodes > 2) {
+            int size = queue.size();
+            remainingNodes -= size;
+            for (int i = 0; i < size; i++) {
+                int leaf = queue.poll();
+                if (graph.containsKey(leaf)) {
+                    for (int neighbor : graph.get(leaf)) {
+                        degrees[neighbor]--;
+                        if (degrees[neighbor] == 1) {
+                            queue.offer(neighbor);
+                        }
+                    }
+                    graph.remove(leaf); // Optional: Remove leaf node from the graph
+                }
+            }
+        }
+        return new ArrayList<>(queue);
+    }
+}
+
+# Intiution :
+Given an undirected graph represented as an edge list edges with n nodes labeled from 0 to n-1, find the minimum height trees (MHTs) and return their root labels.
+A minimum height tree is defined as a tree where the root(s) are the nodes that minimize the height (distance) between the root(s) and all other nodes in the graph.
+
+📤Output:
+Return a list of integers representing the root labels of the minimum height trees.
+
+✅Approach:
+1. Graph Representation:
+	Construct an adjacency list graph from the given edges. This represents the undirected graph.
+2. Identify Leaf Nodes:
+	Initialize a degrees list to keep track of the degree (number of neighbors) of each node.
+	Iterate through the edges to populate graph and update degrees accordingly.
+	Enqueue all leaf nodes (nodes with only one neighbor) into a queue.
+3. Breadth-First Search (BFS) Iteration:
+	Use a queue initialized with leaf nodes.
+	While there are more than 2 nodes remaining (remaining_nodes > 2), perform the following:
+	Remove the current leaf nodes from the queue.
+	For each removed leaf node, reduce the degree of its neighboring nodes in degrees.
+	If any of the neighboring nodes become leaf nodes (degree equals 1 after removal of its neighbor), enqueue them into the queue.
+	Decrement the remaining_nodes counter by the number of nodes processed in the current iteration.
+4. Result Extraction:
+	After the BFS iterations, the nodes left in the queue are potential root nodes of the minimum height trees.
+	Convert the queue into a list and return it as the result.

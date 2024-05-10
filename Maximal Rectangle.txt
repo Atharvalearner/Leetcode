@@ -1,0 +1,42 @@
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        if(matrix.length == 0){
+            return 0;
+        }
+        int l = matrix.length;
+        int b = matrix[0].length;
+        int[] left = new int[b];
+        int[] right = new int[b];
+        int[] height = new int[b];
+        Arrays.fill(right, b);
+
+        int area = 0;
+        for(int row = 0; row < l; row++){
+            int start = 0, end = b;
+            for(int col = 0; col < b; col++){
+                if(matrix[row][col] == '1'){
+                    height[col]++;
+                    left[col] = Math.max(start, left[col]);
+                }else{
+                    start = col + 1;
+                    height[col] = 0;
+                    left[col] = 0;
+                    right[col] = b;
+                }
+            }
+
+            for(int col = b - 1; col >= 0; col--){
+                if(matrix[row][col] == '1'){
+                    right[col] = Math.min(end, right[col]);
+                    area = Math.max(area, height[col] * (right[col] - left[col]));
+                }else{
+                    end = col;
+                }
+            }
+        }
+        return area;
+    }
+}
+
+# Complexity :
+- Time : O(N ^ 2)

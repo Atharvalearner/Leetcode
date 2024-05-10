@@ -1,0 +1,38 @@
+class Solution {
+    int count = 0;	// count perimeter
+    public int islandPerimeter(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        for(int row = 0; row < n; row++){
+            for(int col = 0; col < m; col++){
+                if(grid[row][col] == 1){	// if current grid is of island then check for its perimeter.
+                    findIland(grid,row,col);
+                }
+            }
+        }
+        return count;
+    }
+    public void findIland(int[][] grid, int row, int col){
+        if(row < 0 || col < 0 || row >= grid.length || col >= grid[row].length){	// when we hit a index out of bound means like -1 or greater grid length it is boundary (we are crossing a boundary) we add 1 to the peremeter, because as we seen in image as well boundry connnected with island is also count in perimeter hence we increment count.
+            count++;
+            return;
+        }
+        if(grid[row][col] == 0){	// when we hit 0 means there is boundry between water and island hence we also count that boundry as perimeter, hence we increment count.
+            count++;
+            return;
+        }
+        if(grid[row][col] == -1){	// if we hit -1 then that means we already calculated perimeter of that box, hence we return.
+            return;
+        }
+        grid[row][col] = -1;		// marking the visited block as -1, so that we dont traverse it more than once and it should not affect the peremeter.
+        findIland(grid,row,col-1);	// left
+        findIland(grid,row,col+1);	// right
+        findIland(grid,row-1,col);	// top
+        findIland(grid,row+1,col);	// down
+        return;
+    }
+}
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(N * M)

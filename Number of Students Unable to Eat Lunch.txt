@@ -1,0 +1,42 @@
+class Solution {
+    public int countStudents(int[] students, int[] sandwiches) {
+        int cirCount = 0, sqrCount = 0;
+        for(int i = 0; i < students.length; i++){
+            if(students[i] == 0){
+                cirCount++;
+            }else{
+                sqrCount++;
+            }
+        }
+        for(int i = 0; i < sandwiches.length; i++){
+            if(sandwiches[i] == 0){
+                if(cirCount > 0){
+                    cirCount--;
+                }else{
+                    break;
+                }
+            }else if(sandwiches[i] == 1){
+                if(sqrCount > 0){
+                    sqrCount--;
+                }else{
+                    break;
+                }
+            }
+        }
+        return cirCount + sqrCount;
+    }
+}
+
+# Intitution : 
+count circular and sqr sandwitches and check how many of them are eaten by student if count of sandwiches is lesser than eater then we return remaining student, else we just decrement the sandwich eater.
+
+# Approach :
+1. we iterate the student array and count the both type sandwich eater student as cirCount for 0 and sqrCount for 1.
+2. then we iterate sandwiches array.
+3. if current sandwich is circular and cirCount is greater than 0, that means student can eat that sandwich hence we decrement cirCount and move to next student.else if their is not remain any circular Sandwich then how that student eat sandwich hence we break from that.
+4. if current sandwich is square and sqrCount is greater than 0, that means student can eat that sandwich hence we decrement sqrCount and move to next student.else if their is not remain any square Sandwich then how that student eat sandwich hence we break from that.
+5. return that remaining student if any exist then we return it as combination of both cirCount and sqrCount.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

@@ -1,0 +1,26 @@
+class Solution {
+    public String reversePrefix(String word, char ch) {
+        int chInd = word.indexOf(ch);
+        StringBuilder s1 = new StringBuilder();
+        for(int i = 0; i <= chInd; i++){
+            char curr = word.charAt(i);
+            s1.append(curr);
+        }
+        s1.reverse();
+        String s2 = word.substring(chInd + 1);
+        return s1.toString() + s2;
+    }
+}
+
+# Approach :
+1. Find the index of the first occurrence of character ch in the string word.
+2. If the character ch is not found, return the original string.
+3. Create a StringBuilder to store the reversed segment.
+4. Iterate from index 0 to the index of the first occurrence of ch (inclusive), appending characters to the StringBuilder.
+5. Reverse the StringBuilder.
+6. Concatenate the reversed segment with the remaining part of the string after the index of the first occurrence of ch
+7. return the result string.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

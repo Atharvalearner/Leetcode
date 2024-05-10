@@ -1,0 +1,52 @@
+class Solution {
+    public void rotate(int[][] matrix) {
+	// here we just transpose the matrix means we swap rows value to column and column values to rows.
+        for(int row = 0; row < matrix.length; row++){
+            for(int col = row; col < matrix[0].length; col++){
+                int temp = matrix[row][col];
+                matrix[row][col] = matrix[col][row];
+                matrix[col][row] = temp;
+            }
+        }
+	// here we reverse the each row by doing this we got our result.
+        for(int row = 0; row < matrix.length; row++){
+            int leftCol = 0, rightCol = matrix.length - 1;
+            while(leftCol < rightCol){
+                int temp = matrix[row][leftCol];
+                matrix[row][leftCol] = matrix[row][rightCol];
+                matrix[row][rightCol] = temp;
+                leftCol++;
+                rightCol--;
+            }
+        }
+    }
+}
+
+# Intuition :
+1. original matrix.
+	1  2  3             
+	4  5  6
+	7  8  9
+2. After transpose, it will be swap(matrix[i][j], matrix[j][i])
+	1  4  7
+	2  5  8
+	3  6  9
+3. Then flip the matrix horizontally. (swap(matrix[i][j], matrix[i][matrix.length-1-j])
+	7  4  1
+	8  5  2
+	9  6  3
+
+# Approach :
+1. Transpose Step:
+	The transpose method swaps the elements across the main diagonal of the matrix.
+	It iterates through the upper triangle of the matrix (matrix[i][j] and matrix[j][i]) and exchanges the values.
+2. Reverse Rows Step:
+	The reverseRows method then reverses each row of the transposed matrix.
+	For each row (matrix[r]), it uses two pointers (left and right) to swap elements symmetrically across the center.
+3. Combination in rotate Method:
+	The rotate method combines these two steps to achieve a 90-degree clockwise rotation.
+	It first transposes the matrix and then reverses the rows of the transposed matrix.
+
+# Complexity :
+- Time : O(N*N)
+- Space : O(1)

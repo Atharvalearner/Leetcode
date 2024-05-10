@@ -1,0 +1,54 @@
+class Solution {
+    public int findRotateSteps(String ring, String key) {
+        char[] rng = ring.toCharArray();
+        int n = key.length();
+        int m = rng.length;
+        List<Integer>[] positions = new List[26];
+	
+	// Store the positions of each character in the ring
+        for(int i = 0; i < rng.length; i++){
+            int ch = rng[i] - 'a';
+            if(positions[ch] == null){
+                positions[ch] = new ArrayList<>();
+            }
+            positions[ch].add(i);
+        }
+
+	// Dynamic programming memoization
+        int[][] memorizer = new int[n][m];
+	
+	// Start with the first character of the key at position 0
+        return helper(0,0,positions,key.toCharArray(),rng,memorizer);
+    }
+    public int helper(int currKeyInd, int pos,List<Integer>[] positions,char[] key,char[] ring,int[][] memorizer){
+        // If all characters of the key have been matched, return 0
+	if(currKeyInd == key.length){
+            return 0;
+        }
+	// If this state has already been computed, return the cached result
+        if(memorizer[currKeyInd][pos] > 0){
+            return memorizer[currKeyInd][pos];
+        }
+        char currKey = key[currKeyInd];		// Current character in the key
+        List<Integer> possiblePos = positions[currKey - 'a'];		// List of possible positions of the current character in the ring.
+        int minSteps = Integer.MAX_VALUE;
+        for(int currPos : possiblePos){		// Iterate through possible positions and calculate minimum steps
+            int steps = Math.min(Math.abs(currPos - pos), ring.length - Math.abs(currPos - pos));	// Calculate the steps to move from the current position to the next position
+            int totalSteps = steps + helper(currKeyInd+1, currPos, positions, key, ring, memorizer);	 // Calculate steps for remaining characters recursively
+            minSteps = Math.min(minSteps,totalSteps);
+        }
+        return memorizer[currKeyInd][pos] = minSteps + 1;	// Cache the result and return
+    }
+}
+
+# Approach:
+1. Convert the ring string into a character array and store the positions of each character in a list of arrays.
+2. Initialize a memoization array to store the minimum steps required to reach each position for each character index in the key.
+3. Use a recursive function (helper) to explore all possible transitions from the current character to the next character in the key.
+4. Within the helper function, calculate the minimum steps needed to transition to each possible position for the current character in the ring.
+5. Update the memoization array with the minimum steps calculated.
+6. Return the minimum steps needed to spell out the entire key.
+
+# Complexity :
+- Time : O(N * M)	
+- Space : O(N * M)

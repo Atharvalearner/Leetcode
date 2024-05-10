@@ -1,0 +1,56 @@
+class Solution {
+    public int[][] findFarmland(int[][] land) {
+        List<int[]> res = new ArrayList<>();
+        int n = land.length;
+        int m = land[0].length;
+        for(int row = 0; row < n; row++){
+            for(int col = 0; col < m; col++){
+                if(land[row][col] == 1){
+                    int[] coordinates = check(land,row,col);
+                    res.add(coordinates);
+                }
+            }
+        }
+        return res.toArray(new int[res.size()][]);
+    }
+    public int[] check(int[][] land,int row,int col){
+        int[] ans = new int[4];
+        ans[0] = row;
+        ans[1] = col;
+        int n = land.length, m = land[0].length;
+        int r = row, c = col;			// it uses when we found the group then using this we iterate the group cell and set them as 0 because we cannot need to revisit it again.
+        while(r < n && land[r][col] == 1){	// we increment row till we cannot go outoff matrix boundry or not the farmland.
+            r++;
+        }
+        while(c < m && land[row][c] == 1){	// we increment col till we cannot go outoff matrix boundry or not the farmland.
+
+            c++;
+        }
+        ans[2] = r - 1;		// because we increment row and col till outoff matrix we need coordinates under the matrix we decrement row and col by 1 and set 3rd and 4rth coordinates respectively.
+        ans[3] = c - 1;
+        for(int i = row; i < r; i++){	// when we found whole group make whole group cell as 0,because we cannot need to revisit it again.
+            for(int j = col; j < c; j++){
+                land[i][j] = 0;
+            }
+        }
+        return ans;
+    }
+}
+
+# Intuition :
+we traverse the 2D matrix. Whenever we encounter a cell with a value of 1 (indicating farmland), we find the coordinates of the top-left and bottom-right corners of the group of farmland containing that cell. We add these coordinates to our result list and mark all cells within the group as visited by setting their values to 0.
+
+# Approach :
+1. Initialize an empty list result to store the coordinates of the top-left and bottom-right corners of each group of farmland.
+2. Traverse the 2D matrix land using two nested loops.
+3. For each cell in land, if the cell contains farmland (value = 1), call the check method to find the coordinates of the farmland group.
+4. Inside the check method,we already got the left top coordinates by adding given current row and col coordinates, that set as ans[0] and ans[1] respectively then start with the current cell and traverse down and right to find the bottom-right corner of the farmland group if current cell farmland and under the boundry of matrix then make row++ or col++ according to our conditions.
+5. While traversing down and right, mark all visited cells as 0 to avoid revisiting them.
+6. after traversing and finding grop set 3rd and 4rth coordinates of bottom right as row-1 and col-1.
+7. Return the coordinates of the top-left and bottom-right corners of the farmland group.
+8. Add the coordinates to the result list.
+9. After traversing the entire land, return the result list.
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(K) 		// k is no. of groups of farmland.we store coordinates of each group in res list.

@@ -1,0 +1,19 @@
+class Solution {
+    public int maxSubarrayLength(int[] nums, int k) {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        int left = 0, res = 0;
+        for(int right = 0; right < nums.length; right++){
+            hm.put(nums[right], hm.getOrDefault(nums[right],0) + 1);	// stores hash values of each key.
+            while(hm.get(nums[right]) > k){	// the sliding window move till the element with higher value than k is not found. and if it is found then left pointer will track it and decrement the left element value.
+                hm.put(nums[left], hm.get(nums[left]) - 1);
+                left++;
+            }
+            res = Math.max(res, right - left + 1);	// gives sliding window size.
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)	// because we uses hashmaps.

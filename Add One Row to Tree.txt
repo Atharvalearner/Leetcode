@@ -1,0 +1,42 @@
+class Solution {
+    public TreeNode addOneRow(TreeNode root, int val, int depth) {
+        if (root == null){
+            return root;
+        }
+        if(depth == 1){		// when given depth is 1, as we know if their is no any node then we create a new treenode with given val and just add root to its left.
+            TreeNode node = new TreeNode(val);
+            node.left = root;
+            return node;
+        }
+        if(depth == 2){		// because we cannot change on depth node we find out their parent node which exist at depth 2.when it arrives we create left and right node which consist value val. also create temp1 and temp2 for delocate parent left and right child resp. then we just connect parent root left with our left nod and root right with right node then connect left node left child as temp1 and right node right as temp2.
+            TreeNode left = new TreeNode(val);
+            TreeNode right = new TreeNode(val);
+            TreeNode temp1 = root.left;
+            TreeNode temp2 = root.right;
+            root.left = left;
+            root.right = right;
+            left.left = temp1;
+            right.right = temp2;
+        }
+        else{	// else we are not required node hence we move to left and right, by decrement the depth for every level.
+            addOneRow(root.left,val,depth-1);
+            addOneRow(root.right,val,depth-1);
+        }
+        return root;
+    }
+}
+
+# Intitution :
+We solve this by depth-first search (DFS) solution.
+
+We can use the depth variable (d) as a countdown of sorts, decrementing it as we traverse downward through the tree until we get to our destination row. Since we're going to need to attach the new nodes at d to their parents, we should actually perform our operations when d = 2, rather than d = 1, so that we have access to the parent node.
+
+This also allows us to deal with the sticky edge case of when the original value of d is 1. Since no parent exists for the original root, we'll have to just create our new node and attach the root to it before returning. This can only ever happen on the initial function call, as otherwise we will never reach d = 1 in any later recursion.
+
+The function will return the node each recursion, but since we're not doing anything with the return value when the the function is called internally, it will only really be meaningful on the original function call.
+
+This works because we're passing node references through the recursion, so the tree object is being modified regardless of return values.
+
+# Complexity :
+- Time : O(N)
+- Space : O(H)

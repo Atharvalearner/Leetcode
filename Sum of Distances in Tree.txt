@@ -1,0 +1,40 @@
+class Solution {
+    List<List<Integer>> graph;
+    int[] subtreeSizes;
+    int[] distanceSums;
+    public int[] sumOfDistancesInTree(int n, int[][] edges) {
+        graph = new ArrayList<>();	// Initialize tree as adjacency list, subtree sizes and distance sums.
+        subtreeSizes = new int[n];
+        distanceSums = new int[n];
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] edge : edges){
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+        dfs1(0,-1);		// First DFS to calculate subtree sizes and initial distance sums at root (0).
+        dfs2(0,-1);		// Second DFS to adjust distances based on the parent's computed values
+        return distanceSums;
+    }
+    public void dfs1(int node,int parent){
+        subtreeSizes[node] = 1;			// Start with counting itself
+        for(int neighbour : graph.get(node)){
+            if(neighbour == parent){		// Avoid going back to parent
+                continue;
+            }
+            dfs1(neighbour,node);
+            subtreeSizes[node] += subtreeSizes[neighbour];	
+            distanceSums[0] += distanceSums[neighbour] + subtreeSizes[neighbour];
+        }
+    }
+    public void dfs2(int node,int parent){
+        for(int neighbour : graph.get(node)){	// Root's distance sum is already computed in dfs1
+            if(neighbour == parent){
+                continue;
+            }
+            distanceSums[neighbour] = distanceSums[node] - subtreeSizes[neighbour] + (subtreeSizes.length - subtreeSizes[neighbour]);	// Compute the distance sum for the neighbor based on the node's distance sum
+            dfs2(neighbour,node);
+        }
+    }
+}

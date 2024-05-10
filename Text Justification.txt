@@ -1,0 +1,87 @@
+class Solution {
+    public List<String> fullJustify(String[] currWords, int maxWidth) {
+        List<List<String>> res = new ArrayList<>();
+        List<String> currLine = new ArrayList<>();
+        int lineLength = 0;
+        for (String currWord : currWords) {
+            if (lineLength + currLine.size() + currWord.length() <= maxWidth) {	
+                currLine.add(currWord);
+                lineLength += currWord.length();
+            } else {
+                res.add(currLine);
+                currLine = new ArrayList<>();
+                currLine.add(currWord);
+                lineLength = currWord.length();
+            }
+        }
+        res.add(currLine);
+        List<String> justifiedLines = new ArrayList<>();
+        for (int i = 0; i < res.size() - 1; i++) {
+            currLine = res.get(i);
+            int numWords = currLine.size();
+            int numSpaces = maxWidth - currLine.stream().mapToInt(String::length).sum();
+            int spaceGaps = Math.max(numWords - 1, 1);
+            int spacesPerGap = numSpaces / spaceGaps;
+            int extraSpaces = numSpaces % spaceGaps;
+            StringBuilder justifiedLine = new StringBuilder();
+            for (String currWord : currLine) {
+                justifiedLine.append(currWord);
+
+                if (spaceGaps > 0) {
+                    int spacesToAdd = spacesPerGap + (extraSpaces > 0 ? 1 : 0);
+                    justifiedLine.append(" ".repeat(spacesToAdd));
+                    extraSpaces -= 1;
+                    spaceGaps -= 1;
+                }
+            }
+            justifiedLines.add(justifiedLine.toString());
+        }
+        StringBuilder lastLine = new StringBuilder(String.join(" ", res.get(res.size() - 1)));
+        lastLine.append(" ".repeat(maxWidth - lastLine.length()));
+        justifiedLines.add(lastLine.toString());
+        return justifiedLines;        
+    }
+}
+
+# Intuition :
+The algorithm justifies a given list of words into lines with a specified maximum width. It iterates through the words, adding them to a line if they fit within the width limit, or starts a new line if not. After splitting the text into lines, it evenly distributes extra spaces among words to justify the lines, ensuring the last line is left-justified. The final justified lines are returned as a result.
+
+# Approach :
+1 . Initialize an empty list result to store the final justified lines.
+	Initialize an empty list line to temporarily store words for the current line being processed.
+	Initialize an integer variable line_length to track the length of words in the current line.
+2. Loop through Words:
+	Loop through each word in the words list.
+	Check if adding the current word to the current line would exceed the maxWidth for the line.
+	If the addition doesn't exceed, append the word to the line and update the line_length accordingly.
+	If the addition exceeds, append the current line to the result, start a new line with the current word, and update line_length.
+3. Append Last Line:
+	Append the last line to the result.
+4. Initialization for Justified Lines:
+	Initialize an empty list justified_lines to store the lines after justification.
+5. Loop through Lines for Justification:
+	Loop through each line in result except the last one (from 0 to len(result) - 2).
+	Get the current line from the result.
+	Calculate the total number of words in the line as num_words.
+	Calculate the total number of spaces available for justification as num_spaces by subtracting the sum of lengths of words in the line from maxWidth.
+6. Handle Zero Space Gaps:
+	Calculate the number of space gaps (space_gaps) by taking the maximum of num_words - 1 and 1 (to ensure there's at least one gap).
+7. Calculate Spaces per Gap:
+	Calculate the number of spaces per gap (spaces_per_gap) by performing integer division num_spaces // space_gaps.
+8. Calculate Extra Spaces:
+	Calculate the remaining extra spaces (extra_spaces) after distributing spaces evenly among gaps using modulo num_spaces % space_gaps.
+9. Building Justified Line:
+	Initialize an empty string justified_line to build the justified line.
+	Iterate through each word in the line.
+	Concatenate the word to the justified_line.
+	Check if there are more spaces to distribute (space_gaps > 0).
+	If yes, calculate the number of spaces to add (spaces_to_add) by adding spaces_per_gap and an extra space if extra_spaces is greater than 0.
+	Concatenate the calculated number of spaces to the justified_line.
+	Decrement extra_spaces and space_gaps.
+10. Append Justified Line:
+	Append the justified_line to the justified_lines list.
+11. Construct the Last Line:
+	Join the words in the last result line with a single space to form the last_line.
+	Add the required number of spaces at the end to make the total length maxWidth.
+12. Append the last_line to the justified_lines list.
+13. Return the list of justified_lines.

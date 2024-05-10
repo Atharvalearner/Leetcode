@@ -1,0 +1,42 @@
+class Solution {
+    public long countSubarrays(int[] nums, int k) {
+        int max = Integer.MIN_VALUE;
+        for(int num : nums){
+            max = Math.max(max, num);	// gives max element.
+        }
+        int left = 0, right = 0, count = 0;
+        long res = 0;
+        while(right < nums.length){
+            if(nums[right] == max){	// if current element of nums is max then we just increment count.
+                count++;
+            }
+            if(count >= k){		// if count is greater and equal to k then we just iterate the array.
+                while(count >= k){	// we iterate the array till sliding window is not close the condition.
+                    res = res + nums.length - right;	// it just add the res as valid subarray which end at right.
+                    if(nums[left] == max){	// if our left nums element is max then we just decrement the count.
+                        count--;
+                    }
+                    left++;	// else we move left to next.
+                }
+            }
+            right++;	// else move right pointer to next.
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. n stores the total number of elements in the given nums array.
+2. max stores the maximum element present in the nums array.
+3. left and right are pointers used for sliding through the array, cnt counts occurrences of max, and ans accumulates the total count of subarrays.
+
+Sliding Window Approach:
+4. The code uses a sliding window approach to count subarrays that contain at least k occurrences of the maximum element (max).
+5. right iterates through the array, counting occurrences of max.
+6. When the count cnt of occurrences of max reaches or exceeds k, it enters the inner loop (for loop).
+7. In the inner loop, left slides from the beginning of the array, counting subarrays that have at least k occurrences of max.
+8. For each right, ans increments by n - right (the number of valid subarrays ending at position j).
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
