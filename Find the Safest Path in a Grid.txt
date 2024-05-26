@@ -1,0 +1,94 @@
+class Solution {
+    public static final int[][] directions = {{0,1},{0,-1},{1,0},{-1,0}};
+    public int maximumSafenessFactor(List<List<Integer>> grid) {
+        int n = grid.size();
+        int m = grid.get(0).size();
+        Queue<int[]> g = new LinkedList<>();
+        for(int row = 0;row < n;row++){
+            for(int col = 0;col < m;col++){
+                if(grid.get(row).get(col) == 1){
+                    g.offer(new int[]{row,col});
+                    grid.get(row).set(col,0);
+                }else{
+                    grid.get(row).set(col,-1);
+                }
+            }
+        }
+        bfs(grid,g,n,m);
+        return safeness(grid,n,m);
+    }
+    public void bfs(List<List<Integer>> grid,Queue<int[]> g, int n, int m){
+        while(!g.isEmpty()){
+            int size = g.size();
+            for(int i = 0; i < size; i++){
+                int[] current = g.poll();
+                int row = current[0], col = current[1];
+                int value = grid.get(row).get(col);
+                for(int[] direction : directions){
+                    int newRow = row + direction[0];
+                    int newCol = col + direction[1];
+                    if(inBound(newRow,newCol,n,m) && grid.get(newRow).get(newCol) == -1){
+                        grid.get(newRow).set(newCol,value+1);
+                        g.offer(new int[]{newRow,newCol});
+                    }
+                }
+            }
+        }
+    }
+    public int safeness(List<List<Integer>> grid,int n, int m){
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        priorityQueue.offer(new int[]{-grid.get(0).get(0), 0, 0});
+        grid.get(0).set(0, -1);
+        while(!priorityQueue.isEmpty()){
+            int[] current = priorityQueue.poll();
+            int safeness = -current[0];
+            int row = current[1];
+            int col = current[2];
+            if (row == n - 1 && col == m - 1) {
+                return safeness;
+            }
+            for (int[] direction : directions) {
+                int newRow = row + direction[0];
+                int newCol = col + direction[1];
+                if (inBound(newRow, newCol, n, m) && grid.get(newRow).get(newCol) != -1) {
+                    priorityQueue.offer(new int[]{-Math.min(safeness, grid.get(newRow).get(newCol)), newRow, newCol});
+                    grid.get(newRow).set(newCol, -1); // Mark as visited
+                }
+            }
+        }
+        return -1;
+    }
+    public boolean inBound(int row, int col, int n, int m) {
+        return 0 <= row && row < n && 0 <= col && col < m;
+    }
+}
+
+# Intuition :
+1. Breadth-First Search (BFS) Initialization:
+	Thieves are the starting points, and the goal is to calculate the minimum distance from each cell to the nearest thief.
+	By using BFS, we can propagate the distances from the thieves to all other cells efficiently.
+2. Safeness Calculation:
+	The safeness factor for a path from the top-left corner to the bottom-right corner of the grid is the minimum distance to a thief encountered along the path.
+	By using a priority queue, we can explore paths in descending order of safeness, ensuring we find the path with the highest possible safeness factor first.
+
+# Approach :
+1. Setup and Initialization:
+	Define the possible directions for movement (right, left, down, up).
+	Initialize the dimensions of the grid (nRows and nCols).
+2. In-Bounds Check:
+	Create a helper function inBound to check if a cell is within the grid boundaries.
+3. Breadth-First Search (BFS):
+	Initialize a deque thievesGrids to store the coordinates of thief cells.
+	Mark thief cells with a distance of 0 (initial safeness value) and other cells with -1 (unvisited).
+	Use BFS to update the safeness values (distances to the nearest thief) for all cells in the grid.
+4. Calculate Safeness:
+	Initialize a priority queue to explore paths based on safeness.
+	Start from the top-left corner with the safeness value of that cell.
+5. Use a while loop to process the cells in the priority queue:
+	If the current cell is the bottom-right corner, return the safeness value (negative because of max-heap emulation).
+	For each neighboring cell, if it's within bounds and unvisited, push it onto the priority queue with the updated safeness value (minimum safeness value encountered so far).
+6. If no valid path is found, return -1.
+
+# Complexity :
+- Time : O(N^2*log(N))
+- Space : O(N^2)

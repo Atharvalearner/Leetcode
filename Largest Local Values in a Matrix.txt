@@ -1,0 +1,35 @@
+class Solution {
+    public int[][] largestLocal(int[][] grid) {
+        int[][] res = new int[ grid.length-2 ][ grid.length-2 ];	// output matrix size is (n-2) * (n-2).
+        for(int row = 0; row < res.length; row++){			// iterate through the output matrix row and col and fill up the max values.
+            for(int col = 0; col < res.length; col++){
+                int max = 0;				// for every cell of output matrix the max is initialize as 0.
+                for(int i = row; i < row + 3; i++){	// for fill up the max value into output cell we iterate the grid of size from current output cell row and col as 3 * 3
+                    for(int j = col; j < col + 3; j++){
+                        max = Math.max(max,grid[i][j]);		// update the max value.
+                    }
+                }
+                res[row][col] = max;	// set the max value for current row and col of output matrix cell.
+            }
+        }
+        return res;
+    }
+}
+
+# Intuition :
+our output matrix of size (n-2) * (n-2).
+every time we select 3 * 3 matrix and from that we find max value.
+after finding max we put that max into output matrix cell.
+
+# Approach: ( Sliding Window )
+1. initialize output res matrix of size (n-2) * (n-2).
+2. iterate through the output matrix and fill up the max values.
+3. for every cell of output matrix the max is initialize as 0.
+4. for fill up the max value into output cell we iterate the grid of size 3 * 3.
+5. among that we find max value .
+6. after iterate the grid we fill out output matrix cell.
+7. return result output matrix.
+
+# Complexity :
+- Time complexity: O(n^2)
+- Space complexity: O(n^2)

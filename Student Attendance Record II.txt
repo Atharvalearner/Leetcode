@@ -1,0 +1,55 @@
+class Solution {
+    public static final int MOD = 1000000000 + 7;
+    public int checkRecord(int n) {
+        int prevDp[][] = new int[2][3];
+        prevDp[0][0] = 1;
+        prevDp[0][1] = 1;
+        prevDp[0][2] = 1;
+        prevDp[1][0] = 1;
+        prevDp[1][1] = 1;
+        prevDp[1][2] = 1;
+        for(int i = 1; i <= n; i++){
+            int newDp[][] = new int[2][3];
+            for(int absent = 0; absent < 2; absent++){
+                for(int late = 0; late < 3; late++){
+                    newDp[absent][late] = newDp[absent][late] + prevDp[absent][2];
+                    if(absent > 0){
+                        newDp[absent][late] = newDp[absent][late] + prevDp[absent - 1][2];
+                        newDp[absent][late] = newDp[absent][late] % MOD;
+                    }
+                    if(late > 0){
+                        newDp[absent][late] = newDp[absent][late] + prevDp[absent][late - 1];
+                        newDp[absent][late] = newDp[absent][late] % MOD;
+                    }
+                }
+            }
+            prevDp = newDp;
+        }
+        return prevDp[1][2];
+    }
+}
+
+# Approach :
+To optimise it, we going to use memoisation, so we can add like a cache, and the cache will going to be based on these three values int n, int numAbsensesRemaining, int numLatesRemaining but this will also time limit exceeded because the, recursion will going to become too deep, because every-time we are like recursing on n-1 and it becomes too deep.
+
+we're basically just using the values, from n - 1 and with different indexes of absence remaining and late remaining. If we know that n - 1 in records, we can then use that and compute the next one preety efficiently. If we make from an iterative solution, where everything start from zero and everything is one, like n = 0 regardless of these two int numAbsensesRemaining, int numLatesRemaining it's one
+
+And then we'll compute the n = 1, n = 2, and so on and so forth. So you can think of it like a 3-D Array.
+
+# Explanation:
+1. Initialization:
+	- The prevDP matrix is initialized with base cases, representing the number of valid attendance records for 0 days (all are valid, so they are set to 1).
+2. Iteration through Days:
+	- For each day from 1 to n, a new DP table (newDP) is created and filled based on the previous day's table (prevDP).
+3. Inner Loops:
+	- The loops iterate through all possible states of absences (a = 0 or 1) and consecutive lates (l = 0 to 2).
+	- For each state, the number of valid records is updated based on three possible choices: picking 'P' (Present), 'A' (Absent), or 'L' (Late).
+	- Each update is done while ensuring the value remains within the bounds of MOD to prevent overflow.
+Updating the DP Table:
+	- After processing all states for the current day, the newDP table becomes the prevDP table for the next iteration.
+4. Result:
+	- After processing all n days, the result is found in prevDP[1][2], which represents records with at most 1 absence and at most 2 consecutive lates.
+
+# Complexity :
+Time : O(N)
+Space : O(1)

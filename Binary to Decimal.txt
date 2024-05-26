@@ -1,0 +1,9 @@
+class Solution{
+    public int BinaryToDecimal(int[] arr){	// it traverse all binary number of current array and calculate the decimal value by using formula PreviousAns * 2 + currentNumber.
+        int ans = 0;
+        for(int num : arr){
+            ans = ans * 2 + num;
+        }
+        return ans;
+    }
+}

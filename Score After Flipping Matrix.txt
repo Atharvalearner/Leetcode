@@ -1,0 +1,62 @@
+class Solution {
+    public int matrixScore(int[][] grid) {
+        int n = grid.length, m = grid[0].length;
+        int max = 0;
+        for(int row = 0; row < n; row++){
+            if(grid[row][0] == 0){	// if current row having 0's then we flip it values.
+                flipRow(grid,row);
+            }
+        }
+        for(int col = 1; col < m; col++){	// count number of 1's in column if number of 1's is lesser than number of 0's then we flip that column.
+            int countOne = 0;
+            for(int row = 0; row < n; row++){	
+                if(grid[row][col] == 1){	// count number of 1's in column
+                    countOne++;
+                }
+            }
+            if(countOne * 2 < n){	// if number of 1's is lesser than number of 0's then we flip that column.
+                flipCol(grid,col);
+            }
+        }
+        for(int[] row : grid){		// calculate max value by iterating each row of grid.
+            max = max + checkRow(row);
+        }
+        return max;
+    }
+    public void flipRow(int[][] grid, int row){		// it will flip the row by mathematical formula : convert 1 to 0 as 1-1=0 ans 0 to 1 as 1-0=1.
+        for(int col = 0; col < grid[0].length; col++){
+            grid[row][col] = 1 - grid[row][col];
+        }
+    }
+    public void flipCol(int[][] grid, int col){		// it will flip the col by mathematical formula : convert 1 to 0 as 1-1=0 ans 0 to 1 as 1-0=1.
+
+        for(int row = 0; row < grid.length; row++){
+            grid[row][col] = 1 - grid[row][col];
+        }
+    }
+    public int checkRow(int[] arr){	// it traverse all binary number of current row and calculate the decimal value by using formula result * 2 + currentNumber.
+        int ans = 0;
+        for(int num : arr){
+            ans = ans * 2 + num;
+        }
+        return ans;
+    }
+}
+
+# Intuition :
+The primary intuition behind maximizing the score of a binary matrix is based on the value contribution of each bit in a binary number. In a binary number, the leftmost bit (most significant bit, MSB) has the highest value (2 to the power of its position). Therefore, ensuring that this bit is maximized (i.e., set to 1) across all rows will greatly increase the overall sum when these rows are interpreted as binary numbers.
+
+# Approach :
+1. Initial Check: For each row, check if the first bit (MSB) is 0.
+2. Flip Rows: If the MSB of any row is 0, flip the entire row. This ensures that the highest value bit in every row contributes the maximum possible value.
+3. Optimize Columns for Maximum 1s:
+	- Column Iteration: After ensuring all rows start with a 1, examine the remaining columns from the second to the last.
+4. Majority Check: For each column, check if the number of 0s exceeds the number of 1s.
+5. Flip Columns: If flipping a column results in more 1s than 0s, proceed to flip it. This strategy increases the binary value of more rows since each column beyond the first still contributes significantly to the total score.
+6. Calculate the Final Score:
+	- Binary to Decimal: Convert each row to its decimal equivalent by interpreting it as a binary number.
+7. Summation: Sum these decimal values to get the total score of the matrix after all optimizations.
+
+# Complexity :
+- Time : O(N^2)
+- Space : O(1)

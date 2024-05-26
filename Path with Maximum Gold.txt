@@ -1,0 +1,31 @@
+class Solution {
+    public int getMaximumGold(int[][] grid) {
+        int n = grid.length, m = grid[0].length;
+        int max = 0;
+        for(int row = 0; row < n; row++){
+            for(int col = 0; col < m; col++){
+                if(grid[row][col] != 0){
+                    max = Math.max(max, helper(grid,row,col));
+                }
+            }
+        }
+        return max;
+    }
+    public int helper(int[][] grid,int row,int col){
+        if(row < 0 || col < 0 || row > grid.length-1 || col > grid[row].length-1 || grid[row][col] == 0){
+            return 0;
+        }
+        int temp = grid[row][col];	// it create a copy of a current cell value which has gold in it.
+        grid[row][col] = 0;		// we can visit single cell in single time, hence we set current cell as 0,and when in iteration doing and this cell is arrive it will not consider this cell.
+        int left = helper(grid,row,col-1);	// left 
+        int right = helper(grid,row,col+1);	// right
+        int up = helper(grid,row-1,col);	// up
+        int down = helper(grid,row+1,col);	// down
+        grid[row][col] = temp;			// because we need to add the current cell value to max we set it as its original cell value.
+        return Math.max(Math.max(Math.max(left,right),up),down) + temp;		// add max among max of up,down,left,right .
+    }
+}
+
+# Complexity :
+- Time : O(n * m)
+- Space : O(1)

@@ -1,0 +1,42 @@
+class Solution {
+    public long maximumValueSum(int[] nums, int k, int[][] edges) {
+        long totalSum = 0;
+        for(int num : nums){	// total summation of nums array element.
+            totalSum = totalSum + num;
+        }
+        long totalDiff = 0;
+        long diff;
+        int count = 0;
+        long minAbsDiff = Long.MAX_VALUE;	// simply it is infinite value.
+        for(int num : nums){
+            diff = (num ^ k) - num;		// calculate difference by current num value xor with k and substract it from itself orginal value.
+            if(diff > 0){			// if calculated difference is positive then we calculate total difference by adding totalDiff with calculated difference, and increament the count.
+                totalDiff = totalDiff + diff;
+                count++;
+            }
+            minAbsDiff = Math.min(minAbsDiff, Math.abs(diff));	// else diff is -ve then we make it positive by using abs and campare it with infinite and update minAbsDiff by min from minAbsDiff and abs of diff.
+        }
+        if(count % 2 == 1){		// calculate totalDiff by substacting it from minAbsDiff.
+            totalDiff = totalDiff - minAbsDiff;
+        }
+        return totalSum + totalDiff;	
+    }
+}
+
+# Approach :
+1. Initialization:
+	Calculate the initial total sum of the nums array.
+	Initialize total_diff to store the cumulative positive differences.
+	Initialize positive_count to count how many positive differences exist.
+	Initialize min_abs_diff to store the smallest absolute difference encountered.
+2. Loop through each element in nums:
+	Calculate the difference diff when XORing the current element with k.
+	If diff is positive, add it to total_diff and increment positive_count.
+	Track the minimum absolute difference encountered using min_abs_diff.
+3. Adjust for Odd Positive Count:
+	If positive_count is odd, subtract the smallest absolute difference (min_abs_diff) from total_diff to maximize the total sum.
+4. Return the sum of total and total_diff.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

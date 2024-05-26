@@ -1,0 +1,50 @@
+class Solution {
+    List<String> res = new ArrayList<>();
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        HashSet<String> words = new HashSet<>();
+        for(String str : wordDict){
+            words.add(str);
+        }
+        findString(s,words,0,"");
+        return res;
+    }
+    public void findString(String s,HashSet words,int index,String currResString){
+        if(index == s.length()){
+            res.add(currResString.substring(0,currResString.length() - 1));
+            return;
+        }
+        for(int i = index; i < s.length(); i++){
+            String currWord = s.substring(index, i+1);
+            if(words.contains(currWord)){
+                findString(s,words,i + 1, currResString + currWord + " ");
+            }
+        }
+    }
+}
+
+Approach
+1. Initialization:
+	- Creates an empty list res to store the results combinations.
+	- HashSet<String> words = new HashSet<>() : Creates a hash set words to store the words from the wordDict.
+	- Fills wordsby iterating through wordDict and adding each word.
+2. Recursive Function (findString):
+	- findString : This function recursively explores all segmentation possibilities.
+	- index: The current index in the string s being considered for segmentation.
+	- s : The original string.
+	- words : The hash set containing dictionary words.
+	- currResString: A string to store the current segmentation combination being built.
+	
+	- if (index == s.length()) : Base case - if index reaches the end of the string (s.length), it signifies a complete segmentation.
+	- res.add(currResString.substring(0, currResString.length() - 1)) : Extracts the complete segmentation from currResString and adds it to the res list, return.
+
+3. Loop through possible word lengths:
+	- for (int i = index; i < s.length(); i++) : Iterates from index to the end of the string (s.length()) to explore substrings of different lengths.
+	- String st = s.substring(index, i + 1) : Extracts a substring (st) starting at index and ending at i (inclusive).
+4. if (hs.contains(st)) : Checks if the extracted substring (st) exists in the dictionary hash set (hs).
+5. If st is a valid word: findString(i + 1, s, hs, currResString + st + " ") : Makes a recursive call with i + 1 (to explore further segmentation after this word) and an updated currResString string that appends the current word (st) with a space.
+
+The hash set allows for quick checks of whether a substring is a valid word in the dictionary.
+
+# Complexity :
+- Time : O(N! * L)
+- Space : O(k)

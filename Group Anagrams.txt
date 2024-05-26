@@ -1,0 +1,45 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if(strs.length < 1){		// if strs is empty then return empty arraylist.
+            return new ArrayList<>();
+        }
+        List<List<String>> res = new ArrayList<>();		// it stores result lists.
+        HashMap<String,Integer> hm = new HashMap<>();		// it store key as sorted string and value as their index number.
+        for(String str : strs){
+            char[] charac = str.toCharArray();		// it store current string in character array format, i.e. "cat" as ['c', 'a', 't']
+            Arrays.sort(charac);			// it sort that array, So, it will became ['a', 'c', 't'].
+            String sortedStr = new String(charac);	// it constructs a new string sortedStr from the sorted array of characters charac.
+            if(hm.containsKey(sortedStr)){		// if current sorted string key is already contains in hashmap then it will first get the index of that sorted string from hashmap then result list get the respected index arraylist from result list, and add current string into that arraylist.
+                res.get(hm.get(sortedStr)).add(str);
+            }else{					// else we cannot have any key value of sorted string hence we add that sorted string into hashmap, than add current string into new arraylist as an list.
+                hm.put(sortedStr,res.size());
+                res.add(new ArrayList<>(Arrays.asList(str)));
+            }
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. Using an Unordered Map: We utilize an unordered map to store the sorted version of each string (anagram) as the key and the index of the corresponding group in the answer vector as the value. This allows us to quickly check if an anagram group already exists.
+2. Iterating Through the Input Strings: We iterate through each string in the input vector 'strs'.
+3. Sorting Strings: For each string, we sort its characters alphabetically. This ensures that anagrams will have the same sorted representation.
+4. Grouping Anagrams: We check if the sorted string exists in the unordered map. If it does, we add the current string to the corresponding group in the answer vector. If not, we create a new group and store its index in the unordered map.
+5. Returning the Answer: Once all strings have been processed, we return the answer vector containing the grouped anagrams.
+
+# Explanation ( Dry-run ) :
+line : res.get(hm.get(sortedStr)).add(str);
+	strs array: ["cat", "dog", "tac", "god"]
+	hm HashMap: {"act" -> 0, "dgo" -> 1}
+	res list: [["cat", "tac"], ["dog"]]
+	Now, let's say the current string str is "god". After sorting its characters, sortedStr becomes "dgo". Since "dgo" is present in hm with value 1, the above line of code retrieves the ArrayList at index 1 from res, which is ["dog"], and adds "god" to it. So, the res list will become [["cat", "tac"], ["dog", "god"]]
+
+line : res.add(new ArrayList<>(Arrays.asList(str)));
+	strs array: ["cat", "dog", "tac", "god"]
+	hm HashMap: {"act" -> 0, "dgo" -> 1}
+	res list: [["cat", "tac"], ["dog"]]
+	Now, let's say the current string str is "fox". Since "fox" is not present in hm, the above line of code creates a new ArrayList containing "fox" and adds it to the res list. So, the res list will become [["cat", "tac"], ["dog"], ["fox"]].
+
+# Complexity :
+- Time : O(n∗k∗logk) ....(K is the length of the longest string)
+- Space :O(n∗k) .........(K is the length of the longest string)

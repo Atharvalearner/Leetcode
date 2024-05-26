@@ -1,0 +1,81 @@
+class Solution {
+    public double mincostToHireWorkers(int[] quality, int[] wage, int k) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());	// Collections.reverseOrder() sort the objects in descending order.
+        List<Pair<Double,Integer>> ratio = new ArrayList<>();	// ratio stores ratio of wage to quality and their respective index.
+        int n = quality.length, qualitySum = 0;
+        double res = Double.MAX_VALUE, maxRate = 0.0;
+        for(int i = 0; i < n; i++){
+            ratio.add(new Pair<>((double) wage[i] / quality[i], i));	// it calculates ratio of wage to quality and add it to pair as ration and their index.
+        }
+        ratio.sort(Comparator.comparingDouble(p -> p.getKey()));	// it sort the ratio list by their ratio which is key, because ratio are in double we need to sort it in double hence we use comparingDouble function of comparator.
+        for(int i = 0; i < k; i++){			// here we calculate qualitysum , maxRate of k elements and add their ratio value to our maxheap.
+            qualitySum = qualitySum + quality[ratio.get(i).getValue()];	// add the current index ratio value to qualitysum.
+            maxRate = Math.max(maxRate, ratio.get(i).getKey());		// update maxRate as max among previous maxRate or current index ratio key which is our double value of wage by quality.
+            maxHeap.offer(quality[ratio.get(i).getValue()]);		// it add ratio value to maxheap.
+        }
+        res = maxRate * qualitySum;			// it return result of current maxRate and qualitySum of k elements.
+        for(int i = k; i < n; i++){			// here we calculate qualitysum , maxRate of n- k or remaining elements other than k and add their ratio value to our maxheap.
+
+            maxRate = Math.max(maxRate,ratio.get(i).getKey());     // update maxRate as max among previous maxRate or current index ratio key which is our double value of wage by quality.
+
+            qualitySum = qualitySum - maxHeap.poll();		// it update qualitySum by substacting it from max heap value of qualitySum.
+            qualitySum = qualitySum + quality[ratio.get(i).getValue()];		// add the current index ratio value to qualitysum.
+            maxHeap.offer(quality[ratio.get(i).getValue()]);		// it add ratio value to maxheap.
+            res = Math.min(res,maxRate * qualitySum);		// it return result of current maxRate and qualitySum of remaining elements.
+        }
+        return res;		// return result.
+    }
+}
+
+# Approach :
+1. Sorting for Deals : we gotta sort these workers based on their wage-to-quality ratio. Why? Because we want to hire the cheapest ones first, while still meeting the quality requirements. It's like picking the least expensive assassins, but with mad skills.
+
+2. Squad Upgrade Queue: we create a priority queue to keep track of the highest quality workers we've hired so far. Think of it as a squad of elite mercenaries, and we're always looking to upgrade our team with better talent.
+
+3. Assembling the Starting Lineup : We start by hiring the first k workers based on their wage-to-quality ratio. This gives us the initial cost and quality sum. It's like assembling our starting lineup of badasses.
+
+4. Trading Up : We iterate through the remaining workers and explore the possibility of replacing the lowest quality worker we've hired so far with a better one. It's like trading in a rookie for a seasoned vet.
+
+5. Deadly Swaps : If we find a worker with a higher wage-to-quality ratio, we replace the lowest quality worker in our group with the new one. This way, we keep the overall quality sum high while potentially reducing the cost. It's like swapping out a cheap mercenary for a more expensive, but way deadlier one.
+
+6. Budget Check : After each replacement, we recalculate the minimum cost based on the new quality sum and the highest wage-to-quality ratio among the hired workers. It's like tallying up the budget for our new and improved squad of assassins.
+
+7. Settling the Tab : Finally, we return the minimum cost we've found throughout this process.
+
+# Dry - Run :
+Input: quality = [10, 20, 5], wage = [70, 50, 30], k = 2
+
+Sort the workers based on wage-to-quality ratio:
+rate = [(2.5, 1), (6.0, 2), (7.0, 0)]
+
+Initialize maxHeap (priority queue), qualitySum = 0, maxRate = 0.0
+
+Hire the first k = 2 workers:
+i = 0: qualitySum = 20, maxRate = 2.5, maxHeap = [20]
+i = 1: qualitySum = 25, maxRate = 6.0, maxHeap = [20, 5]
+res = maxRate * qualitySum = 6.0 * 25 = 150.0
+
+Iterate through remaining workers (i = 2 to n-1):
+i = 2:
+maxRate = max(6.0, 7.0) = 7.0
+qualitySum = 25 - 20 + 10 = 15 (removed top of maxHeap and added quality[0])
+maxHeap = [10, 5]
+res = min(res, maxRate * qualitySum) = min(150.0, 7.0 * 15) = 105.0
+
+No more workers left, so return res = 105.0
+
+The key steps:
+
+First hire k lowest wage/quality workers
+Then see if remaining higher wage/quality workers can replace existing highest wage/quality worker while lowering cost
+So the output 105.00000 is correct:
+
+Hire worker 1 (quality 20) for wage 50
+Hire worker 2 (quality 5) for wage 30
+Replace worker 2 with worker 0 (quality 10, wage 70)
+Total cost = 50 + 70 * (10/20) = 105
+
+
+# Complexity :
+- Time complexity: O(nlogn)
+- Space complexity: O(n)
