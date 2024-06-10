@@ -1,0 +1,30 @@
+class Solution {
+    public int[] singleNumber(int[] nums) {
+        int xor = 0;
+        for(int num : nums){
+            xor = xor ^ num;
+        }
+        int LSB = xor & (-xor);
+        int[] res = new int[2];
+        for(int num : nums){
+            if((LSB & num) == 0){
+                res[0] = res[0] ^ num;
+            }else{
+                res[1] = res[1] ^ num;
+            }
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
+
+# Explanation :
+1. XOR of All Numbers:
+	xor is the XOR of all numbers in the array. This XOR result is the XOR of the two unique numbers since all other numbers cancel out.
+2. Find a Bit That Differentiates the Two Unique Numbers:
+	LSB = xor & (-xor) finds the rightmost set bit in xor. This bit is different between the two unique numbers.
+3. Separate Numbers Based on the Differentiating Bit:
+	Iterate through the array again and use the LSB to divide the numbers into two groups. XORing all numbers in each group will result in the two unique numbers.

@@ -1,0 +1,30 @@
+class Solution {
+    public boolean isNStraightHand(int[] hand, int groupSize) {
+        if(hand.length % groupSize != 0){		// check wether group are able to form or not if not then return false.
+            return false;
+        }
+        Map<Integer,Integer> hm = new TreeMap<>();	// store frequency of each hand card.
+        for(int c : hand){
+            hm.put(c, hm.getOrDefault(c,0)+1);
+        }
+        for(int card : hm.keySet()){		// check wheather card are able to form group or not.
+            int currCardfreq = hm.get(card);		// get curr card frequency.
+            if(currCardfreq > 0){			// if frequency is less than 0 means do not require to iterate that card, else iterate to form groupsize array.
+                for(int i = 0; i < groupSize; i++){
+                    if(hm.getOrDefault(card + i,0) < currCardfreq){	// if current card frequency is greater than next card frequency that means we got next wrong card hence we return it as false.
+                        return false;
+                    }
+                    hm.put(card + i, hm.get(card + i) - currCardfreq);	// else we update next card frequency by removing current card frequency substarct from next card frequency and iterate to next card if groupsize is not yet fill by cards.
+                }
+            }
+        }
+        return true;		// else return true.
+    }
+}
+
+# Intuition :
+check if we can rearrange the cards in such a way that we form groups of consecutive cards of a specific size. We need to ensure that every card can be part of a group of the group size and that no cards are left ungrouped.
+
+# Complexity :
+- Time : O(n)
+- Space : O(k)

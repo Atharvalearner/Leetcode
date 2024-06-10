@@ -1,0 +1,38 @@
+class Solution {
+    public String countAndSay(int n) {
+        String str = "1";
+        for(int i = 1; i < n; i++){
+            str = count(str);
+        }
+        return str;
+    }
+    private String count(String str){
+        StringBuilder ans = new StringBuilder();
+        int count = 1;
+        char prev = str.charAt(0);
+        for(int i = 1; i < str.length(); i++){
+            char curr = str.charAt(i);
+            if(curr == prev){
+                count++;
+            }else{
+                ans.append(count);
+                ans.append(prev);
+                prev = curr;
+                count = 1;
+            }
+        }
+        ans.append(count);
+        ans.append(prev);
+        return ans.toString();
+    }
+}
+
+# Approach
+1. Initialize String from "1", according to Constraint.
+2. iterate string n times.
+3. on each iteration, iterate the previous iteration result string.
+4. on Count function initialize count from 1, set prev as 1st character of given string.
+5. iterate string from index 1 to string.length()-1.
+6. on each iterate check curr == prev if yes then we have same character as previous hence increment count.
+7. else we got different character of previous hence we append the count of previous character first into result string, then append previous character to result string, then set previous as current and set again count to 1.
+8. return ans.

@@ -1,0 +1,36 @@
+class Solution {
+    public String replaceWords(List<String> dictionary, String sentence) {
+        HashSet<String> dict = new HashSet<>(dictionary);
+        String[] word = sentence.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(String str : word){
+            if(sb.length() > 0){
+                sb.append(" ");
+            }
+            sb.append(findReplacement(str,dict));
+        }
+        return sb.toString();
+    }
+    public String findReplacement(String str,HashSet<String> dict){
+        for(int i = 1; i < str.length(); i++){
+            String prefix = str.substring(0,i);
+            if(dict.contains(prefix)){
+                return prefix;
+            }
+        }
+        return str;
+    }
+}
+
+# Intuition :
+The problem requires replacing words in a sentence with their shortest root forms if available in a given dictionary. The first thought is to use a set for quick look-up of dictionary words, which helps to identify if a prefix (root) exists for any word in the sentence.
+
+# Approach :
+1. Use an unordered_set to store dictionary words for O(1) average-time complexity look-up.
+2. Traverse the sentence character by character. For each word in the sentence, build it character by character.
+3. Check for Prefixes: As each character is added to the current word, check if the word (or prefix) exists in the dictionary set. If it does, mark the word to be skipped further extension.
+4. Append the found root word or the entire word to the result string. Add spaces appropriately to reconstruct the sentence.
+
+# Complexity :
+- Time : O(n * m)	... Where (n) is the number of words in the sentence, and (m) is the average length of the words.
+- Space : O(k)	... Where (k) is the total number of characters in the dictionary.

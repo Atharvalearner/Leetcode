@@ -1,0 +1,33 @@
+class Solution {
+    public int numSteps(String s) {
+        int count = 0;
+        int carry = 0;
+        for(int i = s.length() - 1; i >= 1; i--){
+            int currNum = s.charAt(i) - '0';
+            if(currNum == 0 && carry == 0){
+                count++;
+            }else if(currNum == 1 && carry == 1){
+                count++;
+                carry = 1;
+            }else{
+                count = count + 2;
+                carry = 1;
+            }
+        }
+        if(carry == 1){
+            count++;
+        }
+        return count;
+    }
+}
+
+# Approach :
+1. Initialization: Start from the rightmost bit of the binary string and initialize a counter cnt for the steps and a variable cary for the carry resulting from additions.
+2. Iterate through the string: If the current bit is '0' and there's no carry, it means the number is even, and a division by 2 can be performed (just remove the bit). Increase the step counter.
+3. If the current bit is '1' and there's already a carry from a previous addition, it means the current number (considering carry) is even after the carry, so just proceed with the next bit while maintaining the carry.
+4. If the current bit is '1' without a carry, it indicates an odd number, so add 1, resulting in an even number with a carry that needs to be propagated. Increase the step counter for both the addition and the subsequent division by 2.
+5. Final Check: If there's a carry left after processing all bits (except the leading '1'), it means we need one additional step to handle this carry.
+
+# Complexity :
+- Time : O(N)
+- space : O(1)

@@ -1,0 +1,39 @@
+class Solution {
+    public int longestPalindrome(String s) {
+        HashSet<Character> hs = new HashSet<>();
+        int length = 0;
+        for(char curr : s.toCharArray()){
+            if(hs.contains(curr)){
+                hs.remove(curr);
+                length = length + 2;
+            }else{
+                hs.add(curr);
+            }
+        }
+        if(! hs.isEmpty()){
+            length++;
+        }
+        return length;
+    }
+}
+
+# Example for understanding :
+Let's take the string "abccccdd" as an example:
+1. Initial State: Set: {}
+2. Process Each Character:
+	'a' is not in the set. Add 'a'. Set: {'a'}
+	'b' is not in the set. Add 'b'. Set: {'a', 'b'}
+	'c' is not in the set. Add 'c'. Set: {'a', 'b', 'c'}
+	Another 'c'. It's already in the set. Remove 'c'. Increase length by 2. Length: 2. Set: {'a', 'b'}
+	Another 'c'. Add 'c'. Set: {'a', 'b', 'c'}
+	Another 'c'. It's already in the set. Remove 'c'. Increase length by 2. Length: 4. Set: {'a', 'b'}
+	'd' is not in the set. Add 'd'. Set: {'a', 'b', 'd'}
+	Another 'd'. It's already in the set. Remove 'd'. Increase length by 2. Length: 6. Set: {'a', 'b'}
+3. Final Check:
+	The set still has {'a', 'b'}, meaning we have characters that appeared an odd number of times.
+	We can use one of these characters as the center of the palindrome. Add 1 to the length. Final Length: 7.
+	So, the longest palindrome we can build with "abccccdd" has a length of 7.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

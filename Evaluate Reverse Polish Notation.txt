@@ -1,0 +1,34 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> s = new Stack<>();
+        for(String str : tokens){
+            if(str.equals("+")){
+                int tempRes = s.pop() + s.pop();
+                s.add(tempRes);
+            }else if(str.equals("-")){
+                int b = s.pop();
+                int a = s.pop();
+                s.add(a - b);
+            }else if(str.equals("*")){
+                int tempRes = s.pop() * s.pop();
+                s.add(tempRes);
+            }else if(str.equals("/")){
+                int b = s.pop();
+                int a = s.pop();
+                s.add(a / b);
+            }else{
+                s.add(Integer.parseInt(str));
+            }
+        }
+        return s.pop();
+    }
+}
+
+# Intuition :
+Add every token as an integer in the stack, unless it's an operation. 
+I pop two elements from the stack and then save the result back to it.
+After all operations are done through, the remaining element in the stack will be the result.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

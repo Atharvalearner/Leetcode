@@ -1,0 +1,48 @@
+class Solution {
+    public List<String> commonChars(String[] words) {
+        int[] min = new int[26];
+        Arrays.fill(min, Integer.MAX_VALUE);
+        for(String str : words){
+            int[] freq = new int[26];
+            for(int i = 0; i < str.length(); i++){
+                char ch = str.charAt(i);
+                freq[ch - 'a']++;
+            }
+            for(int i = 0; i < 26; i++){
+                min[i] = Math.min(min[i],freq[i]);
+            }
+        }
+        List<String> ans = new ArrayList<>();
+        for(int i = 0; i < 26; i++){
+            while(min[i] > 0){
+                ans.add(Character.toString((char) (i + 'a')));
+                min[i]--;
+            }
+        }
+        return ans;
+    }
+}
+
+# Approach :
+1. to store the minimum frequency of character which appears on each string of words array we initialize min array.
+2. iterate each word of words array.
+3. calculate each character frequency of each word and store that frequency into freq array.
+4. after iterating the all words we iterate each character from a to z and extract minimum frequency which appears in all words of words array.
+5. after that iterate to min array and find the respective character of each integer frequency value.
+6. return the ans.
+
+# Example :
+let Input: words = ["bella","label","roller"]
+
+'b' appears 1 time in "belle", 1 time in "label", and 0 times in "roller". The minimum frequency is 0, so 'b' is not included in the final result.
+'e' appears 2 times in "belle", 1 time in "label", and 1 time in "roller". The minimum frequency is 1, so 'e' is included 1 time.
+'l' appears 2 times in "belle", 2 times in "label", and 2 times in "roller". The minimum frequency is 2, so 'l' is included 2 times.
+'a' appears 0 times in "belle", 1 time in "label", and 0 times in "roller". The minimum frequency is 0, so 'a' is not included in the final result.
+'r' appears 0 times in "belle", 0 times in "label", and 2 times in "roller". The minimum frequency is 0, so 'r' is not included in the final result.
+'o' appears 0 times in "belle", 0 times in "label", and 1 time in "roller". The minimum frequency is 0, so 'o' is not included in the final result.
+
+Output: ["e","l","l"]
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(N)

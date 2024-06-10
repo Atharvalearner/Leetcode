@@ -1,0 +1,16 @@
+class Solution {
+    public int scoreOfString(String s) {
+        int res = 0;
+        int prev = 0;
+        for(int i = 1; i < s.length(); i++){
+            int diff = (s.charAt(i) - s.charAt(prev));
+            res += Math.abs(diff);
+            prev = i;
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

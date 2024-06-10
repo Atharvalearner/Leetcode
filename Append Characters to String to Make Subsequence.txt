@@ -1,0 +1,18 @@
+class Solution {
+    public int appendCharacters(String s, String t) {
+        int i = 0, j = 0;		// Start both pointers at the beginning of s and t
+        while(i < s.length() && j < t.length()){
+            char currCharOfS = s.charAt(i);
+            char currCharOfT = t.charAt(j);
+            if(currCharOfT == currCharOfS){	// If characters match
+                j++;		// Move the pointer in t forward
+            }
+            i++;		// Always move the pointer in s forward
+        }
+        return t.length() - j;		// The number of characters in t not matched in s
+    }
+}
+
+# Complexity :
+- Time : O(N + M) 	... N,M are length of s and t respectively.
+- Space : O(1)
