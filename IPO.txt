@@ -1,0 +1,39 @@
+class Solution {
+    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+        int[][] projects = new int[profits.length][2];
+        int n = profits.length;
+        for(int i = 0; i < n; i++){
+            projects[i][0] = capital[i];
+            projects[i][1] = profits[i];
+        }
+        int index = 0;
+        Arrays.sort(projects, (a,b) -> Integer.compare(a[0],b[0]));
+        PriorityQueue<Integer> maxCap = new PriorityQueue<>(Collections.reverseOrder());
+        while(k-- > 0){
+            while(index < n && projects[index][0] <= w){
+                maxCap.offer(projects[index][1]);
+                index++;
+            }
+            if(maxCap.isEmpty()){
+                break;
+            }
+            w = w + maxCap.poll();
+        }
+        return w;
+    }
+}
+
+# Approach :
+1. Create a array of pairs "projects" to store the minimum capital required and pure profit of each project.
+2. Initialize a variable "n" to the size of the input "profits" array.
+3. Sort the "projects" array by the minimum capital required in ascending order.
+4. Initialize a variable "i" to 0 and a priority queue "maximizeCapital" to store the maximum profit we can get from a project.
+5. Loop k times and perform the following operations in each iteration:
+	a. While "i" is less than "n" and the minimum capital required for the project at index "i" is less than or equal to the current capital "w", push the profit of the project at index "i" to "maximizeCapital" and increment "i".
+	b. If "maximizeCapital" is empty, break out of the loop.
+	c. Add the maximum profit in "maximizeCapital" to "w" and pop it out of the priority queue.
+6. Return the final value of "w".
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

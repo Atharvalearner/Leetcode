@@ -1,0 +1,27 @@
+class Solution {
+    public int minIncrementForUnique(int[] nums) {
+        Arrays.sort(nums);
+        int count = 0;
+        for(int i = 1; i < nums.length; i++){
+            if(nums[i] <= nums[i-1]){
+                count += nums[i-1] - nums[i] + 1;
+                nums[i] = nums[i-1]+1;
+            }
+        }
+        return count;
+    }
+}
+
+# Approach :
+1. Sort the array
+2. traverse from index 1 to the last
+3. for each iteration find
+	- if array[present_index] <= array[present_index - 1]
+	- Increase count = count + array[present_index - 1] - array[present_index] + 1
+	- make array[present_index] = array[present_index - 1] + 1
+4. else Do nothing and continue traversing
+5. Return count value
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(log N)

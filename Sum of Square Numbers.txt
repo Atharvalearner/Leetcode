@@ -1,0 +1,29 @@
+class Solution {
+    public boolean judgeSquareSum(int c) {
+        long start = 0, end = (long)Math.sqrt(c);
+        while(start <= end){
+            long mid = (start * start) + (end * end);
+            if(mid == (long)c){
+                return true;
+            }else if(mid > (long)c){
+                end--;
+            }else{
+                start++;
+            }
+        }
+        return false;
+    }
+}
+
+# Approach :
+1. initialize start from 0 in which it act as left pointer and end from square root of c which act as right pointer.
+2. we track the answer till we start cannot reach to end pointer.
+3. if mid which is sum of (start*start) and (end * end) to calculate the current start and end pointer squares and add them to check it whether it match to c or not.
+4. if mid match with c then return true.
+5. else if mid is greater than c means we need to move our end pointer to left by 1.
+6. else mid is less than c hence we move our start pointer by 1.
+7. if anyone of condition aren't match and also loop are exit then return false.
+
+# complexity :
+- Time : O(Sqrt(C))
+- Space : O(1)

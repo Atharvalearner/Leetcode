@@ -1,0 +1,24 @@
+class Solution {
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        int[] freq = new int[1001];
+        for(int num : arr1){	// count the frequency of each distinct number of array 1.
+            freq[num]++;
+        }
+        int i = 0;	// track the result array index.
+        for(int num : arr2){		// append the numbers in arr1(result array) which present in arr2 according to arr2 from frequency array till current number is not become 0.
+            while(freq[num]-- > 0){
+                arr1[i++] = num;
+            }
+        }
+        for(int j = 0; j < freq.length; j++){	// remaining numbers are append here which not present in arr2.
+            while(freq[j]-- > 0){
+                arr1[i++] = j;
+            }
+        }
+        return arr1;
+    }
+}
+
+# Complexity :
+- Time: O(N)
+- Space: O(1)
