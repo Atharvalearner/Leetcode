@@ -1,0 +1,36 @@
+class Solution {
+    public int numberOfSubarrays(int[] nums, int k) {
+        int res = 0, index = 0;
+        int[] count = new int[nums.length + 1];
+        count[0] = 1;
+        for(int num : nums){
+            index += num & 1;
+            if(index - k >= 0){
+                res += count[index - k];
+            }
+            count[index]++;
+        }
+        return res;
+    }
+}
+
+# Intuition :
+The problem requires counting the number of continuous subarrays with exactly k odd numbers. To achieve this, we can use a prefix sum approach. The key idea is to keep track of the number of odd numbers encountered so far while iterating through the array, and use this information to count subarrays with the desired property efficiently.
+
+# Approach
+1. Initialize Variables:
+	- n: Length of the input array nums.
+	- cnt: An array to keep track of the count of prefix sums (number of odd numbers encountered).
+	- cnt[0]: Set to 1 initially, since a prefix sum of 0 (no odd numbers encountered) occurs once by default.
+	- ans: Variable to store the final result (number of nice subarrays).
+	- index: Variable to store the current count of odd numbers while iterating through the array.
+2. Iterate Through the Array:
+	- For each element num in nums, update the count of odd numbers (index) encountered so far. This is done by checking if num is odd using num & 1.
+	- Check if there exists a prefix sum index - k (i.e., a previous state where there were index - k odd numbers). If so, add the count of such prefix sums to ans.
+	- Increment the count of the current prefix sum (index) in the cnt array.
+3. Return the Result:
+	- After iterating through the entire array, ans will contain the number of nice subarrays.
+
+# Complexity :
+- Time : O(n)
+- Space : O(n)

@@ -1,0 +1,34 @@
+class Solution {
+    public int minKBitFlips(int[] nums, int k) {
+        int n = nums.length, flipped = 0, res = 0;
+        int[] isFlipped = new int[n];
+        for (int i = 0; i < nums.length; i++) {
+            if (i >= k)
+                flipped ^= isFlipped[i - k];
+                if (flipped == nums[i]) {
+                    if (i + k > nums.length)
+                        return -1;
+                isFlipped[i] = 1;
+                flipped ^= 1;
+                res++;
+            }
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. Tracking Flips: Use a helper array isFlipped to keep track of flips. This array will mark whether a flip operation is active at a particular index.
+2. Flipped State: Maintain a flipped state to indicate the number of active flips.
+3. Iterate through the array:
+	- For each position i, check if it needs to be flipped. This is determined by the parity of flipped and the current bit (nums[i]).
+4. If the bit needs to be flipped:
+	- Ensure that flipping a subarray starting at i and extending to i + k - 1 is within bounds.
+	- Mark this position in isFlipped as starting a flip.
+	- Update the flipped state.
+	- Increment the result counter which counts the number of flips.
+	- If the position i - k was previously flipped, decrement the flipped state.
+
+# Complexity :
+- Time : O(n)
+- Space : O(n)

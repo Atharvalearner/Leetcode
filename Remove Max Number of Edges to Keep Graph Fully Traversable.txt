@@ -1,0 +1,141 @@
+class Solution {
+    public int maxNumEdgesToRemove(int n, int[][] edges) {
+        UnionFind alice = new UnionFind(n);
+        UnionFind bob = new UnionFind(n);
+        int requiredEdges = 0;
+        for(int[] edge : edges){
+            if(edge[0] == 3){
+                requiredEdges += (alice.performUnion(edge[1],edge[2]) | bob.performUnion(edge[1],edge[2]));
+            }
+        }
+        for(int[] edge : edges){
+            if(edge[0] == 1){
+                requiredEdges += alice.performUnion(edge[1],edge[2]);
+            }else if(edge[0] == 2){
+                requiredEdges += bob.performUnion(edge[1],edge[2]);
+            }
+        }
+        if(alice.isConnected() && bob.isConnected()){
+            return edges.length - requiredEdges;
+        }
+        return -1;
+    }
+    class UnionFind{
+        int[] respresentative;
+        int[] componentSize;
+        int components;
+        UnionFind(int n){
+            components = n;
+            respresentative = new int[n + 1];
+            componentSize = new int[n + 1];
+            for(int i = 0; i <= n; i++){
+                respresentative[i] = i;
+                componentSize[i] = i;
+            }
+        }
+        int findrespresentative(int x){
+            if(respresentative[x] == x){
+                return x;
+            }
+            return respresentative[x] = findrespresentative(respresentative[x]);
+        }
+        int performUnion(int x, int y){
+            x = findrespresentative(x);
+            y = findrespresentative(y);
+            if(x == y){
+                return 0;
+            }
+            if(componentSize[x] > componentSize[y]){
+                componentSize[x] = componentSize[x] + componentSize[y];
+                respresentative[y] = x;
+            }else{
+                componentSize[y] = componentSize[y] + componentSize[x];
+                respresentative[x] = y;
+            }
+            components--;
+            return 1;
+        }
+        boolean isConnected(){
+            return components == 1;
+        }
+    }
+}
+
+# Approach :
+1. Initialize Union-Find Structures: Create two separate Union-Find structures, one for Alice and one for Bob, to manage their connectivity.
+2. Process Type 3 Edges First: Type 3 edges are the most valuable because they can be used by both Alice and Bob. We iterate through these edges first and attempt to add them to both Alice's and Bob's graphs. If the edge successfully connects two previously unconnected components for either Alice or Bob, it is necessary.
+3. Process Type 1 and Type 2 Edges: After handling type 3 edges, we separately process type 1 edges for Alice and type 2 edges for Bob. These edges are only useful if they connect new components for Alice or Bob, respectively.
+4. Check Full Connectivity: After processing all edges, we check if both Alice's and Bob's graphs are fully connected.
+5. Calculate Removable Edges: The number of removable edges is the total number of edges minus the number of edges required to ensure full connectivity for both Alice and Bob.
+
+# Complexity
+- Time : O(E)    ... where (E) is the number of edges.
+- Space : O(N)   ... where (N) is the number of nodes.
+
+# Explanation :
+1. Initialization:
+	- Create two Union-Find instances: one for Alice and one for Bob.
+	- Initialize the number of edges required to be included in the graph (edgesRequired).
+
+	Variable	Description
+	alice	:	Union-Find instance for Alice
+	bob	:	Union-Find instance for Bob
+	edgesRequired :	Counter for edges that are required in the graph
+
+2. Processing Type 3 Edges:
+	- First, include all type 3 edges, which can be used by both Alice and Bob.
+	
+	Edge Type	Operation
+	- Type 3	Try to union nodes in both alice and bob Union-Find
+	- If successful in either, increment edgesRequired
+
+	- Processing Type 1 and Type 2 Edges:
+	- Process remaining edges: type 1 (Alice) and type 2 (Bob).
+
+	Edge Type	Operation
+	- Type 1	Try to union nodes in alice Union-Find
+	- If successful, increment edgesRequired
+	- Type 2	Try to union nodes in bob Union-Find
+	If successful, increment edgesRequired
+3. Final Check:
+	- Ensure both Alice and Bob can fully traverse the graph by checking if their respective Union-Find structures are fully connected.
+		
+		Condition				Action
+	- Both alice and bob are connected	Return len(edges) - edgesRequired
+	- Either alice or bob is not connected	Return -1
+
+# Example Walkthrough
+Example Input:
+n = 4
+edges = [[3,1,2],[3,2,3],[1,1,3],[1,2,4],[1,1,2],[2,3,4]]
+
+Processing Steps:
+1. Initialize:
+	- alice and bob Union-Find instances.
+	- edgesRequired = 0.
+
+2. Type 3 Edges:
+	- Process [3,1,2]:
+	  Union nodes 1 and 2 in both alice and bob.
+	  Increment edgesRequired to 1.
+	- Process [3,2,3]:
+	  Union nodes 2 and 3 in both alice and bob.
+	  Increment edgesRequired to 2.
+
+3. Type 1 and Type 2 Edges:
+	- Process [1,1,3] for alice:
+	  Union nodes 1 and 3.
+	  Increment edgesRequired to 3.
+	- Process [1,2,4] for alice:
+	  Union nodes 2 and 4.
+	  Increment edgesRequired to 4.
+	- Process [1,1,2] for alice:
+	  Union not needed (already connected), no increment.
+	- Process [2,3,4] for bob:
+	  Union nodes 3 and 4.
+	  Increment edgesRequired to 5.
+
+4. Final Check:
+	- Both alice and bob Union-Find structures are fully connected.
+	- Total edges: 6, edges required: 5.
+	- Edges removed: 6 - 5 = 1.

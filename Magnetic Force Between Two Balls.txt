@@ -1,0 +1,48 @@
+class Solution {
+    public int maxDistance(int[] position, int m) {
+        Arrays.sort(position);
+        int n = position.length, res = 0;;
+        int start = 1;
+        int end = (position[n-1] - position[0]) / (m - 1);
+        while(start <= end){
+            int mid = start + (end - start) / 2;
+            if(canPlace(position,m,mid)){
+                res = mid;
+                start = mid + 1;
+            }else {
+                end = mid - 1;
+            }
+        }
+        return res;
+    }
+    private boolean canPlace(int[] position, int m, int mid){
+        int count = 1;
+        int tracker = position[0];
+        for(int i = 0; i < position.length; i++){
+            int curr = position[i];
+            if(curr - tracker >= mid){
+                count++;
+                tracker = position[i];
+            }
+            if(count >= m){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+# Approach :
+1. Sorting: we sort the array of basket positions. This helps us to efficiently check the possible placement of balls in increasing order of positions.
+2. Binary Search:
+	- We perform binary search on the possible values of the minimum distance (dist) between two balls.
+	- The lower bound (lo) of our search range is 1 (the smallest possible distance).
+	- The upper bound (hi) is (position[n-1] - position[0]) / (m-1), which is the maximum possible minimum distance when placing m balls in n baskets.
+3. Placement Check:
+	- For each mid value in our binary search, we check if it is possible to place m balls such that the minimum distance between any two balls is at least mid.
+	- We start by placing the first ball in the first basket and then attempt to place each subsequent ball in the next available basket that is at least mid distance away from the last placed ball.
+	- If we successfully place all m balls, it means mid is a feasible distance, and we try for a larger distance. If not, we try a smaller distance.
+
+# Complexity :
+- Time : O(n log n + n log (position[n-1] - position[0]) / (m-1))
+- Space : O(1) 

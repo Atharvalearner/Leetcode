@@ -1,0 +1,24 @@
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        if(! (str1 + str2).equals(str2 + str1)){
+            return "";
+        }
+        int gcd = calculate(str1.length(), str2.length());
+        return str1.substring(0, gcd);
+    }
+    private int calculate(int s1, int s2){
+        if(s2 == 0){
+            return s1;
+        }
+        return calculate(s2, s1 % s2);
+    }
+}
+
+# Intuition :
+We first need to check if GCD is even possible among the two strings.
+Two strings str1 and str2 will have gcd if and only if (str1+str2) == (str2+str1).
+If both the strings are made of same substring concatenated multiple times then they will have GCD.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

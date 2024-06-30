@@ -1,0 +1,25 @@
+class Solution {
+    int sum = 0;
+    public TreeNode bstToGst(TreeNode root) {
+        if(root != null){
+            bstToGst(root.right);
+            sum = sum + root.val;
+            root.val = sum;
+            bstToGst(root.left);
+        }
+        return root;
+    }
+}
+
+# Approach :
+1. Reverse In-Order Traversal:
+	- We traverse the BST starting from the rightmost node (which has the largest value) to the leftmost node (which has the smallest value).
+	- While traversing, we keep a running total (sum) of all the node values we have seen so far.
+	- As we visit each node, we update its value by adding the current sum to the node's value and then update sum to this new value.
+2. Recursive Function:
+	- We use a helper function to perform the reverse in-order traversal.
+	- This function will be called recursively first on the right subtree, then the current node, and finally on the left subtree.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

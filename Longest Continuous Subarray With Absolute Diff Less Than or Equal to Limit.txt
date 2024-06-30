@@ -1,0 +1,44 @@
+class Solution {
+    public int longestSubarray(int[] nums, int limit) {
+        Deque<Integer> decQ = new LinkedList<>();
+        Deque<Integer> incQ = new LinkedList<>();
+        int ans = 0, left = 0;
+        for (int right = 0; right < nums.length; ++right) {
+            int num = nums[right];
+            while (!decQ.isEmpty() && num > decQ.peekLast()) {
+                decQ.pollLast();
+            }
+            decQ.addLast(num);
+            while (!incQ.isEmpty() && num < incQ.peekLast()) {
+                incQ.pollLast();
+            }
+            incQ.addLast(num);
+            while (decQ.peekFirst() - incQ.peekFirst() > limit) {
+                if (decQ.peekFirst() == nums[left]) {
+                    decQ.pollFirst();
+                }
+                if (incQ.peekFirst() == nums[left]) {
+                    incQ.pollFirst();
+                }
+                ++left;
+            }
+            ans = Math.max(ans, right - left + 1);
+        }
+        return ans;
+    }
+}
+
+# Approach :
+1. Sliding Window: We'll use two pointers (left and right) to represent the sliding window's boundaries.
+2. Deques for Min and Max:
+	- decQ will store elements in a decreasing order to help track the maximum element in the current window.
+	- incQ will store elements in an increasing order to help track the minimum element in the current window.
+3. Expand Window: For each element at the right pointer:
+	- Insert the element into both deques while maintaining their properties.
+	- Remove elements from the deques that are outside the current window.
+4. Shrink Window: If the difference between the maximum and minimum values in the current window exceeds the limit, increment the left pointer to shrink the window until the difference is within the limit.
+5. Track Maximum Length: Throughout the process, keep track of the maximum window length that satisfies the condition.
+
+# Complexity :
+- Time : O(n)     ...Each element is added and removed from the deques at most once, resulting in linear time complexity.
+- Space : O(n)    ...In the worst case, both deques can contain all elements of the input array.

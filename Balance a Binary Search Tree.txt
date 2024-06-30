@@ -1,0 +1,35 @@
+class Solution {
+    public TreeNode balanceBST(TreeNode root) {
+        List<Integer> inorder = new ArrayList<>();
+        getInorder(root,inorder);
+        root = createBst(inorder,0,inorder.size()-1);
+        return root;
+    }
+    private void getInorder(TreeNode root, List<Integer> inorder){	// sort elements in INORDER form.
+        if(root == null){
+            return;
+        }
+        getInorder(root.left,inorder);
+        inorder.add(root.val);
+        getInorder(root.right,inorder);
+    }
+    private TreeNode createBst(List<Integer> inorder, int left, int right){	// create binary search tree by using recursion, on every iteration it find mid and set it as current node and move left and right node.
+        if(left > right){
+            return null;
+        }
+        int mid = (right + left) / 2;
+        TreeNode root = new TreeNode(inorder.get(mid));
+        root.left = createBst(inorder, left, mid - 1);
+        root.right = createBst(inorder, mid + 1, right);
+        return root;
+    }
+}
+
+# Approach
+1. sort the root and add it into ArrayList in sorted form.
+2. Then conversion of sorted elements into Balanced BST.
+3. return root.
+
+# Complexity :
+Time complexity: O(n)
+Space complexity: O(1)

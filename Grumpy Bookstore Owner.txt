@@ -1,0 +1,30 @@
+class Solution {
+    public int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
+        int left = 0, withoutGrumpy = 0, max = 0;
+        for(int right = 0; right < grumpy.length; right++){
+            withoutGrumpy += customers[right] * grumpy[right];
+            max = Math.max(max,withoutGrumpy);
+            if(right >= minutes - 1){
+                withoutGrumpy -= customers[left] * grumpy[left++];
+            }
+        }
+        for(left = 0; left < grumpy.length; left++){
+            max += customers[left] * (1 - grumpy[left]);
+        }
+        return max;
+    }
+}
+
+# Approach :
+1. intialize left,withoutGrumpy and max as 0 
+2. where left is a pointer,withoutGrumpy is the use to calculate the sum of those customers which are not at time of grumpy means '0' , and max use to calcualte result.
+3. we iterate through customers by using right pointer which track till last, 
+    - current right index pointer having customers with grumpy '0' then we add it to withoutGrumpy.
+    - update max among max and withoutGrumpy.
+    - `right >= minutes - 1`,  here we use sliding window approach which is minutes of length, in which we just substact left customers with grumpy '0' and move left pointer to next.
+4. then we again iterate customers from left to end of customers and add only the customers with grumpy of '0'.
+5. return max. 
+
+# Complexity :
+- Time complexity: O(N)
+- Space complexity: O(1)
