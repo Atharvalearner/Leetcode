@@ -1,0 +1,42 @@
+class Solution {
+    public List<Integer> luckyNumbers(int[][] matrix) {
+        List<Integer> result = new ArrayList<>();
+        for (int row = 0; row < matrix.length; row++) {
+            int minCol = findMinColumn(matrix, row);
+            int minColVal = matrix[row][minCol];
+            if (isMaxInColumn(matrix, minColVal, minCol)) {
+                result.add(minColVal);
+            }
+        }
+        return result;
+    }
+    private int findMinColumn(int[][] matrix, int row) {
+        int minVal = matrix[row][0], minCol = 0;
+        for (int col = 1; col < matrix[row].length; col++) {
+            if (matrix[row][col] < minVal) {
+                minVal = matrix[row][col];
+                minCol = col;
+            }
+        }
+        return minCol;
+    }
+    private boolean isMaxInColumn(int[][] matrix, int minColVal, int col) {
+        for (int row = 0; row < matrix.length; row++) {
+            if (matrix[row][col] > minColVal){
+                return false;
+            } 
+        }
+        return true;
+    }
+}
+
+# Approach:
+1. Iterate through each row of the matrix.
+2. For each row, find the minimum element and its column index.
+3. Check if this minimum element is also the maximum in its column.
+4. If it is, we've found a lucky number, so add it to the result list.
+5. Return the list of lucky numbers.
+
+# Complexity :
+- Time : O(M * N)
+- Space : O(1)

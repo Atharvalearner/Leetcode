@@ -1,0 +1,46 @@
+class Solution {
+    HashSet<Integer> hs = new HashSet<>();
+    List<TreeNode> res = new ArrayList<>();
+    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
+        for(int target : to_delete){
+            hs.add(target);
+        }
+        dfs(root);
+        if(!hs.contains(root.val)){
+            res.add(root);
+        }
+        return res;
+    }
+    private TreeNode dfs(TreeNode root){
+        if(root == null){
+            return null;
+        }
+        root.left = dfs(root.left);
+        root.right = dfs(root.right);
+        if(hs.contains(root.val)){
+            if(root.left != null){
+                res.add(root.left);
+            }
+            if(root.right != null){
+                res.add(root.right);
+            }
+            return null;
+        }
+        return root;
+    }
+}
+
+# Approach :
+1. add all delete values to hashset.
+2. then iterate to tree
+	- if curr root value is null then return.
+	- else go to left and right of root.
+	- if hashset contains current root value that means we need to delete that current node.
+	- before delete current node we check it having left and right node or not if present then we add that left and right node to result  list.
+	- else we don't have left and right of node to current deleting node then return null.
+	- out of above none case is fit then add current node to result list.
+3. after iteration return root.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

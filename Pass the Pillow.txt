@@ -1,0 +1,15 @@
+class Solution {
+    public int passThePillow(int n, int time) {
+        int timeForOnePass = n - 1;
+        int totalPasses = time / timeForOnePass;
+        int remaining = time % timeForOnePass;
+        if(totalPasses % 2 == 0){
+            return remaining + 1;
+        }
+        return n - remaining;
+    }
+}
+
+# Complexity :
+- Time : O(1)
+- Space : O(1)

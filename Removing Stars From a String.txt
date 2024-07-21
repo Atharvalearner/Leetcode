@@ -1,0 +1,20 @@
+class Solution {
+    public String removeStars(String s) {
+        Stack<Character> st = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        for(char ch : s.toCharArray()){
+            if(ch != '*'){
+                st.push(ch);
+            }else{
+                st.pop();                
+            }
+        }
+        for(char ch : st){
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+}
+
+# Intuition :
+use a stack to keep track of the characters in the input string. Whenever we encounter a star, we can remove the topmost character from the stack. After processing all characters in the input string, we can convert the stack to a string and return it as the output.

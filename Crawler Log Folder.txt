@@ -1,0 +1,27 @@
+class Solution {
+    public int minOperations(String[] logs) {
+        int count = 0;
+        for(String curr : logs){
+            if(curr.charAt(1) == '.'){
+                count = Math.max(0, count - 1);
+            }else if(curr.charAt(0) != '.'){
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+# Intuition :
+Start at level = 0 in the folder structure. Move up or down levels in the folder structure, using 3 cases:
+
+"../" Move down a level toward the root: Level-1, but not below zero.
+"./" Do nothing.
+"text/" Move upward in the folder structure: Level+1.
+To decide on which case, for case 1. if the second character is a '.' then move down a level. Else to decide between case 2. and case 3., if the first character is not a '.' then move up a level. This method uses character comparisons instead of string comparisons, because usually char operations are faster than String operations.
+
+When done with all the folder strings, the resultant level number is the number of operations needed to go back to the main folder which was requested in the problem description.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

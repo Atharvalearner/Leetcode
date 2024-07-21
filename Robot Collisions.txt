@@ -1,0 +1,59 @@
+class Solution {
+    public List<Integer> survivedRobotsHealths(int[] positions, int[] healths, String directions) {
+        List<Integer> index = new ArrayList<>();
+        for(int i = 0; i < positions.length; i++){
+            index.add(i);
+        }
+        Collections.sort(index, (x,y) -> Integer.compare(positions[x],positions[y]));
+        Stack<Integer> s = new Stack<>();
+        for(int robo : index){
+            if(directions.charAt(robo) == 'L'){
+                while(!s.isEmpty()){
+                    int topRobo = s.peek();
+                    if(healths[robo] == healths[topRobo]){
+                        healths[robo] = 0;
+                        healths[topRobo] = 0;
+                        s.pop();
+                        break;
+                    }
+                    if(healths[robo] > healths[topRobo]){
+                        healths[topRobo] = 0;
+                        healths[robo] = healths[robo] - 1;
+                        s.pop();
+                    }else{
+                        healths[robo] = 0;
+                        healths[topRobo] = healths[topRobo] - 1;
+                        break;
+                    }
+                }
+            }else{
+                s.push(robo);
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for(int robo : healths){
+            if(robo != 0){
+                res.add(robo);
+            }
+        }
+        return res;
+    }
+}
+
+# Intuition :
+Sort the robot by positions. Scan all robots from left to right. The key point is that all robots are moving with the same speed, so if they move to the same direction they will never collide. And if they move to the different / opposite position, if a robot is moving to the left, then it collide with the ones moving to the right in order (based on the positions of the robots that are moving to the left, the rightmost one on its left collides first), if same health robots move in opposite direction they collide then both are removed and set as 0, If One robot health is greater than other robot and they collide then the robot with lesser health are removed or popped set as 0 and other with greater health are decreased by one point.
+
+# Approach :
+1. sort the all robots by their positions by using Comparison operator sort.
+2. iterate all the robots from left to right one by one.
+3. If it's moving to the right, we just push it to the stack.
+4. If One robot health is greater than other robot and they collide then the robot with lesser health are removed or popped and other with greater health are decreased by one point.
+5. If it's moving to the left, then we pop robots from the stack one by one. Processing the collisions until the current robot disappears or the stack is empty.
+6. If both left and right robots health are same and they collide each other then both robots are removed or pop.
+7. after setting all robots healths we need to set robots according to their original position as initials so we arrange it.
+8. if robots health is 0 that means we don't need to set it so, we just set that robots which has health greater than 0.
+9. return result.
+
+# Complexity :
+- Time : O(N log N) ...because of sorting.
+- Space : O(n)

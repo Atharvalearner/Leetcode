@@ -1,0 +1,65 @@
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int fst = cost[0], scnd = cost[1];
+        if(cost.length <= 2){
+            return Math.min(fst, scnd);
+        }
+        for(int i = 2; i < cost.length; i++){
+            int curr = cost[i] + Math.min(fst, scnd);
+            fst = scnd;
+            scnd = curr;
+        }
+        return Math.min(fst, scnd);
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
+
+# Dry Run : 
+let Input: cost = [1,100,1,1,1,100,1,1,100,1]
+          index = [0, 1 ,2,3,4, 5 ,6,7, 8, 9]
+1. length of cost > 2 hence we skip first it condition.
+
+2. i = 2
+   fst = 1, scnd = 100,
+   curr = cost[2] + min(fst,scnd) = 1 + 1 = 2
+   fst = 100, scnd = 2
+
+3.  i = 3
+   fst = 100, scnd = 2,
+   curr = cost[3] + min(fst,scnd) = 1 + 2 = 3
+   fst = 2, scnd = 3
+
+4. i = 4
+   fst = 2, scnd = 3,
+   curr = cost[4] + min(fst,scnd) = 1 + 2 = 3
+   fst = 3, scnd = 3
+
+5. i = 5
+   fst = 3, scnd = 3,
+   curr = cost[5] + min(fst,scnd) = 100 + 3 = 103
+   fst = 3, scnd = 103
+
+6. i = 6
+   fst = 3, scnd = 103,
+   curr = cost[6] + min(fst,scnd) = 1 + 3 = 4
+   fst = 103, scnd = 4
+
+7. i = 7
+   fst = 103, scnd = 4,
+   curr = cost[7] + min(fst,scnd) = 1 + 4 = 5
+   fst = 4, scnd = 5
+
+8. i = 8
+   fst = 4, scnd = 5,
+   curr = cost[8] + min(fst,scnd) = 100 + 4 = 104
+   fst = 5, scnd = 104
+
+9. i = 9
+   fst = 5, scnd = 104,
+   curr = cost[9] + min(fst,scnd) = 1 + 5 = 6
+   fst = 104, scnd = 6
+
+result  = min(fst,scnd) = min(104,6) = 6

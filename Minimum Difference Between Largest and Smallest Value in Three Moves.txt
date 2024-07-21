@@ -1,0 +1,19 @@
+class Solution {
+    public int minDifference(int[] nums) {
+        int n = nums.length;
+        if(nums.length <= 4){
+            return 0;
+        }
+        Arrays.sort(nums);
+        int min = Integer.MAX_VALUE;
+        min = Math.min(min, nums[n-4] - nums[0]);	// Case 1 : converting last three values
+        min = Math.min(min, nums[n-1] - nums[3]);	// Case 2 : Converting first three values
+        min = Math.min(min, nums[n-3] - nums[1]);	// Case 3 : Converting 2 left vaules and 1 right value
+        min = Math.min(min, nums[n-2] - nums[2]);	// Case 4 : Converting 1 left value and 2 right values
+        return min;
+    }
+}
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(1)

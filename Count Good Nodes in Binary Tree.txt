@@ -1,0 +1,27 @@
+class Solution {
+    int count = 0;
+    public int goodNodes(TreeNode root) {
+        isGood(root, root.val);
+        return count;
+    }
+    private void isGood(TreeNode root, int max){
+        if(root == null){
+            return;
+        }
+        if(root.val >= max){
+            count++;
+        }
+        isGood(root.left, Math.max(root.val, max));
+        isGood(root.right, Math.max(root.val, max));
+    }
+}
+
+# Approach :
+1. traverse tree by dfs.
+2. if root.val > the max value of path from root of the tree to current node then increment the count.
+3. updating max value of current path and traversing left to the current node.
+4. updating max value of current path and traversing right to the current node.
+
+# Complexity :
+- Time : O(N)
+- Space : O(H)

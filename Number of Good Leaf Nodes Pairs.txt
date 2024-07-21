@@ -1,0 +1,40 @@
+class Solution {
+    int ans = 0;
+    public int countPairs(TreeNode root, int distance) {
+        findleafs(root,distance);
+        return ans;
+    }
+    private List<Integer> findleafs(TreeNode root, int distance){
+        if(root == null){
+            return new ArrayList<Integer>();
+        }
+        if(root.left == null && root.right == null){
+            List<Integer> leaf = new ArrayList<>();
+            leaf.add(1);
+            return leaf;
+        }
+        List<Integer> left = findleafs(root.left,distance);
+        List<Integer> right = findleafs(root.right,distance);
+        for(int lnode : left){
+            for(int rnode : right){
+                if(lnode + rnode <= distance){
+                    ans++;
+                }
+            }
+        }
+        List<Integer> mergeList = new ArrayList<>();
+        for(int curr : left){
+            mergeList.add(curr + 1);
+        }
+        for(int curr : right){
+            mergeList.add(curr + 1);
+        }
+        return mergeList;
+    }
+}
+
+# Approach :
+1. To calculate the number of good leaf nodes. You need to traverse the left subtree and right subtree of a particular node.
+2. While traversing the left or right subtree of a particular node you can return an Arraylist of the distance of the leaf nodes from that particular parent node.
+3. When you have the ArrayList of distance from both left and right subtree you can brute force to check pairs that fulfil the given condition and increment the global count.
+4. After you are done with the given brute force you also need to increment every distance by one for the next parent node and then return the new list.

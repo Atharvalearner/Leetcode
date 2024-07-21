@@ -1,0 +1,33 @@
+class Solution {
+    public int pairSum(ListNode head) {
+        ListNode slow = head, fast = head;
+        int max = 0;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode nextNode, prev = null;
+        while(slow != null){
+            nextNode = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow = nextNode;
+        }
+        while(prev != null){
+            max = Math.max(max, head.val + prev.val);
+            prev = prev.next;
+            head = head.next;
+        }
+        return max;
+    }
+}
+
+# Intuition :
+1. Here we first find the middle of the linked list using slow-fast pointer method.
+2. Then after finding the middle, we just reverse all the nodes from the middle till last of list.
+3. Now we keep 2 pointer one pointing to the head and the other pointing to the starting of the reversed part.
+4. Just find the maximum twin sum until the pointer pointing to the reversed part reaches null.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

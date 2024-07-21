@@ -1,0 +1,32 @@
+class Solution {
+    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+        int[] res = new int[spells.length];
+        Arrays.sort(potions);
+        for(int i = 0; i < spells.length; i++){
+            int left = 0, right = potions.length - 1;
+            while(left <= right){
+                int mid = left + (right - left) / 2;
+                long ans = (long) spells[i] * potions[mid];
+                if(ans >= success){
+                    right = mid - 1;
+                }else{
+                    left = mid + 1;
+                }
+            }
+            res[i] = potions.length - left;
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. We start by initializing the output array pairs with all zeros, and sorting the potions array in ascending order.
+2. For each spell in spells, we perform a binary search on the potions array to find the number of potions that form a successful pair with 3. the current spell. We maintain two pointers left and right that initially point to the first and last indices
+of the potions array, respectively.
+4. We repeat the binary search until the left and right pointers meet or cross each other. In each iteration, we compute the product of the current spell and the middle potion using long integer multiplication to avoid integer overflow. If the product is greater than or equal to the success threshold, we move the right pointer to the left of the middle index. Otherwise, we move the left pointer to the right of the middle index.
+5. Once the binary search is complete, we set the corresponding element of pairs to the number of potions that come after the left pointer in the sorted potions array, which are guaranteed to form a successful pair with the current spell.
+6. Finally, we return the pairs array as the result.
+
+# Complexity :
+- Time : O(N log M).
+- Space : O(1)

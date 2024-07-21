@@ -1,0 +1,19 @@
+class Solution {
+    public int findTheWinner(int n, int k) {
+        int curr = 0;
+        for(int i = 1; i <= n; i++){
+            curr = (curr + k) % i;
+        }
+        return curr + 1;
+    }
+}
+
+# Approach :
+1. Initialize the result variable res to 0.
+2. Iterate through number of players from 2 to n. (as in recursion we're starting from bottom)
+3. Update the result using the formula (res + k) % player_num.
+4. Return the final result incremented by 1 to get the winner's position (1-indexed).
+
+#  Complexity :
+- Time : O(n)
+- Space : O(1)

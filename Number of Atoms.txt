@@ -1,0 +1,59 @@
+class Solution {
+    Map<String,Integer> res = new TreeMap<>();
+    Stack<Integer> s = new Stack<>();
+    int multiplier = 1;
+    public String countOfAtoms(String formula) {
+        StringBuilder sb = new StringBuilder();
+        int last = formula.length() - 1, curr = formula.length() - 1;
+        while(curr >= 0){
+            if(formula.charAt(curr) == '('){
+                multiplier = multiplier / s.pop();
+                curr--;
+                continue;
+            }
+            last = curr;
+            int val = 1;
+            if(Character.isDigit(formula.charAt(curr))){
+                while(Character.isDigit(formula.charAt(curr))){
+                    curr--;
+                }
+                val = Integer.parseInt(formula.substring(curr + 1, last + 1));
+            }
+            s.push(val);
+            multiplier = multiplier * val;
+            last = curr;
+            if(Character.isLetter(formula.charAt(curr))){
+                while(Character.isLowerCase(formula.charAt(curr))){
+                    curr--;
+                }
+                updateMap(formula.substring(curr, last + 1));
+            }
+            curr--;
+        }
+        for(Map.Entry<String, Integer> currKey : res.entrySet()){
+            sb.append(currKey.getKey());
+            if(currKey.getValue() > 1){
+                sb.append(currKey.getValue());
+            }
+        }
+        return sb.toString();
+    }
+    private void updateMap(String str){
+        if(res.get(str) == null){
+            res.put(str, multiplier);
+        }else{
+            res.put(str, multiplier + res.get(str));
+        }
+        multiplier = multiplier / s.pop();
+    }
+}
+
+
+# Approach :
+The approach used in the given code is to parse the chemical formula string from right to left, keeping track of the current multiplier and using a stack to handle nested parentheses. The code maintains a TreeMap res to store the count of each atom.
+
+# Intuition :
+1. process the formula from right to left
+2. If the current character is a closing parenthesis, we divide the current multiplier by the value popped from the stack.
+3. If the current character is a digit, we find the complete number and push it onto the stack, updating the multiplier accordingly.
+4. If the current character is an uppercase letter, we find the complete element name and update the count in the res map.

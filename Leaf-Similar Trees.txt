@@ -1,0 +1,41 @@
+class Solution {
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> fst = new ArrayList<>();
+        List<Integer> scnd = new ArrayList<>();
+        leafs(root1, fst);
+        leafs(root2, scnd);
+        if(fst.size() != scnd.size()){
+            return false;
+        }
+        int j = 0;
+        for(int num1 : fst){
+            int num2 = scnd.get(j++);
+            if(num1 != num2){
+                return false;
+            }
+        }
+        return true;
+    }
+    private void leafs(TreeNode root, List<Integer> res){
+        if(root == null){
+            return;
+        }
+        if(root.left == null && root.right == null){
+            res.add(root.val);
+        }
+        leafs(root.left, res);
+        leafs(root.right, res);
+    }
+}
+
+# Approach :
+1. We will create two lists of integers to store the values of leaf nodes viz. fst and scnd.
+2. Now, we will traverse the two trees using Depth-First Search approach for that we create leafs function.
+3. During traversal, when we will reach the leaf node, we will store the value of the node in the list and return.
+4. At the end we will compare the two lists and return True or False based on the result of comparison.
+5. if size of both lists are different means nodes are not equal hence we return it as false.
+6. else we iterate node values one by one of fst list and campare node values with scnd list if all node elements are same return true, otherwise, return false.
+
+# Complexity
+- Time : O(N)
+- Space : O(H)

@@ -1,0 +1,32 @@
+class Solution {
+    public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int n = rowSum.length, m = colSum.length;
+        int[][] matrix = new int[n][m];
+        for(int row = 0; row < n; row++){
+            for(int col = 0; col < m; col++){
+                if(rowSum[row] < colSum[col]){
+                    matrix[row][col] = rowSum[row];
+                }else if(rowSum[row] > colSum[col]){
+                    matrix[row][col] = colSum[col];
+                }else{
+                    matrix[row][col] = colSum[col];
+                }
+                rowSum[row] = rowSum[row] - matrix[row][col];
+                colSum[col] = colSum[col] - matrix[row][col];
+            }
+        }
+        return matrix;
+    }
+}
+
+# Approach :
+1. Initialization: Start by initializing a 2D matrix of size n x m, where n is the number of rows and m is the number of columns.
+2. Iterate through the matrix: Use nested loops to iterate through each cell of the matrix.
+3. For each cell at position (i, j), determine the value to be placed by comparing the remaining sums of the corresponding row (rowSum[i]) and column (colSum[j]).
+4. Assign the minimum of the two sums to matrix[i][j]. This ensures that we do not exceed the available sums.
+5. Update sums: After assigning a value to matrix[i][j], update the corresponding row and column sums by subtracting the assigned value.
+6. Return the matrix: Once all cells are filled, return the constructed matrix.
+
+# Complexity :
+- Time : O(n * m)
+- Space : O(n * m)

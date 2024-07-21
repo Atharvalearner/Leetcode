@@ -1,0 +1,41 @@
+class Solution {
+    public TreeNode createBinaryTree(int[][] descriptions) {
+        Map<Integer, TreeNode> map = new HashMap<>();
+        Set<Integer> hasParent = new HashSet<>();
+        TreeNode root = null;
+        for(int i = 0; i < descriptions.length; i++){
+            int parent = descriptions[i][0];
+            int child = descriptions[i][1];
+            if(!map.containsKey(parent)){
+                map.put(parent, new TreeNode(parent));
+            }
+            if(!map.containsKey(child)){
+                map.put(child,new TreeNode(child));
+            }
+            hasParent.add(child);
+        }
+        for(int i = 0; i < descriptions.length; i++){
+            int parent = descriptions[i][0];
+            int child = descriptions[i][1];
+            int isLeft = descriptions[i][2];
+            if(isLeft == 1){
+                map.get(parent).left = map.get(child);
+            }else{
+                map.get(parent).right = map.get(child);
+            }
+            if(!hasParent.contains(parent)){
+                root = map.get(parent);
+            }
+        }
+        return root;
+    }
+}
+
+# Approach :
+1. Iterate through the descriptions array initially to create all required tree nodes, which are subsequently stored in a hash table for later use in connections.
+2. Iterate through the descriptions array a second time to establish connections between each node and its respective parent. Utilize the hash table to retrieve the corresponding nodes for linking purposes.
+3. Find the root node, which is defined as the node without a parent, and return it.
+
+# Complexity:
+- Time : O(n)
+- Space : O(n)

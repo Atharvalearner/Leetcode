@@ -1,0 +1,35 @@
+class Solution {
+    public String reverseVowels(String s) {
+        int left = 0, right = s.length() - 1;
+        char[] str = s.toCharArray();
+        while(left < right){
+            while(left < right && !checkVowel(str[left])){
+                left++;
+            }
+            while(left < right && !checkVowel(str[right])){
+                right--;
+            }
+            if(left < right){
+                swap(str, left, right);
+                left++;
+                right--;
+            }
+        }
+        return new String(str);
+    }
+    private boolean checkVowel(char ch){
+        if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' || ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U'){
+            return true;
+        }
+        return false;
+    }
+    private void swap(char[] str, int i, int j){
+        char temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+    }
+}
+
+# Complexity : 
+- Time : O(N)
+- Space : O(N)

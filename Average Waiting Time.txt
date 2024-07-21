@@ -1,0 +1,44 @@
+class Solution {
+    public double averageWaitingTime(int[][] customers) {
+        int currTime = 0;
+        long totalWait = 0;
+        for(int[] customer : customers){
+            int arrival = customer[0];
+            int time = customer[1];
+            if(currTime < arrival){
+                currTime = arrival;
+            }
+            int waitingTime = currTime + time - arrival;
+            totalWait += waitingTime;
+            currTime += time;
+        }
+        return (double) totalWait / customers.length;
+    }
+}
+
+
+# Example Dry Run :
+let input: customers = [[1, 2], [2, 5], [4, 3]]:
+
+Customer 1:
+Arrival = 1, Time = 2
+currentTime = 1
+waitTime = 2
+totalwaitTime = 2
+currentTime = 3
+
+Customer 2:
+Arrival: 2, Time: 5
+currentTime = 3
+waitTime = 6
+totalwaitTime = 8
+currentTime = 8
+
+Customer 3:
+Arrival: 4, Time: 3
+currentTime = 8
+waitTime = 7
+totalwaitTime = 15
+currentTime = 11
+
+The average waiting time is 15 / 3 = 5.0.

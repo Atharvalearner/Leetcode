@@ -1,0 +1,28 @@
+class Solution {
+    public String reverseParentheses(String s) {
+        StringBuilder sb = new StringBuilder();
+        Stack<Integer> st = new Stack<>();
+        for(char ch : s.toCharArray()){
+            if(ch == '('){
+                st.push(sb.length());
+            }else if(ch == ')'){
+                int start = st.pop();
+                reverse(sb, start, sb.length() - 1);
+            }else{
+                sb.append(ch);
+            }
+        }
+        return sb.toString();
+    }
+    private void reverse(StringBuilder sb, int start, int end){
+        while(start < end){
+            char curr = sb.charAt(start);
+            sb.setCharAt(start++, sb.charAt(end));
+            sb.setCharAt(end--, curr);
+        }
+    }
+}
+
+# Complexity :
+- Time : O(N ^ 2)
+- Space : O(N)

@@ -1,0 +1,49 @@
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int left = 0, right = nums.length - 1;
+        Random random = new Random();
+        while(true){
+            int pivIndex = left + random.nextInt(right - left + 1);
+            int newPivIndex = partition(nums, left, right, pivIndex);
+            if(newPivIndex == nums.length - k){
+                return nums[newPivIndex];
+            }else if(newPivIndex > nums.length - k){
+                right = newPivIndex - 1;
+            }else{
+                left = newPivIndex + 1;
+            }
+        }   
+    }
+    private int partition(int[] nums, int left, int right, int pivotInd){
+        int pivot = nums[pivotInd];
+        swap(nums, pivotInd, right);
+        int stored_index = left;
+        for(int i = left; i < right; i++){
+            if(nums[i] < pivot){
+                swap(nums, i, stored_index);
+                stored_index++;
+            }
+        }
+        swap(nums, right, stored_index);
+        return stored_index;
+    }
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+
+# Approach :
+1. Initialization:
+	- Set the left boundary to the beginning of the list and the right boundary to the end of the list.
+2. Pivot Selection:
+	- Randomly select a pivot index between the left and right boundaries.
+3. Partitioning:
+	- Move all elements smaller than the pivot to its left and all larger elements to its right.
+	- Return the final position of the pivot after the partitioning.
+4. Check Pivot Position:
+	- If the position of the pivot is the desired k-th largest index, return the pivot.
+	- If the pivot's position is greater than the desired index, adjust the right boundary and repeat.
+	- If the pivot's position is lesser than the desired index, adjust the left boundary and repeat.
+5. The function will eventually return the k-th largest element in the original list.

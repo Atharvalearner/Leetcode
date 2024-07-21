@@ -1,0 +1,14 @@
+class Solution {
+    public int largestAltitude(int[] gain) {
+        int sum = 0, max = 0;
+        for(int curr : gain){
+            sum = sum + curr;
+            max = Math.max(sum, max);
+        }
+        return max;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

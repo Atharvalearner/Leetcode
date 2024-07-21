@@ -1,0 +1,25 @@
+class Solution {
+    public int minFlips(int a, int b, int c) {
+        int count = 0;
+        while(a > 0 || b > 0 || c > 0){
+            int lastA = a & 1;
+            int lastB = b & 1;
+            int lastC = c & 1;
+            if(lastC == 0){
+                count = count + (lastA + lastB);
+            }else{
+                if(lastA == 0 && lastB == 0){
+                    count++;
+                }
+            }
+            a = a >> 1;
+            b = b >> 1;
+            c = c >> 1;
+        }
+        return count;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
