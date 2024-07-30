@@ -1,0 +1,25 @@
+class Solution {
+    public int[] frequencySort(int[] nums) {
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        for(int num : nums){
+            hm.put(num, hm.getOrDefault(num, 0) + 1);
+        }
+        List<Integer> list = new ArrayList<>(hm.keySet());
+        Collections.sort(list, (a,b) -> {
+            return (hm.get(a) == hm.get(b) ? b - a : hm.get(a) - hm.get(b));	// if frequencies of both keys are same then return keyvalue of greater one then another, else return according to current order.
+        });
+        int[] res = new int[nums.length];
+        int i = 0;
+        for(int num : list){
+            for(int j = 0; j < hm.get(num); j++){
+                res[i] = num;
+                i++;
+            }
+        }
+        return res;
+    }
+}
+
+# Complexity : 
+- Time : O(N log N)
+- Space : O(N)

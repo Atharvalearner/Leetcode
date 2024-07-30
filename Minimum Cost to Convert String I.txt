@@ -1,0 +1,38 @@
+class Solution {
+    public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
+        int[][] distance = new int[26][26];
+        for(int i = 0; i < 26; i++){
+            Arrays.fill(distance[i], Integer.MAX_VALUE);
+            distance[i][i] = 0;
+        }
+        for(int i = 0; i < cost.length; i++){
+            distance[original[i] - 'a'][changed[i] - 'a'] = Math.min(distance[original[i] - 'a'][changed[i] - 'a'], cost[i]);
+        }
+        for(int midPoint = 0; midPoint < 26; midPoint++){
+            for(int from = 0; from < 26; from++){
+                if(distance[from][midPoint] < Integer.MAX_VALUE){
+                    for(int to = 0; to < 26; to++){
+                        if(distance[midPoint][to] < Integer.MAX_VALUE){
+                            distance[from][to] = Math.min(distance[from][to], distance[from][midPoint] + distance[midPoint][to]);
+                        }
+                    }
+                }
+            }
+        }
+        long res = 0L;
+        for(int i = 0; i < source.length(); i++){
+            int s = source.charAt(i) - 'a';
+            int t = target.charAt(i) - 'a';
+            if(distance[s][t] != Integer.MAX_VALUE){
+                res = res + (long)distance[s][t];
+            }else{
+                return -1L;
+            }
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N ^ 3)
+- Space : O(N ^ 2)

@@ -1,0 +1,31 @@
+class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        boolean[] visited = new boolean[rooms.size()];
+        dfs(rooms, 0, visited);
+        for(boolean isVisited : visited){
+            if(!isVisited){
+                return false;
+            }
+        }
+        return true;
+    }
+    private void dfs(List<List<Integer>> graph, int currRoom, boolean[] visited){
+        visited[currRoom] = true;
+        for(int keys : graph.get(currRoom)){
+            if(!visited[keys]){
+                dfs(graph, keys, visited);
+            }
+        }
+    }
+}
+
+# Approach : 
+1. initialize visited array to stores Boolean value where room is visited or not.
+2. iterate rooms through dfs from room 0(according to given condition)
+	- if current room false means is not visited then return false, else move to next room.
+3. In dfs, set current room as true means visited then iterate through its inside stored rooms keys, hence if that keys are not already visited then again call dfs recursively for that key, otherwise move to next key.
+
+# Complexity :
+- Time : O(V + E)
+- Space : O(N)
+

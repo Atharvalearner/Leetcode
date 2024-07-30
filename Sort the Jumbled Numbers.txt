@@ -1,0 +1,71 @@
+class Solution {
+    public int[] sortJumbled(int[] mapping, int[] nums) {
+        List<int[]> mapNumWithIndex = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            String str = Integer.toString(nums[i]);
+            StringBuilder sb = new StringBuilder();
+            for(char curr : str.toCharArray()){
+                sb.append(mapping[curr - '0']);
+            }
+            mapNumWithIndex.add(new int[]{ nums[i], Integer.parseInt(sb.toString()), i});
+        }
+        mapNumWithIndex.sort((a,b) -> {
+            if(a[1] != b[1]){
+                return Integer.compare(a[1], b[1]);
+            }else{
+                return Integer.compare(a[2], b[2]);
+            }
+        });
+        int[] res = new int[nums.length];
+        for(int i = 0; i < mapNumWithIndex.size(); i++){
+            res[i] = mapNumWithIndex.get(i)[0];
+        }
+        return res;
+    }
+}
+
+# Intuition :
+1. Mapping Digits to New Values:
+	- Each digit in a number needs to be mapped to a new digit using the mapping array. For example, if mapping[0] = 2, then the digit 0 should be replaced by 2.
+2. Transform Each Number:
+	- For each number in nums, convert it to its mapped equivalent. For instance, if the number is 328 and mapping is {2, 1, 4, 8, 6, 3, 0, 9, 7, 5}, then:
+	- 1 becomes 8 (from mapping[1])
+	- 2 becomes 4 (from mapping[2])
+	- 3 becomes 7 (from mapping[3])
+	- Thus, 328 is transformed to 847.
+3. Sort by Transformed Values:
+	- Sort the original numbers based on their transformed values. However, if two numbers have the same transformed value, they should retain their original relative order (this is known as stable sorting).
+
+
+# Detailed Steps and Intuition:
+1. Convert and Store Mapped Values:
+	- Create a list of arrays where each array holds the original number, its mapped value, and its original index. This helps in:
+	- Easily sorting by the mapped values.
+	- Maintaining the original order for numbers with identical mapped values.
+2. Sort the List:
+	- Sort the list primarily by the mapped values. If two numbers have the same mapped value, use their original indices to retain their initial order (stable sorting).
+3. Construct the Result:
+	- After sorting, extract the original numbers in the new order and store them in the result array.
+
+
+# Example to Illustrate:
+int[] mapping = {2, 1, 4, 8, 6, 3, 0, 9, 7, 5};
+int[] nums = {990, 332, 981, 330};
+
+1. Transform Each Number:
+	- 990 becomes 255 (9->5, 9->5, 0->2)
+	- 332 becomes 884 (3->8, 3->8, 2->4)
+	- 981 becomes 577 (9->5, 8->7, 1->1)
+	- 330 becomes 882 (3->8, 3->8, 0->2)
+
+2. List Before Sorting:
+	- [ {990, 255, 0}, {332, 884, 1}, {981, 577, 2}, {330, 882, 3} ]
+
+3. List After Sorting:
+	- [ {990, 255, 0}, {981, 577, 2}, {330, 882, 3}, {332, 884, 1} ]
+4. Result:
+	- The sorted array based on mapped values: [990, 981, 330, 332]
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

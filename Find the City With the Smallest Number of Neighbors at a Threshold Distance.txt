@@ -1,0 +1,63 @@
+class Solution {
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        int[][] distance = new int[n][n];
+        for(int i = 0; i < n; i++){
+            Arrays.fill(distance[i], 1000000000);
+            distance[i][i] = 0;
+        }
+        for(int[] edge : edges){
+            distance[edge[0]][edge[1]] = edge[2];
+            distance[edge[1]][edge[0]] = edge[2];
+        }
+        for(int midCity = 0; midCity < n; midCity++){
+            for(int from = 0; from < n; from++){
+                for(int to = 0; to < n; to++){
+                    distance[from][to] = Math.min(distance[from][to], distance[from][midCity] + distance[midCity][to]);
+                }
+            }
+        }
+        int smallestCity = -1;
+        int mini = Integer.MAX_VALUE;
+        int[] reachable = new int[n];
+        for(int from = 0; from < n; from++){
+            int count = 0;
+            for(int to = 0; to < n; to++){
+                if(from != to && distance[from][to] <= distanceThreshold){
+                    count++;
+                }
+            }
+            reachable[from] = count;
+            if(count <= mini){
+                mini = count;
+                smallestCity = from;
+            }
+        }
+        return smallestCity;
+    }
+}
+
+# Intuition :
+1. Find the minimum distance from each city to every other city. 
+2. To find the minimum distance, we can either use Dijkstra's algorithm or the Floyd-Warshall algorithm.
+3. Count the number of cities reachable within the given distance threshold. 
+4. After finding the minimum distances, count how many cities can be reached with a distance less than or equal to the given threshold.
+5. Return the city with the greatest index if there are multiple cities with the same count. 
+6. In case of a tie, we need to return the city with the largest index.
+
+# Detailed Explanation :
+1. Initialize a 2D array distance of size n x n.
+2. Fill each cell with a large value (1000000000) to represent infinity.
+3. Set the distance from each city to itself as 0.
+4. Iterate over each edge in the input.
+5. Set the distance between the connected cities based on the edge weight.
+6. Since the graph is undirected, set the distance for both directions.
+7. Iterate over each possible intermediate city (midCity).
+8. For each pair of cities (from, to), update the distance to be the minimum of the current distance and the distance through the intermediate city (midCity).
+9. Initialize ans to -1 and mini to Integer.MAX_VALUE.
+10. For each city (from), count the number of cities (to) that are reachable within the distance threshold.
+11. Update the reachable array with the count.
+12. If the count is less than or equal to the current minimum (mini), update mini and set ans to the current city (from).
+
+# Complexity : 
+- Time : O(N^3)
+- Space : O(N^2)

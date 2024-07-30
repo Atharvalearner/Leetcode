@@ -1,0 +1,25 @@
+class Solution {
+    int max = 0;
+    public int longestZigZag(TreeNode root) {
+        dfs(root, 0, 0);		// go to 0 means left node
+        dfs(root, 1, 0);		// go to 1 means right node
+        return max;
+    }
+    private void dfs(TreeNode root,int direction, int pathLen){
+        if(root == null){
+            return;
+        }
+        max = Math.max(max, pathLen);		// set max as maximum between max and pathLen.
+        if(direction == 0){			// if direction is left (0) then again iterate to right node of current node and increment path length by 1.
+            dfs(root.right, 1, pathLen + 1);
+            dfs(root.left, 0, 1);
+        }else{					// else direction is right (1) then again iterate to left node of current node and increment path length by 1.
+            dfs(root.left, 0, pathLen + 1);
+            dfs(root.right, 1, 1);
+        }
+    }
+}
+
+# Complexity : 
+- Time : O(N)
+- Space : O(N)
