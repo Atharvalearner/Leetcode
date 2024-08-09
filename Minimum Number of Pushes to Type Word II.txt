@@ -1,0 +1,35 @@
+class Solution {
+    public int minimumPushes(String word) {
+        HashMap<Character, Integer> hm = new HashMap<>();
+        for(int j = 0; j <  word.length(); j++){
+            hm.put(word.charAt(j), hm.getOrDefault(word.charAt(j),0)+1);
+        }
+        List<Integer> counts = new ArrayList<>(hm.values());
+        Collections.sort(counts, Collections.reverseOrder());
+        int count = 0, row = 1;
+        for(int i = 0; i < counts.size(); i++){
+            if(i % 8 == 0 && i > 7){
+                row++;
+            }
+            count = count + (row * counts.get(i));
+        }
+        return count;
+    }
+}
+
+# Intuition :
+The code starts by counting the occurrences of each letter in the input string because we want to minimize the number of pushes for the most frequent letters.
+By sorting the counts in descending order, we ensure that the most frequency letters come first.
+The code then iterates through the sorted counts, assigning rows on a keypad to distribute the pushes efficiently.
+It calculates the minimum number of pushes by multiplying the count of each letter by the current row number.
+The total minimum pushes are accumulated, and the final result is returned.
+
+# Approach :
+1. the code counts the frequency of each letter in the input string word using an unordered map (um).
+2. Then, it extracts the counts from the map and stores them in a list (count).
+3. The counts in the list are sorted in descending order to prioritize the most frequent letters.
+4. The code iterates through the sorted counts and calculates the minimum number of pushes required to type each letter, considering the rows on a telephone keypad.
+
+# Complexity :
+- Time : O(N^2)
+- Space : O(N)

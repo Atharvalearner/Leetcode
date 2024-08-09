@@ -1,0 +1,62 @@
+class Solution {
+    public int numMagicSquaresInside(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        if(n*m < 9){
+            return 0;
+        }
+        int count = 0;
+        for(int row = 0; row <= n - 3; row++){
+            for(int col = 0; col <= m - 3; col++){
+                if(isMagicSquare(grid, row, col)){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    private boolean isMagicSquare(int[][] grid, int row, int col){
+        boolean[] visited = new boolean[10];
+        for(int currRow = row; currRow < row + 3; currRow++){
+            for(int currCol = col; currCol < col + 3; currCol++){
+                int num = grid[currRow][currCol];
+                if(num < 1 || num > 9 || visited[num]){
+                    return false;
+                }
+                visited[num] = true;
+            }
+        }
+        int sumFstRow = grid[row][col] + grid[row][col+1] + grid[row][col+2];
+        for(int i = row; i < row + 3; i++){
+            if((grid[i][col] + grid[i][col+1] + grid[i][col+2]) != sumFstRow){
+                return false;
+            }
+        }
+        for(int i = col; i < col + 3; i++){
+            if((grid[row][i] + grid[row+1][i] + grid[row+2][i]) != sumFstRow){
+                return false;
+            }
+        }
+        if((grid[row][col] + grid[row+1][col+1] + grid[row+2][col+2]) != sumFstRow){
+            return false;
+        }
+        if((grid[row][col+2] + grid[row+1][col+1] + grid[row+2][col]) != sumFstRow){
+            return false;
+        }
+        return true;
+    }
+}
+
+# Intuition : 
+You need to find the number of 3x3 magic squares within a given grid. A magic square is a 3x3 matrix where the sum of each row, each column, and both diagonals are equal, and the numbers 1 through 9 are used exactly once.
+
+# Approach:
+1. Iterate over the grid: Traverse the grid in such a way that you extract each possible 3x3 subgrid.
+2. Check if the subgrid is a magic square:
+	- Ensure the subgrid contains all numbers from 1 to 9 exactly once.
+	- Check that the sum of each row, each column, and both diagonals are equal.
+3. Count valid magic squares: If a subgrid meets the conditions of a magic square, increment the count.
+
+# Complexity :
+- Time : O(m * n) ... where m and n are the dimensions of the grid.
+- Space : O(1) 

@@ -1,0 +1,27 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int count = 0, left = 0, right = 0;
+        Set<Character> hm = new HashSet<>();
+        while(right < s.length()){
+            char curr = s.charAt(right);
+            if(!hm.contains(curr)){
+                hm.add(curr);
+                count = Math.max(count, hm.size());
+                right++;
+            }else{
+                hm.remove(s.charAt(left++));
+            }
+        }
+        return count;
+    }
+}
+
+# Approach :
+1. use a hash set to track the longest substring without repeating characters 
+2. use a pointer right to see if character right is in the hash set or not, if not then add it to the hash set, move right forward and update the max length
+3. otherwise, move the left pointer and remove that left element from set until we can put character right to the hash set.
+4. return count.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

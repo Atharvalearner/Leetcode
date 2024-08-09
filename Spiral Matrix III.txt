@@ -1,0 +1,49 @@
+class Solution {
+    int[][] res;
+    int currInd;
+    public int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        int row = rStart, col = cStart;
+        int lenOfTraverse = 1, totalLen = rows * cols;
+        currInd = 0;
+        res = new int[totalLen][2];
+        while(currInd < totalLen){
+            for(int i = 0; i < lenOfTraverse; i++){
+                add(row, col++, rows, cols);
+            }
+            for(int i = 0; i < lenOfTraverse; i++){
+                add(row++, col, rows, cols);
+            }
+            lenOfTraverse++;
+            for(int i = 0; i < lenOfTraverse; i++){
+                add(row, col--, rows, cols);
+            }
+            for(int i = 0; i < lenOfTraverse; i++){
+                add(row--, col, rows, cols);
+            }
+            lenOfTraverse++;
+        }
+        return res;
+    }
+    private void add(int currRow, int currCol, int NumOfRows, int NumOfCols){
+        if(currRow >= NumOfRows || currRow < 0 || currCol < 0 || currCol >= NumOfCols){
+            return;
+        }
+        res[currInd][0] = currRow;
+        res[currInd++][1] = currCol;
+    }
+}
+
+# Intuition : 
+This is the easiest solution to understand, by far.
+For others wondering why this works, draw a 8x8 grid, pick a starting cell somewhere in the middle ( as we given the starting pointing for iteration as rStart and cStart) , and do the traversing by hand. Then count the movements by direction of travel, and you will have something like this (one line per spiral loop):
+
+1 right, 1 down, 2 left, 2 up
+3 right, 3 down, 4 left, 4 up
+5 right, 5 down, 6 left, 6 up
+... and so on
+
+A pattern emerges: starting at position (row = rStart, col = cStart), move lenOfTraverse steps right, lenOfTraverse steps down, lenOfTraverse+1 steps left, and lenOfTraverse+1 steps up. Repeat for every loop in the spiral, incrementing lenOfTraverse as needed. Stop iterating once you have visited all Rows*Cols cells.
+
+# Complexity :
+- Time : O(rows * cols)
+- Space : O(rows * cols)

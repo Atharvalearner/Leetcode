@@ -1,0 +1,28 @@
+class Solution {
+    public int minSwaps(int[] nums) {
+        int ones = 0, count = 0, max = 0;
+        for(int num : nums){
+            if(num == 1){
+                ones++;
+            }
+        }
+        int[] arr = new int[nums.length * 2];
+        for(int i = 0; i < arr.length; i++){
+            arr[i] = nums[i % nums.length];
+        }
+        for(int i = 0; i < arr.length; i++){
+            if(i >= ones && arr[i - ones] == 1){
+                count--;
+            }
+            if(arr[i] == 1){
+                count++;
+            }
+            max = Math.max(count, max);
+        }
+        return ones - max;
+    }
+}
+
+# Complexity :
+- Time : O(N*2)
+- Space : O(N*2)
