@@ -1,0 +1,24 @@
+class Solution {
+    public long maxPoints(int[][] points) {
+        long score = 0;
+        int n = points.length, m = points[0].length;
+        long[] curr = new long[m];
+        for(int row = 0; row < n; row++){
+            curr[0] += points[row][0];
+            for(int col = 1; col < m; col++){
+                curr[col] = Math.max(curr[col - 1] - 1, curr[col] + points[row][col]);
+            }
+            for(int col = m - 2; col >= 0; col--){
+                curr[col] = Math.max(curr[col + 1] - 1, curr[col]);
+            }
+        }
+        for(long val : curr){
+            score = Math.max(score, val);
+        }
+        return score;
+    }
+}
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(M)

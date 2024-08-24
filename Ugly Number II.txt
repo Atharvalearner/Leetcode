@@ -1,0 +1,28 @@
+class Solution {
+    public int nthUglyNumber(int n) {
+        if(n <= 0){
+            return 0;
+        }
+        int a = 0, b = 0, c = 0;		// use to track the index of respective devisor.
+        List<Integer> numbers = new ArrayList<>();
+        numbers.add(1);				// initialize with value 1.
+        while(numbers.size() < n){
+            int nextNum = Math.min(numbers.get(a) * 2, Math.min(numbers.get(b) * 3, numbers.get(c) * 5));	// find next possible smallest number.
+            numbers.add(nextNum);		// add found number to list.
+            if(numbers.get(a) * 2 == nextNum){		// if next possible number is divisible by 2,3 or 5 then increment respective index.
+                a++;
+            }
+            if(numbers.get(b) * 3 == nextNum){
+                b++;
+            }
+            if(numbers.get(c) * 5 == nextNum){
+                c++;
+            }
+        }
+        return numbers.get(numbers.size() - 1);		// return last index or n th ugly number which stored in list.
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

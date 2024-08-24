@@ -1,0 +1,28 @@
+class Solution {
+    public int smallestDistancePair(int[] nums, int k) {
+        Arrays.sort(nums);
+        int minDiff = 0, maxDiff = nums[nums.length - 1] - nums[0];
+        while(minDiff <= maxDiff){
+            int midDiff = minDiff + (maxDiff - minDiff) / 2;
+            int left = 0, right = 0, count = 0;
+            while(right < nums.length){
+                if(nums[right] - nums[left] > midDiff){
+                    left++;
+                }else{
+                    count += right - left;
+                    right++;
+                }
+            }
+            if(count >= k){
+                maxDiff = midDiff - 1;
+            }else{
+                minDiff = midDiff + 1;
+            }
+        }
+        return minDiff;
+    }
+}
+
+# Complexity :
+- Time : O(N^2)
+- Space : O(1)

@@ -1,0 +1,15 @@
+class Solution {
+    public int findComplement(int num) {
+        int countNoBits = 0, n = num;		// countNoBits count number of bits present in num and n is copy of n used for performing operation on num.
+        while(n > 0){				// count number of bits present in num
+            countNoBits++;
+            n = n >> 1;				// left shift by 1 bit.
+        }      
+        int mask = (1 << countNoBits) - 1;	// create a mask of 1's about the size of num, eg : if num = 5(101) then mask = 7(111) 
+        return num ^ mask;			// this mask can be used to flip all the bits in num using XOR.
+    }
+}
+
+# Complexity :
+- Time : O(1)
+- Space : O(1)

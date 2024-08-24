@@ -1,0 +1,28 @@
+class Solution {
+    public int maxDistance(List<List<Integer>> arrays) {
+        int res = 0;
+        int min = arrays.get(0).get(0);
+        int max = arrays.get(0).get(arrays.get(0).size()-1); 
+        for(int i = 1; i < arrays.size(); i++){
+            int currMin = arrays.get(i).get(0);
+            int currMax = arrays.get(i).get(arrays.get(i).size()-1);
+            res = Math.max(res, Math.abs(max - currMin));
+            res = Math.max(res, Math.abs(currMax - min));
+            min = Math.min(min, currMin);
+            max = Math.max(max, currMax);
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. initialize min and max as minimum and maximum element from 1st array.
+2. traverse array from 2nd index positions.
+3. again find current index arrays minimum and maximum element as currMin & currMax;
+4. update res if absolute difference of (min and currMax) OR (max - currMin).
+5. update min and max if currMin is minimum than min and currMax is maximum than max;
+6. after traversing return res.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

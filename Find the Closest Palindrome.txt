@@ -1,0 +1,62 @@
+class Solution {
+    public String nearestPalindromic(String n) {
+        int len = n.length();
+        int i;			// Determine the middle point of the number
+        if (len % 2 == 0) {
+            i = len / 2 - 1;  // For even length, the middle ends one place left
+        } else {
+            i = len / 2;  // For odd length, the middle is the center
+        }
+        long firsthalf = Long.valueOf(n.substring(0, i + 1));	// Extract the first half of the number as an integer
+        List<Long> posibility = new ArrayList<>();		// List to store all possible palindrome candidates
+        posibility.add(halftopalindrome(firsthalf, len % 2 == 0));        // Generate palindrome by mirroring the first half
+        posibility.add(halftopalindrome(firsthalf - 1, len % 2 == 0));	  // Generate palindrome by mirroring the first half - 1
+        posibility.add(halftopalindrome(firsthalf + 1, len % 2 == 0));	// Generate palindrome by mirroring the first half + 1
+        posibility.add((long) Math.pow(10, len - 1) - 1);        // Edge case: smallest palindrome with one less digit
+        posibility.add((long) Math.pow(10, len) + 1);        // Edge case: smallest palindrome with one more digit
+        
+        long diff = Long.MAX_VALUE;  // Initialize minimum difference
+        long res = 0;  // Result to store the closest palindrome
+        long num = Long.valueOf(n);  // Convert the input number to long for comparison
+        for (long pos : posibility) {        // Find the palindrome with the minimum absolute difference
+            if (num == pos) {
+                continue;  // Skip if it's the same as the input number
+            }
+            if (Math.abs(pos - num) < diff) {
+                diff = Math.abs(pos - num);  // Update the minimum difference
+                res = pos;  // Update the result with the closest palindrome
+            } else if (Math.abs(pos - num) == diff) {
+                res = Math.min(res, pos);  // Handle tie cases, choose the smaller one
+            }
+        }
+        return "" + res;  // Convert the result to string and return
+    }
+    long halftopalindrome(long firsthalf, boolean even) {	    // Helper function to generate a palindrome from the half
+        long res = firsthalf;
+        if (!even) {
+            firsthalf /= 10;  // Remove the middle digit if the length is odd
+        }
+        while (firsthalf > 0) {
+            res = res * 10 + (firsthalf % 10);  // Mirror the first half
+            firsthalf /= 10;
+        }
+        return res;  // Return the complete palindrome
+    }
+}
+
+# Intuition :
+To find the nearest palindromic number to a given number n, the idea is to generate potential candidates that are close to n and are palindromes. We focus on numbers that have the same number of digits as n or are one digit longer or shorter because the nearest palindrome would typically fall within this range.
+
+# Approach :
+1. Identify the Middle of the Number: Determine whether the number has an odd or even number of digits. This helps us understand how to mirror the left half to form a palindrome.
+2. Generate Potential Palindromes: Create a palindrome by mirroring the left half of the number.
+	- Generate two more palindromes by incrementing and decrementing the left half and then mirroring again.
+	- Consider edge cases such as 100...001 or 999...999, which are just below or above powers of 10.
+3. Calculate the Closest Palindrome:
+	- Compare the absolute difference between n and each candidate palindrome.
+	- Track the smallest difference and update the result accordingly.
+4. Return the Closest Palindrome: Convert the result to a string and return.
+
+# Complexity :
+- Time : O(k), 
+- Space : O(1)
