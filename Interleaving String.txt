@@ -1,0 +1,58 @@
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int l1 = s1.length(), l2 = s2.length(), l3 = s3.length();
+        if(s1.length() + s2.length() != s3.length()){
+            return false;
+        }
+        int[][] dp = new int[l1+1][l2+1];
+        for(int i = 0; i <= l1; i++){
+            Arrays.fill(dp[i], -1);
+        }
+        return check(s1, s2, s3, 0, 0, dp);
+    }
+    private boolean check(String s1, String s2, String s3, int p1, int p2, int[][] dp){
+        if(p1 + p2 == s3.length()){
+            return true;
+        }
+        if(dp[p1][p2] != -1){
+            return dp[p1][p2] == 1;
+        }
+        boolean ans = false;
+        if(p1 < s1.length() && s1.charAt(p1) == s3.charAt(p1 + p2)){
+            ans |= check(s1, s2, s3, p1+1, p2, dp);
+        }
+        if(p2 < s2.length() && s2.charAt(p2) == s3.charAt(p1 + p2)){
+            ans |= check(s1, s2, s3, p1, p2+1, dp);
+        }
+        dp[p1][p2] = ans ? 1 : 0;
+        return ans;
+    }
+}
+
+# Approach :
+1. The solve function is a recursive helper function that takes the current indices p1 and p2 for strings s1 and s2 respectively, along with a memoization table dp. The purpose of this function is to check if it's possible to create the remaining part of s3 (starting from p1+p2 position) using the remaining parts of s1 (starting from p1 position) and s2 (starting from p2 position).
+
+2. The base case for the recursion is when the sum of p1 and p2 equals the length of s3, meaning all characters of s3 have been matched successfully. In this case, the function returns true.
+
+3. Before proceeding with the actual computation, the function checks if the result for the current p1 and p2 indices has already been computed and stored in the memoization table dp. If so, it returns the precomputed result.
+
+4. The function initializes a boolean variable ans to false. It then checks two conditions:
+
+5. If p1 is within bounds of s1 and the character at s1[p1] matches the character at s3[p1+p2], it recursively calls solve by moving the index p1 of s1 one step forward.
+6. If p2 is within bounds of s2 and the character at s2[p2] matches the character at s3[p1+p2], it recursively calls solve by moving the index p2 of s2 one step forward.
+7. The ans is updated using the bitwise OR operation (|) to retain any previous true value and to combine the results of the two recursive calls.
+
+8. Finally, the function stores the computed ans in the memoization table dp for the current p1 and p2 indices and returns this result.
+
+9. The isInterleave function is the main function that's called to determine whether s3 can be formed by interleaving characters from s1 and s2. It first checks if the total length of s1 and s2 matches the length of s3. If not, it returns false as it's impossible to form s3.
+
+10. It initializes a 2D vector dp to store the memoization table. The dimensions of this table are (s1.size() + 1) rows and (s2.size() + 1) columns, with all values initialized to -1.
+
+11. It then calls the solve function with initial indices p1 and p2 set to 0, along with the memoization table dp. The result of this call indicates whether it's possible to form s3 by interleaving s1 and s2.
+
+12. The isInterleave function returns the result obtained from the solve function.
+
+
+# Complexity :
+- Time : O(n∗m)
+- Space : O(n∗m)

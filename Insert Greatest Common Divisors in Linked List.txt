@@ -1,0 +1,51 @@
+class Solution {
+    public ListNode insertGreatestCommonDivisors(ListNode head) {
+        if(head.next == null){
+            return head;
+        }   
+        ListNode node1 = head;
+        ListNode node2 = head.next;
+        while(node2 != null){
+            int ans = GCD(node1.val, node2.val);
+            ListNode temp = new ListNode(ans);     
+            node1.next = temp;
+            temp.next = node2;
+            node1 = node2;
+            node2 = node2.next;
+        }
+        return head;
+    }
+    private int GCD(int head, int Next){
+        int ind = Math.min(head, Next);
+        int ans = 0;
+        for(int i = 1; i <= ind; i++){
+            if(head % i == 0 && Next % i == 0){
+                ans = i;
+            }
+        }
+        return ans;
+        // while(Next != 0){		// another method for calculating GCD.
+        //     int temp = Next;
+        //     Next = head % Next;
+        //     head = temp;
+        // }
+        // return head;
+    }
+}
+
+# Approach :
+1. Initialization: Start by checking if the linked list contains only one node. If no insertions are needed, so return the head as it is.
+2. Traversal and Insertion:
+	- Use two pointers: node1 to represent the current node and node2 to represent the next node.
+	- Compute the GCD of the values in node1 and node2.
+	- Create a new node with the computed GCD and insert it between node1 and node2.
+3. Update the pointers:
+	- Set node1.next to the new GCD node.
+	- Set the new GCD node's next to node2.
+	- Move node1 to node2 and node2 to the next node of node2.
+4. Repeat this until node2 is null.
+5. Return: Once the traversal is complete and all necessary nodes are inserted, return the head of the modified list.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

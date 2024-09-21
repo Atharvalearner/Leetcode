@@ -1,0 +1,24 @@
+class Solution {
+    public List<Integer> replaceNonCoprimes(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            while(true){
+                int lastEle = res.isEmpty() ? 1 : res.getLast();
+                int ans = gcd(lastEle, nums[i]);
+                if(ans == 1){
+                    break;
+                }
+                nums[i] *= res.removeLast() / ans;
+            }
+            res.add(nums[i]);
+        }        
+        return res;
+    }
+    private int gcd(int x, int y){
+        return y == 0 ? x : gcd(y, x % y);
+    }
+}
+
+# Complexity :
+- Time : O(N * log(n))
+- Space : O(N)

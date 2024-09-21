@@ -1,0 +1,30 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        int max = 0, n = s.length();
+        String res = "";
+        for(int left = 0; left < n; left++){
+            for(int right = left; right < n; right++){
+                if(s.charAt(left) == s.charAt(right) && check(s, left + 1, right - 1)){
+                    if(max < (right - left + 1)){
+                        max = right - left + 1;
+                        res = s.substring(left, right + 1);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    private boolean check(String s, int left, int right){
+        if(left >= right && right - left <= 2){
+            return true;
+        }
+        if(s.charAt(left) != s.charAt(right)){
+            return false;
+        }
+        return check(s, left + 1, right - 1);
+    }
+}
+
+# Complexity :
+- Time : O(N ^ 2)
+- Space : O(1)

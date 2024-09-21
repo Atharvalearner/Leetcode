@@ -1,0 +1,21 @@
+package Strings;
+
+public class Replacing_vowels_with__{
+    public static void main(String[] args) {
+        String str = "hellothisismannu";
+        int n = str.length();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < n; i++){
+            char ch = str.charAt(i);
+            if(isVowel(ch)){
+                sb.append("_");
+            }else{
+                sb.append(ch);
+            }
+        }
+        System.out.println(sb.toString());
+    }
+    private static boolean isVowel(char ch){
+        return (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') ? true : false;
+    }
+}

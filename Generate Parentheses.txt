@@ -1,0 +1,30 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        dfs(n, res, 0, 0, "");
+        return res;
+    }
+    private void dfs(int n, List<String> res, int open, int close, String str){
+        if(open + close == 2 * n){		// if length of current string is equal to required length i.e. 2 * n then add string to result list and return.
+            res.add(str);
+            return;
+        }
+        if(open < n){				// if open parenthesis is less than n means we can able to add more "(" so we add it and call recursively the function.
+            dfs(n, res, open + 1, close, str + "(");
+        }
+        if(open > close){			// if open parenthesis is grater than close parenthesis means we can able to add more ")" so we add it and call recursively the function.
+
+            dfs(n, res, open, close + 1, str + ")");
+        }
+    }
+}
+
+# Approach :
+1. The idea is to add ')' only after valid '('.
+2. We use two integer variables left & right to see how many '(' & ')' are in the current string.
+3. If left < n then we can add '(' to the current string.
+4. If right < left then we can add ')' to the current string.
+
+# Complexity :
+- Time : O(2 ^ N)
+- Space : O(N)

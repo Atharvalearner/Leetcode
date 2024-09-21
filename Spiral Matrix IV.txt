@@ -1,0 +1,52 @@
+class Solution {
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+        int[][] matrix = new int[m][n];
+        for (int[] curr : matrix) {
+            Arrays.fill(curr, -1);
+        }
+        int top = 0, bottom = m - 1, left = 0, right = n - 1;
+        while (head != null) {
+            for (int col = left; col <= right && head != null; col++) {
+                matrix[top][col] = head.val;
+                head = head.next;
+            }
+            top++;        
+            for (int row = top; row <= bottom && head != null; row++) {
+                matrix[row][right] = head.val;
+                head = head.next;
+            }
+            right--;
+            for (int col = right; col >= left && head != null; col--) {
+                matrix[bottom][col] = head.val;
+                head = head.next;
+            }
+            bottom--;       
+            for (int row = bottom; row >= top && head != null; row--) {
+                matrix[row][left] = head.val;
+                head = head.next;
+            }
+            left++;
+        }
+        return matrix;
+    }
+}
+
+# Approach :
+1. Initialize the Matrix: Start by creating a matrix filled with a default value (e.g., -1).
+2. Define Boundaries: Keep track of the boundaries for the spiral filling:
+	- topRow: the current top boundary
+	- bottomRow: the current bottom boundary
+	- leftColumn: the current left boundary
+	- rightColumn: the current right boundary
+3. Fill the Matrix in Spiral Order:
+	- Top Row: Fill from left to right along the top boundary.
+	- Right Column: Fill from top to bottom along the right boundary.
+	- Bottom Row: Fill from right to left along the bottom boundary.
+	- Left Column: Fill from bottom to top along the left boundary.
+4. Update Boundaries: After filling each part of the matrix, adjust the boundaries to move inward.
+5. Repeat: Continue filling in the spiral order until all values from the linked list are used or the matrix is completely filled.
+This approach ensures that all values are placed in the matrix in a spiral order, and any remaining cells are filled with the default value (-1).
+
+# Complexity :
+- Time : O(M * N)
+- Space : O(M * N)

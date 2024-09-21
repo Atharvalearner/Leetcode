@@ -1,0 +1,61 @@
+class Solution {
+    public String shortestPalindrome(String s) {
+        int left = 0;
+        for(int right = s.length()-1; right >= 0; right--){
+            if(s.charAt(left) == s.charAt(right)){
+                left++;
+            }
+        }
+        if(left == s.length()){
+            return s;
+        }
+        String firstPart = s.substring(left);
+        String lastPart = new StringBuilder(firstPart).reverse().toString();
+        String mid = shortestPalindrome(s.substring(0,left));
+        return lastPart + mid + firstPart;
+    }
+}
+
+# Approach :
+1. Find the largest palindromic prefix :
+   - The `for` loop runs from the end of the string (`right = s.length() - 1`) to the beginning (`right >= 0`). It compares characters from the start (`left`) and the end (`right`).
+   - When `s.charAt(left) == s.charAt(right)`, the `left` pointer is incremented. This process continues until the longest palindromic prefix is identified (i.e., characters match from both ends).
+   
+2. Check if the entire string is a palindrome:
+   - If `left == s.length()`, this means the whole string is already a palindrome, so it's returned as is.
+   
+3. Extract the non-palindromic suffix:
+   - If the string is not entirely a palindrome, the non-palindromic suffix is identified as `s.substring(left)`.
+   
+4. Reverse the suffix:
+   - Reverse this suffix and store it in `lastPart` to prepend it to the original string.
+   
+5. Recursive call on the palindromic prefix:
+   - Recursively call the `shortestPalindrome` function on the prefix (i.e., `s.substring(0, left)`), which is the part that needs to be processed into a palindrome.
+   
+6. Combine the reversed suffix, palindromic prefix, and original suffix:
+   - Return the result as `lastPart + mid + firstPart`, where:
+     - `lastPart` is the reversed non-palindromic suffix.
+     - `mid` is the result of the recursive call.
+     - `firstPart` is the original suffix.
+
+# Dry Run : 
+ - "abcd":
+1. Find largest palindromic prefix:
+   - `left = 0`, `right = 3` → `'a' == 'd'` → No match.
+   - `left = 0`, `right = 2` → `'a' == 'c'` → No match.
+   - `left = 0`, `right = 1` → `'a' == 'b'` → No match.
+   - `left = 0`, `right = 0` → `'a' == 'a'` → Match, `left = 1`.
+   - The longest palindromic prefix is `"a"`.
+2. Non-palindromic suffix:
+   - `firstPart = "bcd"`.
+3. Reverse the suffix:
+   - `lastPart = "dcb"`.
+4. Recursive call:
+   - Call `shortestPalindrome("a")`. Since `"a"` is a palindrome, return `"a"`.
+5. Combine and return:
+   - Result: `lastPart + mid + firstPart = "dcb" + "a" + "bcd" = "dcbabcd"`.
+
+# Complexity:
+- Time : O(n²)  ... due to recursion and string manipulation.
+- Space : O(n) ... for storing intermediate strings and recursion stack.

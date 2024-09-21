@@ -1,0 +1,30 @@
+class Solution {
+    public int longestSubarray(int[] nums) {
+        int length = 0, max = 0;
+        for(int i=0; i<nums.length; i++){
+            max = Math.max(max,nums[i]);
+        }
+        int count=0; 
+        for(int i=0; i<nums.length; i++){
+            if(nums[i]==max){
+                count++;
+                length = Math.max(length,count);
+            }else{
+                count = 0;
+            }
+        }
+        return length;
+    }
+}
+
+# Intuition :
+To find the longest contiguous subarray where the bitwise AND of the elements is maximized. The intuition is that the maximum possible bitwise AND can only occur when all elements of the subarray are equal to the largest value in the array. This is because the bitwise AND of any subarray that includes a smaller number will be smaller than the largest value.
+
+# Approach :
+1. Get the maximum value: First, we find the maximum number in the array, as this will be the maximum bitwise AND possible for any subarray
+2. Count the longest contiguous subarray of maximum values: We then loop through the array to find the longest contiguous subarray where all elements are equal to this maximum value.
+3. Maintain a count of consecutive occurrences of this maximum value and update the longest length when a new valid subarray is found
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

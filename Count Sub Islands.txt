@@ -1,0 +1,36 @@
+class Solution {
+    boolean isSubIsland;
+    public int countSubIslands(int[][] grid1, int[][] grid2) {
+        int n = grid1.length, m = grid1[0].length;
+        int subIslandCount = 0;
+        for(int row = 0; row < n; row++){
+            for(int col = 0; col < m; col++){
+                if(grid2[row][col] == 1){
+                    isSubIsland = true;		// marking this island containing i,jth cell as sub-island
+                    findIsland(grid1, grid2, row, col);
+                    if(isSubIsland == true){
+                        subIslandCount++;	// checking if it still remains sub-island, if so count it.
+                    }
+                }
+            }
+        }
+        return subIslandCount;
+    }
+    private void findIsland(int[][] grid1, int[][] grid2, int row, int col){
+        if(row < 0 || col < 0 || row >= grid1.length || col >= grid1[row].length || grid2[row][col] == 0){
+            return;
+        }
+        if(grid1[row][col] != grid2[row][col]){		// marking as non subIsland as the i,j th cell is not present in grid1 and proceeding further to exhaust this island
+            isSubIsland = false;
+        }
+        grid2[row][col] = 0;		// once visited marking i,jth cell unreachable in future or in simple term visited.
+        findIsland(grid1, grid2, row, col-1);
+        findIsland(grid1, grid2, row, col+1);
+        findIsland(grid1, grid2, row-1, col);
+        findIsland(grid1, grid2, row+1, col);
+    }
+}
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(N * M)

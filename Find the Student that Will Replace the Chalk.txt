@@ -1,0 +1,28 @@
+class Solution {
+    public int chalkReplacer(int[] chalk, int k) {
+        long sum = 0;
+        for(int curr : chalk){
+            sum = sum + curr;
+        }
+        long remaining = k % sum;
+        for(int i = 0; i < chalk.length; i++){
+            if(remaining < chalk[i]){
+                return i;
+            }
+            remaining = remaining - chalk[i];
+        }
+        return -1;
+    }
+}
+
+# Intuition :
+The problem is about determining which student will be the one to use up the last piece of chalk. Since the chalk usage pattern is repetitive, if k (the initial amount of chalk) is larger than the total chalk used in one complete cycle, we can simplify the problem by reducing k to a smaller equivalent value within the cycle. This allows us to efficiently find the student who will deplete the remaining chalk.
+
+# Approach :
+1. Calculate the Total Chalk Used per Cycle: First, compute the sum of all elements in the chalk array using accumulate. This gives us the total chalk used by all students in one full cycle.
+2. calculate remaining k value: If remaining exceeds the total chalk sum, reduce it by performing remaining = k % accSum. This step reduces k to an equivalent value within the bounds of a single cycle, making the problem manageable.
+3. Identify the Responsible Student: Iterate through the chalk array, subtracting each student’s chalk usage from remaining. The first student whose chalk requirement is greater than the remaining k is the one who will use up the last piece of chalk.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

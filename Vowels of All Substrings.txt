@@ -1,0 +1,46 @@
+class Solution {
+    public long countVowels(String word) {
+        long sum = 0, count = 0;
+        for(int i = 0; i < word.length(); i++){
+            char curr = word.charAt(i);
+            if(curr == 'a' || curr == 'e' || curr == 'i' || curr == 'o' || curr == 'u'){
+                count = count + i + 1;
+            }
+            sum = sum + count;
+        }
+        return sum;
+    }
+}
+
+# Intuition
+It solves using windowSubstring means increases one by one character into the window and find out how many vowels are present in current substring and add that vowel count into total sum.
+
+# Dry Run :
+let assume, word = "aba"
+sum = 0, count = 0
+Iterate word character one by one as follows:
+
+1. curr = "a", windowSubstring = "a"
+    curr is vowel hence, count = previousCount + currIndex + 1 = 0 + 0 + 1 = 1.
+    add total sum of vovels till current character = sum + count = 0 + 1 = 1
+    count = 1, sum = 1;
+
+2. curr = "b", windowSubstring = "ab"
+    curr is not vowel hence, we directly add total sum of vovels till current character = sum + count = 1 + 1 = 2.
+    count = 1, sum = 2;
+
+3. curr = "a", windowSubstring = "aba"
+    curr is vowel hence, count = previousCount + currIndex + 1 = 1 + 2 + 1 = 4.
+    add total sum of vovels till current character = sum + count = 4 + 2 = 6
+    count = 4, sum = 6;
+
+# Approach :
+1. initialize sum and count as 0.
+2. iterate word string characters one by one.
+3. if current character is vowel(a,e,i,o,u) then increment the count by previous vowel count with current index + 1.
+4. add total sum of vowels upto current character.
+5. return total sum.
+
+# Complexity :
+- Time complexity: O(N)
+- Space complexity: O(1)

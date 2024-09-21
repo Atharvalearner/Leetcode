@@ -1,0 +1,30 @@
+class Solution {
+    public int[] xorQueries(int[] arr, int[][] queries) {
+        int[] prefix = new int[arr.length];
+        prefix[0] = arr[0];
+        for(int i = 1; i < arr.length; i++){
+            prefix[i] = prefix[i - 1] ^ arr[i];
+        }
+        int[] res = new int[queries.length];
+        for(int i = 0; i < queries.length; i++){
+            int left = queries[i][0];
+            int right = queries[i][1];
+            if(left == 0){
+                res[i] = prefix[right];
+            }else{
+                res[i] = prefix[right] ^ prefix[left - 1];
+            }
+        }
+        return res;
+    }
+}
+
+# Approach
+1. Preprocessing with Prefix XOR Array: compute a prefix XOR array pre, where pre[i] is the XOR of all elements from the start of the array up to index i. This allows us to quickly compute the XOR for any subarray.
+2. Compute XOR for Queries: Given the prefix XOR array, for any query that asks for the XOR of the subarray from index left to right, we can efficiently compute the result using:
+3. pre[right] if left is 0.
+4. pre[right] ^ pre[left - 1] otherwise. This is because pre[right] gives the XOR from the start of the array up to right, and subtracting pre[left - 1] removes the contribution of the elements before left.
+
+# Complexity :
+- Time : O(N + Q)
+- Space : O(N + Q)

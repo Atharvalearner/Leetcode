@@ -1,0 +1,39 @@
+class Solution {
+    public int[] missingRolls(int[] rolls, int mean, int n) {
+        int m = rolls.length, sum = 0;
+        for(int roll : rolls){
+            sum = sum + roll;
+        }
+        int base = n + m;
+        int multiplier = mean * base;
+        int remain = multiplier - sum;
+        if(remain <= 0 || n * 6 < remain || (remain / n) == 0){
+            return new int[]{};
+        }
+        int[] res = new int[n];
+        int x = remain / n, moduloRemaining = remain % n;
+        for(int i = 0; i < n; i++){
+            res[i] = x + (moduloRemaining > 0 ? 1 : 0);
+            moduloRemaining--;
+        }
+        return res;
+    }
+}
+
+# Intuition :
+We need to add the n elements to the sum of total elements given in such that -
+Lets say total of n elements be x and total of m elements be sum only!
+
+(x+sum)
+---------- = mean
+(m+n)
+
+# Approach
+1. we have to look after finding remain from it!
+2. We can take two variable x and moduloRemain and store reamin / n in x and remian % n in moduloRemain.
+3. remain will have same value in whole in array
+4. moduloRemain will add 1 next moduloRemain times as if remain is not divisible by n so we have to manage the remainder!
+
+# Complexity :
+- Time : O(n)
+- Space : O(n)

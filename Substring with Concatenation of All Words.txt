@@ -1,0 +1,46 @@
+class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        int words_Len = words.length, wordLen = words[0].length();
+        HashMap<String, Integer> hs = new HashMap<>();
+        List<Integer> res = new ArrayList<>();
+        for(String str : words){
+            hs.put(str, hs.getOrDefault(str, 0) + 1);
+        }
+        int left = 0, right = 0, windowSize = words_Len * wordLen;
+        while(right < s.length()){
+            if(right - left + 1 == windowSize){
+                String currWindowWord = s.substring(left, right + 1);
+                HashMap<String, Integer> hs2 = new HashMap<>();
+                int currPointer = 0;
+                while(currPointer < currWindowWord.length()){
+                    String currWord = currWindowWord.substring(currPointer, currPointer + wordLen);
+                    hs2.put(currWord, hs2.getOrDefault(currWord, 0) + 1);
+                    currPointer = currPointer + wordLen;
+                }
+                if(hs.equals(hs2)){
+                    res.add(left);
+                }
+                left++;
+            }
+            right++;
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. find length of words array(words_Len), each word length(wordLen) of array(all word of words are equal int length) .
+2. store each word of words in hashmap.
+3. initialize empty arraylist to store resulting index.
+4. windowSize = words_Len * wordLen, becuase we need to search whether this words inside windowSize are equal or not.
+5. traverse string s from left to right.
+6. get windowSize by increment right pointer till difference of right - left + 1 pointers == windowSize.
+7. slice the current window word by using substring method from left till right+1 index.
+8. iterate over each word length window of sliced current window word and put it into hashMap2 and move iterating pointer to next word window index.
+9. if hashmap1 and hashmap2 are equal means we found our result index then add left index to res list.
+10. else move right pointer till we cannot move windowSize from current left.
+11. return res list.
+
+# Complexity :
+- Time : O(N * K)	.. N = length of string, K = word length
+- Space O(N + K)

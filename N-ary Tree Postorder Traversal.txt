@@ -1,0 +1,20 @@
+class Solution {
+    public List<Integer> postorder(Node root) {
+        if(root == null){
+            return new ArrayList<>();
+        }
+        List<Integer> res = new ArrayList<>();
+        postOrderTrav(root, res);
+        return res;
+    }
+    private void postOrderTrav(Node root, List<Integer> res){
+        for(Node child : root.children){ 	// Recursively call dfs for each child of the current node
+            postOrderTrav(child, res);
+        }
+        res.add(root.val);	// Append the value of the current node to the result list
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

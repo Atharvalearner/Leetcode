@@ -1,0 +1,38 @@
+class Solution {
+    public int minBitFlips(int start, int goal) {
+        int count = 0;
+        int x = start ^ goal;
+        while(x != 0){
+            if((x & 1) == 1){
+                count++;
+            }
+            x = x >> 1;
+        }
+        return count;
+    }
+}
+
+# Intuition :
+Here given Two numbers. If both no. are represented in Binary then how many minimum bits are required to change in one no. so it convert into second no.
+example ->
+
+  10  =   1   0   (1)   0
+  7   =   0   1   (1)   1
+here, 3 bits are different in both no.s and need to be change in one of them to covert into another.
+
+# Approach :
+1. Here, we have to identify the different bits so , XOR operator can help us -->
+
+                                         A | B | A XOR B
+                                         0 | 0 |   0
+      10   = 1  0  1  0                  0 | 1 |   1                
+      7    = 0  1  1  1                  1 | 0 |   1   
+____________________________             1 | 1 |   0
+xor(10,7)  = 1  1  0  1
+
+2. Now , We have to just count the Set Bits(1) in result of xor.
+3. no.of Set bits = 3. So, There is minimum 3 flips required.
+
+# Complexity :
+- Time : O(n)
+- Space : O(1)

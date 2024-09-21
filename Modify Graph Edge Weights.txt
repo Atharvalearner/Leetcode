@@ -1,0 +1,129 @@
+class Solution {
+    public int[][] modifiedGraphEdges(int n, int[][] edges, int source, int destination, int target) {
+        // Create an adjacency list to store the graph structure
+        List<int[]>[] adjacencyList = new ArrayList[n];
+        for (int i = 0; i < n; i++) {
+            adjacencyList[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < edges.length; i++) {
+            int nodeA = edges[i][0], nodeB = edges[i][1];
+            // Add both directions to the adjacency list as the graph is undirected
+            adjacencyList[nodeA].add(new int[]{nodeB, i});
+            adjacencyList[nodeB].add(new int[]{nodeA, i});
+        }
+
+        // Initialize distances array with maximum values
+        int[][] distances = new int[n][2];
+        Arrays.fill(distances[source], 0);  // Distance to source is 0 for both runs
+        for (int i = 0; i < n; i++) {
+            if (i != source) {
+                distances[i][0] = distances[i][1] = Integer.MAX_VALUE;  // Initialize distances to infinity
+            }
+        }
+
+        // Run Dijkstra's algorithm for the first time with original weights
+        runDijkstra(adjacencyList, edges, distances, source, 0, 0);
+        int difference = target - distances[destination][0];
+        if (difference < 0) return new int[][]{}; // If the target is smaller than the shortest path, return empty array
+
+        // Run Dijkstra's algorithm again to modify weights to meet the target
+        runDijkstra(adjacencyList, edges, distances, source, difference, 1);
+        if (distances[destination][1] < target) return new int[][]{}; // If we can't meet the target distance, return empty array
+
+        // Adjust all edges that were initially set to -1 to 1
+        for (int[] edge : edges) {
+            if (edge[2] == -1) edge[2] = 1;
+        }
+        return edges;
+    }
+
+    // Helper method to run Dijkstra's algorithm
+    private void runDijkstra(List<int[]>[] adjacencyList, int[][] edges, int[][] distances, int source, int difference, int run) {
+        int n = adjacencyList.length;
+        // Min-heap priority queue to get the node with the smallest distance
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        priorityQueue.add(new int[]{source, 0});
+        distances[source][run] = 0;
+
+        while (!priorityQueue.isEmpty()) {
+            int[] current = priorityQueue.poll();
+            int currentNode = current[0];
+            int currentDistance = current[1];
+
+            // Skip if the current distance is not optimal
+            if (currentDistance > distances[currentNode][run]) continue;
+
+            // Iterate over all neighbors of the current node
+            for (int[] neighbor : adjacencyList[currentNode]) {
+                int nextNode = neighbor[0], edgeIndex = neighbor[1];
+                int weight = edges[edgeIndex][2];
+
+                // For unassigned edge weights, assume the weight as 1
+                if (weight == -1) weight = 1;
+
+                // If this is the second run, adjust weights to try to reach the target distance
+                if (run == 1 && edges[edgeIndex][2] == -1) {
+                    // Calculate the new weight needed to meet the target distance
+                    int newWeight = difference + distances[nextNode][0] - distances[currentNode][1];
+                    if (newWeight > weight) {
+                        // Update the edge weight if the new weight is larger
+                        edges[edgeIndex][2] = weight = newWeight;
+                    }
+                }
+
+                // If a shorter path to nextNode is found, update the distance and push to the priority queue
+                if (distances[nextNode][run] > distances[currentNode][run] + weight) {
+                    distances[nextNode][run] = distances[currentNode][run] + weight;
+                    priorityQueue.add(new int[]{nextNode, distances[nextNode][run]});
+                }
+            }
+        }
+    }
+}
+
+# Intuition :
+1) Recognize the Problem Type: The problem involves finding paths in
+a graph, which immediately suggests graph traversal algorithms
+like Dijkstra's algorithm or Bellman-Ford for shortest paths.
+
+2). Understanding Constraints: You need to modify some edges (those
+with weight -1) so that the shortest path from the source to the destination has a specific length (target). This implies dynamically changing graph properties.
+
+3). Two-Phase Shortest Path Calculation:
+First Phase: Run Dijkstra's algorithm to find the shortest path without modifying any edge weights (-1 treated as 1). This establishes a baseline path length.
+Determine Feasibility: Check if it's even possible to reach the target path length. If the initial shortest path is longer than the target, it's impossible, and you can return immediately.
+
+4). Calculate Required Difference: Compute the difference between the target path length and the path length obtained from the first phase. This tells you how much more you need to increase the path length to meet the target.
+
+5). Modify Weights Strategically:
+Second Phase: Re-run Dijkstra's algorithm, but this time consider modifying edges that have weight -1. Adjust these weights dynamically based on the difference computed earlier. This is to ensure that the final path length reaches exactly the target.
+
+6). Conditionally Modify Edges: For edges with weight -1, set them initially to 1. If needed (in the second phase), adjust them upwards to increase the path length. This requires carefully choosing which edges to modify to ensure the overall shortest path becomes equal to the target.
+
+7). Final Validation: After the second phase, validate if the modified shortest path equals the target. If it does, return the modified graph; otherwise, return that it's not possible to achieve the desired path length.
+
+8). Handle Edge Cases: Consider scenarios where no modifications can achieve the target path length or where multiple modifications could yield the same length but with different edge weights.
+
+# Approach :
+1). Graph Representation: Use an adjacency list to represent the graph for efficient traversal. This list contains each node's neighbors and the corresponding edge index.
+
+2). Initialization: Initialize a distances array to store the shortest path distances from the source to all nodes for two different runs of Dijkstra's algorithm. Initially, set all distances to infinity (Infinity), except for the source node which is set to 0.
+
+3). First Dijkstra's Algorithm Run: Execute Dijkstra's algorithm considering all edges with weight -1 as weight 1. This run calculates the shortest path distances from the source to all nodes without altering any edge weights.
+
+After the first run, check the distance from the source to the destination. If this distance is greater than the target, it is impossible to achieve the target, and we return an empty result.
+
+4). Calculate Difference: Compute the difference between the target distance and the shortest path distance found in the first Dijkstra's run. This difference represents the amount of additional weight needed to reach the target.
+
+5). Second Dijkstra's Algorithm Run: Run Dijkstra's algorithm again, this time allowing modifications to edges with weight -1. For these edges, set the weight to 1 initially and adjust upwards as needed to try and match the exact target distance.
+
+Adjust these edge weights dynamically based on the difference calculated earlier, ensuring that the path length matches the target by the end of this run.
+
+6). Validation: After the second run, check if the shortest path distance equals the target. If it does, return the modified edges. If not, return an empty result indicating that the target path length cannot be achieved.
+
+7). Edge Modification: Modify the weights of edges with an initial weight of -1 to reflect the final weights used in the second Dijkstra's run. This ensures the final graph meets the requirements set by the problem.
+
+# Complexity :
+- Time : O((n + m) log n) ...n is the number of nodes and m is the number of edges. This complexity arises from two runs of Dijkstra's algorithm using a priority queue. Each run processes all nodes and edges, with the priority queue operations (enqueue and dequeue) being logarithmic in the number of nodes.
+
+- Space :O(n + m)	...O(n) for storing the distances of each node for two different runs of Dijkstra's algorithm. O(m) for the adjacency list representation of the graph, Additional O(n) for the priority queue used during the Dijkstra's runs.

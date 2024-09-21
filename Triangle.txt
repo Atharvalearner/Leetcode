@@ -1,0 +1,36 @@
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        // create dp table
+	int n = triangle.size();
+        int[][] dp = new int[n][n];
+        for (int[] row: dp)
+            Arrays.fill(row, -1);
+        // start from the top of the triangle
+        return check(triangle, 0, 0, dp);
+    }
+    private int check(List<List<Integer>> triangle, int row, int col, int[][] dp) {
+        // base case
+        if (row == triangle.size()){
+            return 0;   
+        }
+	// check dp table
+        if (dp[row][col] != Integer.MAX_VALUE){
+            return dp[row][col];
+        }
+        // either go to [row + 1, col] or [row + 1, col + 1]
+        int remain = Math.min(check(triangle, row + 1, col, dp), check(triangle, row + 1, col + 1, dp));
+        // combine answer with current value
+        dp[row][col] = triangle.get(row).get(col) + remain;
+        return dp[row][col];
+    }
+}
+
+# Intuition :
+We start from the initial position (top of the triangle), then choose between two paths. We can go to the same column or one ahead (column + 1). In terms of row, we have no choice but to move on to the next row (row + 1). Hence the two choices are,
+	I ) go to triangle[row + 1][col]
+	II ) go to triangle[row + 1][col + 1]
+This forms a recursive structure and the base case is when we pass the last row, where the answer will always be 0. After implementing this you will realize that some rows and columns are traversed over multiple times. To optimize this, we can store answers for the positions we have already computed. This is where we enter Dynamic Programming territory. Finally, we can observe that we only need row + 1 to compute answers for the current row. So, the space can also be optimized to linear.
+
+# Complexity :
+- Time : O(N^2)
+ - Space : O(N^2)

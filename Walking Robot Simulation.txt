@@ -1,0 +1,50 @@
+class Solution {
+    public int robotSim(int[] commands, int[][] obstacles) {
+        // Directions represent North, East, South, West in terms of (dx, dy)
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        Set<String> obstacleSet = new HashSet<>();
+        for (int[] obstacle : obstacles) {
+            obstacleSet.add(obstacle[0] + "," + obstacle[1]);
+        }
+        int x = 0, y = 0;  		// Robot's starting position
+        int direction = 0; 		// Starting direction (North)
+        int maxDistance = 0;
+        for (int command : commands) {
+            if (command == -1) {		// Turn right
+                direction = (direction + 1) % 4;
+            } else if (command == -2) {			// Turn left
+                direction = (direction + 3) % 4;  // equivalent to (direction - 1 + 4) % 4
+            } else {
+                for (int i = 0; i < command; i++) {	// Move forward k units
+                    int nextX = x + directions[direction][0];
+                    int nextY = y + directions[direction][1];
+                    if (!obstacleSet.contains(nextX + "," + nextY)) {	// Check if the next position is an obstacle
+                        x = nextX;
+                        y = nextY;
+                        maxDistance = Math.max(maxDistance, x * x + y * y);	// Calculate the distance squared from the origin
+                    } else {
+                        break;  	// Stop moving if there's an obstacle
+                    }
+                }
+            }
+        }
+        return maxDistance;
+    }
+}
+
+# Approach
+1. Direction Handling:
+• Use an array directions to represent the four possible directions the robot can face: North, East, South, and West.
+• The robot starts facing North. Turning left or right changes its direction by updating the index in the directions array.
+2. Obstacle Management:
+• Convert the list of obstacles into a HashSet for O(1) lookup. Each obstacle’s position is represented as a string "x,y".
+• This allows quick checking to see if the next position is blocked by an obstacle.
+3. Command Processing:
+• Iterate over each command:
+• Turning commands (-1 for right, -2 for left) adjust the robot’s current direction.
+• Move command (any positive integer) moves the robot step-by-step in the current direction unless blocked by an obstacle.
+• After each move, update the maximum distance squared if the new position is further from the origin.
+
+# Complexity
+- Time : O(N)
+- Space : O(N)
