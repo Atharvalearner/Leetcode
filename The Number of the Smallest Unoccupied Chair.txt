@@ -1,0 +1,31 @@
+class Solution {
+    public int smallestChair(int[][] times, int targetFriend) {
+        int targetSeat = times[targetFriend][0];
+        Arrays.sort(times, (a, b) -> a[0] - b[0]);
+        PriorityQueue<Integer> availableSeats = new PriorityQueue<>();
+        for(int i = 0; i < times.length; i++){
+            availableSeats.offer(i);
+        }
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]);
+        for(int i = 0; i < times.length; i++){
+            while(!pq.isEmpty() && pq.peek()[0] <= times[i][0]){
+                availableSeats.offer(pq.poll()[1]);
+            }
+            if(times[i][0] == targetSeat){
+                return availableSeats.peek();
+            }
+            pq.offer(new int[]{times[i][1] , availableSeats.poll()});
+        }
+        return -1;
+    }
+}
+
+# Approach :
+1. Store the arrivalTime of targetFriend, since all the the arrival times are distinct this can be used to identify the targetFriend in sorted array.
+2. Store all the available seats(one for each friend) in minHeap as available.
+3. Sort the times array based on arrival time.
+4. Maintain another minHeap to store leavingTime and occupiedSeat.
+5. loop through sorted array
+	- remove all the friends from the heap whose leavingTime is less than or equal to current arraival time and add the occupied seats back to available heap.
+	- if the current start is equal to targetStart return the min available seat.
+	- else add the current leaving time and min available seat to heap.

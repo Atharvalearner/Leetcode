@@ -1,0 +1,54 @@
+class MyCircularDeque {
+    Deque<Integer> q;
+    int size;
+    public MyCircularDeque(int k) {
+        q = new LinkedList<>();
+        size = k;
+    }
+    public boolean insertFront(int value) {
+        if(q.size() < size){
+            q.addFirst(value);
+            return true;
+        }
+        return false;
+    }
+    public boolean insertLast(int value) {
+        if(q.size() < size){
+            q.addLast(value);
+            return true;
+        }
+        return false;
+    }
+    public boolean deleteFront() {
+        if(q.size() > 0){
+            q.removeFirst();
+            return true;
+        }
+        return false;
+    }
+    public boolean deleteLast() {
+        if(q.size() > 0){
+            q.removeLast();
+            return true;
+        }
+        return false;
+    }
+    public int getFront() {
+        return q.size() <= 0 ? -1 : q.getFirst(); 
+    }
+    public int getRear() {
+        return q.size() <= 0 ? -1 : q.getLast();
+    }
+    public boolean isEmpty() {
+        if(q.size() == 0){
+            return true;
+        }
+        return false;
+    }
+    public boolean isFull() {
+        if(q.size() == size){
+            return true;
+        }
+        return false;
+    }
+}

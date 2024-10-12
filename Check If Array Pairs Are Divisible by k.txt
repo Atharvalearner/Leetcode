@@ -1,0 +1,37 @@
+class Solution {
+    public boolean canArrange(int[] arr, int k) {
+        int[] count = new int[k];
+        for(int num : arr){
+            int reminder = num % k;
+            if(reminder < 0){
+                reminder = reminder + k;
+            }
+            count[reminder]++;
+        }
+        if(count[0] % 2 != 0){
+            return false;
+        }
+        for(int i = 1; i <= k/2; i++){
+            if(count[i] != count[k - i]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+# Approach :
+1: Frequency of Remainders: First, we calculate the remainder of each element in the array when divided by k and store the frequency of each remainder in a hash map or an array.
+2: Check Pairing Conditions: For each remainder r:
+	- If r == 0 or r == k/2 (only if k is even), we must ensure that the number of elements with these remainders is even.
+	- For other remainders, say r and k - r, we need to check that their frequencies match, as they must pair up to form sums divisible by k.
+
+# Example
+Let’s consider an example with arr = [9, 7, 5, 3] and k = 6:
+Remainders of elements when divided by 6: [3, 1, 5, 3]
+Frequency of remainders: {3: 2, 1: 1, 5: 1}
+The remainder 1 pairs with 5 and the two 3s can pair with each other, so the array can be divided into valid pairs.
+
+# Complexity :
+- Time : O(n) where n is the size of the array, as we only traverse the array once to calculate remainders and again to check pair conditions.
+- Space : O(k) due to the storage required for the remainder frequencies.

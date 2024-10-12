@@ -1,0 +1,45 @@
+class AllOne {
+    Map<String,Integer> hm;
+    TreeSet<Pair<Integer, String>> tm;
+    public AllOne() {
+        hm = new HashMap<>();
+        tm = new TreeSet<>((a,b) -> a.getKey().equals(b.getKey()) ? a.getValue().compareTo(b.getValue()) : a.getKey() - b.getKey());
+    }
+    public void inc(String key) {
+        int n = hm.getOrDefault(key, 0);
+        hm.put(key, n + 1);
+        tm.remove(new Pair<>(n, key));
+        tm.add(new Pair<>(n + 1, key));
+    }
+    public void dec(String key) {
+        int n = hm.get(key);
+        tm.remove(new Pair<>(n, key));
+        if(n == 1){
+            hm.remove(key);
+        }else{
+            hm.put(key, n - 1);
+            tm.add(new Pair<>(n - 1, key));
+        }
+    }
+    public String getMaxKey() {
+        return tm.isEmpty() ? "" : tm.last().getValue();
+    }
+    public String getMinKey() {
+        return tm.isEmpty() ? "" : tm.first().getValue();
+    }
+}
+
+# Intuition:
+The goal of the All O`one Data Structure is to keep track of string counts and efficiently retrieve the minimum and maximum counts. We need to ensure all operations — increment, decrement, and retrieval of the min/max key — operate in constant time, on average. This requires maintaining a balance between count tracking and efficient querying for min/max keys.
+
+# Approach :
+1. Count Map: Use a hash map (unordered_map) to store the count of each string.
+2. Sorted Set: Use a set to maintain a sorted order of counts and corresponding keys. The set will be based on a pair of (count, key), ensuring the counts are sorted, and if two strings have the same count, their lexicographical order is preserved.
+3. Increment/Decrement Operations:
+	- When incrementing, we update the count in the map and update the set by removing the old count and inserting the new count.
+	- When decrementing, we do the reverse. If the count drops to zero, we remove the key from both the map and set.
+4. GetMaxKey/GetMinKey: Since the set is sorted, the first element gives the minimum, and the last element gives the maximum.
+
+# Complexity :
+- Time : O(1)
+- Space : O(N)
