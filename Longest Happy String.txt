@@ -1,0 +1,32 @@
+class Solution {
+    public String longestDiverseString(int a, int b, int c) {
+        StringBuilder sb = new StringBuilder();
+        int countA = 0, countB = 0, countC = 0, total = a+b+c;
+        for(int i = 0; i < total; i++){
+            if((a >= b && a >= c && countA < 2) || (countB == 2 && a > 0) || (countC == 2 && a > 0)){
+                sb.append('a');
+                a--;
+                countA++;
+                countB = 0;
+                countC = 0;
+            }else if((b >= a && b >= c && countB < 2) || (countA == 2 && b > 0) || (countC == 2 && b > 0)){
+                sb.append('b');
+                b--;
+                countB++;
+                countA = 0;
+                countC = 0;
+            }else if((c >= b && c >= a && countC < 2) || (countB == 2 && c > 0) || (countA == 2 && c > 0)){
+                sb.append('c');
+                c--;
+                countC++;
+                countA = 0;
+                countB = 0;
+            }
+        }
+        return sb.toString();
+    }
+}
+
+# Complexity : 
+- Time : O(a + b + c)
+- Space : O(a + b + c)

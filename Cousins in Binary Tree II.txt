@@ -1,0 +1,51 @@
+class Solution {
+    public TreeNode replaceValueInTree(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        int prev = root.val;
+        q.add(root);
+        while(!q.isEmpty()){
+            int size = q.size();
+            int res = 0;
+            while(size > 0){
+                TreeNode curr = q.poll();
+                int sumOfCousins = (curr.left != null ? curr.left.val : 0) + (curr.right != null ? curr.right.val : 0);
+                if(curr.left != null){
+                    curr.left.val = sumOfCousins;
+                    q.add(curr.left);
+                }
+                if(curr.right != null){
+                    curr.right.val = sumOfCousins;
+                    q.add(curr.right);
+                }
+                res = res + sumOfCousins;
+                curr.val = prev - curr.val;
+                size--;
+            }
+            prev = res;
+        }
+        return root;
+    }
+}
+
+# Intuition AND approach : 
+lets start with simple thoughts ==>
+we have a binary tree so to do the level order traversal what we do ? we can use the Queue right?
+well so same way we can use to solve this problem, so our intention is
+we will be having variable say int prev = root.val (initially)
+whenever we are pushing the right and left child, we will replace the Val of left and right child with the sum of both of them:-
+
+1
+/ \
+10 20
+
+leftRightSum = 10 + 20 = 30
+like in above tree ===> left.val = leftRightSum, right.val = leftRightSum ==>(30)
+int currSum += leftRightSum
+so we have pushed the left and right child with value 30 push them to queue.
+ok so now what??
+now its time to update the current parent value like below
+parent.val = prev - parent.val
+now some of you would have a question that what is this, how can i say that??
+because prev is actually the sum of all the leftRight occured previously so if we do the prev-parentVal
+(remember we update parent val to leftRight ==> the sum of the sibling values)
+this will actually update the value of every node equal to sum of all its cousins.

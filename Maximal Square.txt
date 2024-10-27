@@ -1,0 +1,38 @@
+class Solution {
+    public int maximalSquare(char[][] matrix) {
+        int len = 0;
+        int[][] dp = new int[matrix.length][matrix[0].length];
+        for(int row = 0; row < matrix.length; row++){
+            for(int col = 0; col < matrix[0].length; col++){
+                if(matrix[row][col] == '1'){
+                    if(row == 0 || col == 0){
+                        dp[row][col] = 1;
+                    }else{
+                        int left = dp[row][col - 1];
+                        int above = dp[row - 1][col];
+                        int leftAbove = dp[row - 1][col - 1];
+                        int min = Math.min(left, Math.min(above, leftAbove));
+                        dp[row][col] = min + 1;
+                    }
+                    len = Math.max(len, dp[row][col]);
+                }
+            }
+        }
+        return len * len;
+    }
+}
+
+# Intuition :
+1. Dynamic Programming Table: Use a 2D DP array to store the side length of the largest square ending at each cell.
+2. Transition Relation: If the cell in the original matrix is 1, the side length of the square ending at that cell will be the minimum of the three neighboring cells (top, left, top-left diagonal) plus one.
+3. Track the Maximum Side Length: Update the maximum side length encountered during the iteration.
+
+# Approach :
+1. Initialize a DP Table with the same dimensions as the input matrix.
+2. Iterate through the matrix: For each cell that contains 1, update the DP table based on the minimum value among the top, left, and top-left diagonal cells plus one.
+3. Update the maximum side length found.
+4. Return the Area of the largest square found (side length squared).
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(N * M)

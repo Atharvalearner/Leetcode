@@ -1,0 +1,16 @@
+class Solution {
+    public List<String> removeSubfolders(String[] folder) {
+        Arrays.sort(folder);
+        List<String> res = new ArrayList<>();
+        for(String dir : folder){
+            if(res.isEmpty() || !dir.startsWith(res.get(res.size() - 1) + "/")){
+                res.add(dir);
+            }
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

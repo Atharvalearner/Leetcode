@@ -1,0 +1,33 @@
+class Solution {
+    public int countMaxOrSubsets(int[] nums) {
+        int maxRes = 0;
+        for(int num : nums){
+            maxRes = maxRes | num;
+        }
+        return countSubsetsOfMaxRes(nums, maxRes, 0, 0);
+    }
+    private int countSubsetsOfMaxRes(int[] nums, int max, int index, int currRes){
+        if(index == nums.length){
+            return currRes == max ? 1 : 0;
+        }
+        int includeCurrIndexNum = countSubsetsOfMaxRes(nums, max, index + 1, currRes | nums[index]);
+        int excludeCurrIndexNum = countSubsetsOfMaxRes(nums, max, index + 1, currRes);
+        return includeCurrIndexNum + excludeCurrIndexNum;
+    }
+}
+
+# Intuition :
+The goal is to find the maximum possible bitwise OR of a subset of the given array and count how many different non-empty subsets can achieve this maximum OR value. Since the bitwise OR operation accumulates values as more elements are added to a subset, the largest OR we can achieve comes from the full array or one of its subsets. The key observation is that subsets can be generated through recursion, and by keeping track of the OR result for each subset, we can count how many subsets give the desired result.
+
+# Approach :
+1. Max OR Calculation:
+	• First, we calculate the maximum bitwise OR possible by performing the OR operation across all elements in the array. This is the maximum OR that any subset can achieve.
+	• This step is simple because the bitwise OR of the whole array will be the largest OR achievable.
+2. Subset Enumeration:
+	• We recursively generate all possible subsets and compute their bitwise ORs. For each subset, we check if the OR result equals the maximum OR computed earlier.
+	• For each element in the array, we have two choices: either include it in the subset or exclude it. This gives rise to 2^n possible subsets.
+	• We use recursion to explore both possibilities (include or exclude) at each step, updating the current OR as we go.
+3. Counting Valid Subsets:
+	• If the OR of the current subset matches the maximum OR, we increment our counter. This recursive approach ensures that we examine every subset of the array.
+4. Recursive Helper Function:
+	• The helper function countSubsetsWithMaxOr is used to recursively calculate the OR of subsets and count how many of them match the maximum OR.

@@ -1,0 +1,36 @@
+class Solution {
+    public int maxUniqueSplit(String s) {
+        return solve(s, 0, new HashSet<>());
+    }
+    private int solve(String s, int left, HashSet<String> hs){
+        if(left == s.length()){
+            return 0;
+        }
+        int count = 0;
+        for(int right = left + 1; right <= s.length(); right++){
+            String substr = s.substring(left, right);
+            if(!hs.contains(substr)){
+                hs.add(substr);
+                int splits = 1 + solve(s, right, hs);
+                count = Math.max(count, splits);
+                hs.remove(substr);
+            }
+        }
+        return count;
+    }
+}
+
+# Approach :
+1. Initialization: An unordered_set seen is created to store unique substrings encountered.
+2. solve Function: This recursive function explores different ways to split the string starting from index start.
+3. Base Case: If start equals the length of the string, it means all characters have been split, and the function returns 0.
+4. Iteration: The function iterates through possible split points from start + 1 to the end of the string.
+	- For each split point i, a substring is extracted.
+	- If the substring is not already seen, it's added to the seen set, and the function recursively calls itself with the new starting index i.
+	- The maximum number of splits obtained from the recursive call is updated.
+	- The substring is removed from the seen set (backtrack) to explore other possibilities.
+5. maxUniqueSplit Function:This function calls the solve function with the initial starting index (0) and returns the maximum number of splits obtained.
+
+# Complexity :
+- Time : O(2 ^ N)
+- Space : O(N)

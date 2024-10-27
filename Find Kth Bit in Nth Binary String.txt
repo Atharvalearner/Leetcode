@@ -1,0 +1,71 @@
+class Solution {
+    public char findKthBit(int n, int k) {
+        if(n == 1 && k == 1){
+            return '0';
+        }
+        int currStrlen = (int) Math.pow(2, n) - 1;
+        int mid = currStrlen / 2;
+        if(k <= mid){
+            return findKthBit(n - 1, k);
+        }else if(k > mid+1){
+            return invert(findKthBit(n - 1, currStrlen + 1 - k));
+        }
+        return '1';
+    }
+    public char invert(char ch){
+        return (ch == '0') ? '1' : '0';
+    }
+}
+
+# Approach :
+Now according to given equation
+
+	=> S2 = "0" + "1" + reverse(invert("0"))
+	=> S2 = "0" + "1" + reverse("1")
+	=> S2 = "0" + "1" + "1"
+	=> S2 = "011"
+Now lets generate few strings from starting to see if there were any patterns.
+
+S1 = "0"
+S2 = "011"
+S3 = "0111001"
+S4 = "011100110110001"
+Observation 1: We can make some observations regarding length of the string as
+Length of string Si = Math.pow(2, i) - 1
+Length 0f S1 = 1 => 2 - 1
+Length of S2 = 3 => 4 - 1
+Length of S3 = 7 => 8 - 1
+
+Observation2: Length of all the strings are odd numbers.
+
+Observe S3 and S2
+S2 = "011"
+S3 = "0111001"
+Split S3 nto 3 parts as per the given equations S2 + "1" + reverse(invert(S2))
+If we were to find kth bit in S3 then we can limit our search by observing where the kth bit came from by using the equation.
+
+length of S3 = 7
+mid = length of S3 / 2 => 3
+end = 2
+
+Split the String S3 from indexes 1 to mid, mid + 1 and mid +2 to end => String from 1 to 3, String at 4 and String from 5 to 7.
+
+In S3 first 3 characters(k=1,2,3) are same as the characters in S2
+
+This means if we want to find a character among the first partition (1 to mid) the we can get it from the character at same index from the previous string(in this case S2).
+Next character(k = 4) is the "1" added while generating the string S3
+
+The remaining 3 characters(k = 5,6,7) are the inverse of reversed character of S2 i.e
+
+5th character in S3 is inverse of 3rd character in S2
+6th character in S3 in inverse of 2nd character in S2
+7th character in S3 is inverser of 1st character in S2.
+If we observe the numbers those sum up to 8 which is the length of String S3 + 1.
+
+This means if we want to find a character among the last partition with index k then we can get the character by inverting the character at index length + 1 - k in the prevous string(in this case S2).
+
+The same observations can be made for strings S4, S3 and S2, S1. By using these repeated patterns we can solve the problem.
+
+# Complexity :
+- Time : O(log N)
+- Space : O(log N)

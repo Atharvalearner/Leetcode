@@ -1,0 +1,41 @@
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int len = 0;
+        for(int row = 0; row < matrix.length; row++){
+            for(int col = 0; col < matrix[0].length; col++){
+                if(row != 0 && col != 0 && matrix[row][col] == 1){
+                    int left = matrix[row][col - 1];
+                    int above = matrix[row - 1][col];
+                    int leftAbove = matrix[row - 1][col - 1];
+                    int minSqrCount = Math.min(left, Math.min(above, leftAbove));
+                    matrix[row][col] = minSqrCount + 1;
+                }
+                len = len + matrix[row][col];
+            }
+        }
+        return len;
+    }
+}
+
+# Intuition :
+Thinking: The dp[i][j] will represent the length of the square in the bottom
+right corner.
+If the value of any cell is 1, then we compare it with it above, left and
+diagonal up-left corners. The length of the square will be the minimum of
+these 3 neighbors + 1, (+1 -> because if either of the neighbors are zero,
+this cell is still a square with side 1). If any one of the neighbors are zero
+that means the square is missing a side and hence it won't count towards
+the length of the square
+
+The idea of dp[i][j] represents bottom right of the matrix[i][j], is so
+that we can precompute the values and use it for reference when iterating over
+other index. For any index we visit, we will have the neighbors value already
+calculated.
+
+For the top most row and left most column, the dp will be same as matrix,
+because in top row - their up neighbor is missing, so min(left, above, diag)
+will be zero. Similary in the left column, left is missing.
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(1)

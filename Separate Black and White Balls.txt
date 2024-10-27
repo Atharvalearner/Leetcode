@@ -1,0 +1,24 @@
+class Solution {
+    public long minimumSteps(String s) {
+        int  n = s.length(), ind = n - 1;
+        long res = 0;
+        for(int i = n - 1; i >= 0; i--){
+            if(s.charAt(i) == '1'){
+                res += ind - i;
+                ind--;
+            }
+        }
+        return res;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
+
+# Approach :
+1. initialize ind from last index position of string to calculate how many minimum steps we required to place current '1'.
+2. Iterate string s from last index :
+	- if current string character is 1 then we calculate their required number of steps to place that current '1' into ind position by formula : ind - currIndex, after calculating this we add this to res and decrement the ind position by 1.
+	- else if current string character 0 then we just skip that index
+3. return res.

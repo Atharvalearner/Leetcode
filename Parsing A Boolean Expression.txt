@@ -1,0 +1,69 @@
+class Solution {
+    public boolean parseBoolExpr(String expression) {
+        Stack<Character> st = new Stack<>();
+        for(char curr : expression.toCharArray()){
+            if(curr == ',' || curr == '('){
+                continue;
+            }
+            if(curr == 't' || curr == 'f' || curr == '!' || curr == '|' || curr == '&'){
+                st.push(curr);
+            }else if(curr == ')'){
+                boolean isTrue = false, isFalse = false;
+                while(st.peek() != '!' && st.peek() != '|' && st.peek() != '&'){
+                    char top = st.pop();
+                    if(top == 't'){
+                        isTrue = true;
+                    }
+                    if(top == 'f'){
+                        isFalse = true;
+                    }
+                }
+                char oper = st.pop();
+                if(oper == '!'){
+                    st.push(isTrue ? 'f' : 't');
+                }else if(oper == '&'){
+                    st.push(isFalse ? 'f' : 't');
+                }else{
+                    st.push(isTrue ? 't' : 'f');
+                }
+            }
+        }
+        return st.peek() == 't';
+    }
+}
+
+# Intuition
+Fundamentally, we want to use stack, but instead of adding every char to stack, we focus on the elements that matter (operators, boolean values, and parantheses) while ignoring commas (since they don't affect the outcome).
+
+We still push operators and boolean values onto the stack as we process the expression, but when we encounter a closing parenthesis, we immediately evaluate the subexpression by popping values from the stack.
+
+The key improvement is that we can stop early if the result becomes clear. For example, with the & operator, if we find an f while popping values, we know the subexpression result is f and can stop without checking further. Similarly, for the | operator, finding a t allows us to stop early.
+
+# Example:
+&(t,|(f,t))
+We push & and t, then |, followed by f and t.
+When popping values for the | subexpression, we know the result is t as soon as we find one t.
+We push t back onto the stack and continue with the & operator, which evaluates to t since both values are true.
+
+# Approach :
+1. Initialize stack for operators & boolean values
+2. Traverse through expression:
+	- If char is comma, or an open parenthesis, skip
+	- If char is bool, or an operator, push to stack
+3. If char is a closing parenthesis:
+	- Initialize two boolean flags to track presence of true & false within the parentheses
+	- i ) Process values in parentheses:
+		- While the top of stack is not an operator:
+		- Pop from stack and check:
+			- If t: hasTrue
+			- If f: hasFalse
+			- Pop operator from stack
+		- Evaluate subexpression based on the operator:
+		- If !, push f if hasTrue. Otherwise, push t.
+		- If &, push f if hasFalse. Otherwise, push t.
+		- If |, push t if hasTrue is true. Otherwise, push f.
+4. The final result will be at the top of the stack
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

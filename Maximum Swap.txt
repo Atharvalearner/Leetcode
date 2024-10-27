@@ -1,0 +1,39 @@
+class Solution {
+    public int maximumSwap(int num) {
+        // find the first increase point that's bigger than previous
+        // find the last max from increase point; please consider case 1993, we need to use the second 9 instead of first one
+        // and iterate again to find the first element smaller than 
+
+        char[] chars = Integer.toString(num).toCharArray();
+        int firstIn;
+        for (firstIn = 1; firstIn < chars.length; firstIn++) {
+            if (Character.getNumericValue(chars[firstIn]) > Character.getNumericValue(chars[firstIn - 1])) {
+                break;
+            }
+        }
+        if (firstIn == chars.length) return num;
+        
+        int max = 0, maxPosition = 0;
+        for (int j = firstIn; j < chars.length; j++) {
+            if (Character.getNumericValue(chars[j]) >= max) { // for case like: 1993
+                max = Character.getNumericValue(chars[j]);
+                maxPosition = j;
+            }
+        }
+        
+        for (int i = 0; i < chars.length; i++) {
+            if (Character.getNumericValue(chars[i]) < max) {
+                char temp = chars[i];
+                chars[i] = (char)(max + '0');
+                chars[maxPosition] = temp;
+                break;
+            }
+        }
+        
+        return Integer.valueOf(new String(chars));
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)
