@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isCircularSentence(String sentence) {
+        String[] sentences = sentence.split(" ");
+        int n = sentences.length;
+        String zeroth = sentences[0];
+        String last = sentences[n - 1];
+        if(zeroth.charAt(0) != last.charAt(last.length() - 1)){
+            return false;
+        }
+        String prev = sentences[0];
+        for(int i = 1; i < n; i++){
+            String curr = sentences[i];
+            char f = curr.charAt(0);
+            char l = prev.charAt(prev.length() - 1);
+            if(f != l){
+                return false;
+            }else{
+                prev = sentences[i];
+            }
+        }
+        return true;
+    }
+}
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

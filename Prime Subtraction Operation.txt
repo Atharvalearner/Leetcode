@@ -1,0 +1,35 @@
+class Solution {
+    public boolean primeSubOperation(int[] nums) {
+        int prev = 0;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] <= prev){
+                return false;
+            }
+            int prime = nums[i] - prev - 1;
+            while(prime > 0 && checkPrime(prime) == false){
+                prime--;
+            }
+            if(prime == 0){
+                prev = nums[i];
+            }else{
+                prev = nums[i] - prime;
+            }
+        }
+        return true;
+    }
+    private boolean checkPrime(int num){
+        if(num == 1){
+            return false;
+        }
+        for(int i = 2; i * i <= num; i++){
+            if(num % i == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+# Complexity :
+- Time : O(N * sqrt(N))
+- Space : O(1)

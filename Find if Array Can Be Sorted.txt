@@ -1,0 +1,59 @@
+class Solution {
+    public boolean canSortArray(int[] nums) {
+        int lastMax = 0, currMax = nums[0];
+        boolean check;
+        for(int i = 1; i < nums.length; i++){
+            check = countBits(nums[i]) != countBits(currMax);
+            if(check){
+                lastMax = currMax;
+            }
+            if(nums[i] > currMax){
+                currMax = nums[i];
+            }
+            if(nums[i] < lastMax){
+                return false;
+            }
+        }
+        return true;
+    }
+    public int countBits(int num){
+        int count = num % 2;
+        while(num != 0){
+            num = num >> 1;
+            if(num % 2 == 1){
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+# Approach :
+keep it simple guys, as we know the swap between adjacent is possible only when they have same number of set bits===>
+
+for example:- nums[] = {4, 1, 8} ==>{0100, 0001, 1000} ==> all have same number of bits so we can sort
+
+if nums[] = {4, 1, 8, 14, 13} ==> {0100, 0001, 1000, 1110, 1101} ===> first 3 number are having same bits.
+minVal = 1 from the same set bit set
+maxVal = 8
+now the next integer is different set bits , in this case we need to check 2 condtions:-
+
+if (currInteger < previous MaxVal) ===> return false.
+why?? because its not possible to make swap here as we got an smaller value on rigjht side that too with different set bits.
+
+if (currInteger > previous MaxVal) ===> means we caan proceed further becasue even though its diffrent set bit number but also greater than the maxVal of previous bits group (1 bit set group here)
+
+so as (14 > 8) ===> means we can further proceed it , and now we got a new group of (3 set bit)==>
+
+so in this group also we will keep on tracking maxval, minVal
+now at any point of time if we found a condition where minVal<prevMaxVal ===> return false; ===> why because consider an example like this
+
+{1, 8, 4, 14, 13, 7} ===> we have 2 bits group :-
+
+                    1-bit => {0001, 1000, 0100} ==> maxVal = 8
+                    3-bit => {1110, 1101, 0111} ===> minVal = 7
+so in above example (currMinVal < prevMaxVal)==> no swap possible ==> not able to sort ===> return false.
+
+came out of loop, at the end return currMin>prevMax
+
+why?? , because last check we are doing after comeout of loop becase by this time condition for loop traversal was closed

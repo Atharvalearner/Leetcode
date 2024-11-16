@@ -1,0 +1,20 @@
+class Solution {
+    public long minEnd(int n, int x) {
+        long res = x;
+        while(--n > 0){
+            res = (res + 1) | x;
+        }
+        return res;
+    }
+}
+
+# Approach :
+Each time increment res, then OR with x,
+So we get the next bigger valid element.
+
+We do this n - 1 times,
+and return the result.
+
+# Complexity :
+- Time : O(n)
+- Space : O(1)

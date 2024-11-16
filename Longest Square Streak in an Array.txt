@@ -1,0 +1,83 @@
+class Solution {
+    public int longestSquareStreak(int[] nums) {
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        Arrays.sort(nums);
+        int len = 0;
+        for(int curr : nums){
+            int sqrRoot = (int) Math.sqrt(curr);
+            if(curr == sqrRoot * sqrRoot){
+                hm.put(curr, hm.getOrDefault(sqrRoot, 0) + 1);
+                len = Math.max(len, hm.get(curr));
+            }else{
+                hm.put(curr, 1);
+            }
+        }
+        return len > 1 ? len : -1;
+    }
+}
+
+# Dry Run:
+Let’s use the array: [4, 2, 16, 1, 9, 10, 25]
+1. Initial Setup:
+hashmap is an empty HashMap that will store the square streaks for each element.
+2. res is initialized to 0 and will hold the maximum streak length found.
+The array is sorted: A = [1, 2, 4, 9, 10, 16, 25].
+3. Loop Iteration:
+We iterate through each element i in the sorted array.
+4. Detailed Iterations:
+Iteration 1 (i = 1):
+root = (int) Math.sqrt(1) = 1
+Since 1 * 1 == 1, 1 is a perfect square.
+Update hashmap: hashmap.put(1, hashmap.getOrDefault(1, 0) + 1) → hashmap.put(1, 1)
+Update res: res = Math.max(0, hashmap.get(1)) = 1
+State: hashmap = {1: 1}, res = 1
+Iteration 2 (i = 2):
+
+root = (int) Math.sqrt(2) = 1
+1 * 1 != 2, so 2 is not a perfect square.
+Update hashmap: hashmap.put(2, 1)
+res remains 1 as hashmap.get(2) = 1.
+State: hashmap = {1: 1, 2: 1}, res = 1
+Iteration 3 (i = 4):
+
+root = (int) Math.sqrt(4) = 2
+2 * 2 == 4, so 4 is a perfect square.
+Update hashmap: hashmap.put(4, hashmap.getOrDefault(2, 0) + 1) → hashmap.put(4, 2)
+Update res: res = Math.max(1, hashmap.get(4)) = 2
+State: hashmap = {1: 1, 2: 1, 4: 2}, res = 2
+Iteration 4 (i = 9):
+
+root = (int) Math.sqrt(9) = 3
+3 * 3 == 9, so 9 is a perfect square.
+Update hashmap: hashmap.put(9, hashmap.getOrDefault(3, 0) + 1) → hashmap.put(9, 1)
+res remains 2 as hashmap.get(9) = 1.
+State: hashmap = {1: 1, 2: 1, 4: 2, 9: 1}, res = 2
+Iteration 5 (i = 10):
+
+root = (int) Math.sqrt(10) = 3
+3 * 3 != 10, so 10 is not a perfect square.
+Update hashmap: hashmap.put(10, 1)
+res remains 2.
+State: hashmap = {1: 1, 2: 1, 4: 2, 9: 1, 10: 1}, res = 2
+Iteration 6 (i = 16):
+
+root = (int) Math.sqrt(16) = 4
+4 * 4 == 16, so 16 is a perfect square.
+Update hashmap: hashmap.put(16, hashmap.getOrDefault(4, 0) + 1) → hashmap.put(16, 3)
+Update res: res = Math.max(2, hashmap.get(16)) = 3
+State: hashmap = {1: 1, 2: 1, 4: 2, 9: 1, 10: 1, 16: 3}, res = 3
+Iteration 7 (i = 25):
+
+root = (int) Math.sqrt(25) = 5
+5 * 5 == 25, so 25 is a perfect square.
+Update hashmap: hashmap.put(25, hashmap.getOrDefault(5, 0) + 1) → hashmap.put(25, 1)
+res remains 3 as hashmap.get(25) = 1.
+State: hashmap = {1: 1, 2: 1, 4: 2, 9: 1, 10: 1, 16: 3, 25: 1}, res = 3
+Final Result:
+
+After iterating through all elements in A, res = 3.
+Since res >= 2, the function returns 3 as the longest square streak.
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

@@ -1,0 +1,32 @@
+class Solution {
+    public int minimizedMaximum(int n, int[] quantities) {
+        Arrays.sort(quantities);
+        int low = 1, high = quantities[quantities.length - 1], ans = 0;
+        while(low <= high){
+            int mid = (high + low) / 2;
+            int totalSum = 0;
+            for(int quantity : quantities){
+                totalSum += (int) Math.ceil((double) quantity / (double) mid);
+            }
+            if(totalSum <= n){
+                ans = mid;
+                high = mid - 1;
+            }else{
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+}
+
+# Intuition :
+We need to distribute products among stores such that no store gets more than a certain number of products, minimizing the maximum products any store can get. We can achieve this by trying different values for the maximum number of products per store and seeing if it is feasible to distribute all products.
+
+# Approach :
+1.Sort the quantities to focus on the largest number of products.
+2.Use binary search to minimize the maximum number of products per store, checking if a given number is feasible by summing the required number of stores for each quantity.
+3.Adjust the range of possible solutions based on the feasibility.
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(1)

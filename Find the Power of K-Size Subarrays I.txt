@@ -1,0 +1,35 @@
+class Solution {
+    public int[] resultsArray(int[] nums, int k) {
+        int n = nums.length, count = 1;
+        int[] res = new int[n - k + 1];
+        Arrays.fill(res, -1);
+        for(int i = 0; i < n; i++){
+            if(i > 0 && nums[i] == nums[i - 1] + 1){
+                count++;
+            }else{
+                count = 1;
+            }
+            if(count >= k){
+                res[i - k + 1] = nums[i];
+            }
+        }
+        return res;
+    }
+}
+
+# Approach :
+1. Greatest Value in an Increasing Subsequence: If a sequence of numbers is increasing consecutively, the last number in the sequence is always the greatest value. This eliminates the need to explicitly calculate or track the maximum value of the subsequence. For example:
+In [1, 2, 3], the greatest value is 3 (last element).
+In [4, 5, 6, 7], the greatest value is 7 (last element).
+2. No Need to Track All Numbers in the Subsequence:
+	- To check if a subsequence is increasing, we only need:
+	- The current number (nums[i]).
+	- The previous number (nums[i-1]).
+	- If nums[i] == nums[i-1] + 1, the sequence continues to be valid. 	- Otherwise, the sequence resets. This avoids the overhead of explicitly storing or processing the entire subsequence.
+3. How This Simplifies the Code:
+	- Tracking Streaks: Instead of maintaining a sliding window of k elements, the algorithm tracks the streak count (cnt) of consecutive ascending numbers. This saves space and reduces complexity.
+	- Determining Validity of a Subarray: If the streak (cnt) reaches or exceeds k, the subarray [i-k+1, ..., i] is valid, and the greatest value is simply nums[i].
+
+# Complexity :
+- Time : O(N)
+- Space : O(n - k + 1)

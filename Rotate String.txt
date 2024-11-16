@@ -1,0 +1,25 @@
+class Solution {
+    public boolean rotateString(String s, String goal) {
+        if(s.length() != goal.length()){
+            return false;
+        }
+        return (s + s).contains(goal);
+    }
+}
+
+# Intuition :
+when you concatenate a string with itself (s + s), it contains all possible rotations of the original string.
+
+For example, if s = "abcde", then s + s = "abcdeabcde" contains all rotations: "abcde", "bcdea", "cdeab", "deabc", "eabcd".
+
+# Approach :
+1. First, check if lengths are equal (if not, rotation is impossible)
+2. Create a concatenated string s + s which contains all possible rotations
+3. Check if goal is a substring of s + s
+	s = "abcde", goal = "cdeab"
+	s + s = "abcdeabcde"
+	"cdeab" is present in "abcdeabcde", so return True
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

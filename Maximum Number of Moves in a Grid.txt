@@ -1,0 +1,37 @@
+class Solution {
+    public int maxMoves(int[][] grid) {
+        int res = 0;
+        int rows = grid.length, cols = grid[0].length;
+        int[][] dp = new int[rows][cols];
+        for(int row = 0; row < rows; row++){
+            dp[row][0] = 1;
+        }
+        for(int col = 1; col < cols; col++){
+            for(int row = 0; row < rows; row++){
+                if(row - 1 >= 0 && grid[row - 1][col - 1] < grid[row][col]){
+                    dp[row][col] = Math.max(dp[row][col], dp[row - 1][col - 1]);
+                }
+                if(grid[row][col - 1] < grid[row][col]){
+                    dp[row][col] = Math.max(dp[row][col], dp[row][col - 1]);
+                }
+                if(row + 1 < rows && grid[row + 1][col - 1] < grid[row][col]){
+                    dp[row][col] = Math.max(dp[row][col], dp[row + 1][col - 1]);
+                }
+                if(dp[row][col] > 0){
+                    dp[row][col]++;
+                }
+                res = Math.max(res, dp[row][col] - 1);
+            }
+        }
+        return res;
+    }
+}
+
+# Intuition :
+1. for each of the cell, it will only be possible coming from 3 nearby cell in prev column.
+2. The steps of this cell is the max of prev 3 cell's steps + 1;
+3. if none of the prev cell can be reachable, this cell is not reachable either.
+
+# Complexity
+- Time : O(M * N)
+- Space : O(M * N)

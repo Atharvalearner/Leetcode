@@ -1,0 +1,30 @@
+class Solution {
+    public int[] maximumBeauty(int[][] items, int[] queries) {
+        Arrays.sort(items, (a, b) -> (a[0] - b[0]));
+        TreeMap<Integer, Integer> tm = new TreeMap<>();
+        int maxBeauty = 0;
+        for(int[] item : items){
+            maxBeauty = Math.max(maxBeauty, item[1]);
+            tm.put(item[0], maxBeauty);
+        }
+        int[] result = new int[queries.length];
+        for(int i = 0; i < queries.length; i++){
+            Integer price = tm.floorKey(queries[i]);
+            result[i] = (price == null) ? 0 : tm.get(price);
+        }
+        return result;
+    }
+}
+
+# Approach :
+1. Sort and Track Maximum Beauty:
+	- Sort items by price and sort queries while keeping track of their original indices.
+	- Traverse the sorted items to build a cumulative list of maximum beauty values up to each price, so we can easily know the maximum beauty available for any price constraint.
+2. Treemap with Queries:
+	- For each query (sorted in ascending order), use Treemap to find the highest price that’s within the query price.
+	- Retrieve the corresponding maximum beauty for that price from the precomputed list.
+3. Efficiency with Treemap: Using binary search on the sorted prices reduces the complexity for each query, making the solution efficient for large inputs.
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

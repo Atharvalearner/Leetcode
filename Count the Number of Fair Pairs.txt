@@ -1,0 +1,25 @@
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        return countLess(nums, upper) - countLess(nums, lower - 1);
+    }
+    public long countLess(int[] nums, int target){
+        long count = 0;
+        for(int i = 0, j = nums.length - 1; i < j; i++){
+            while(i < j && nums[i] + nums[j] > target){
+                j--;
+            }
+            count = count + j - i;
+        }
+        return count;
+    }
+}
+
+# Intuition :
+Because nums[i] + nums[j] == nums[j] + nums[i] the i < j condition degrades to i != j.
+So, we can sort the array, and use the two-pointer approach to count pairs less than a certain value.
+We do it twice for uppper and lower, and return the difference.
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)

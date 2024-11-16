@@ -1,0 +1,40 @@
+class Solution {
+    public int[] getMaximumXor(int[] nums, int maximumBit) {
+        int n = nums.length, xor = 0;
+        int[] res = new int[nums.length];
+        int max = (1 << maximumBit) - 1;
+        for(int i = 0; i < nums.length; i++){
+            xor = xor ^ nums[i];
+        }
+        for(int i = 0; i < n; i++){
+            res[i] = xor ^ max;
+            xor = xor ^ nums[n - i - 1];
+        }
+        return res;
+    }
+}
+
+# Intuition :
+Find the maximum XOR value for each prefix of an array by using a bit manipulation approach.
+
+# Approach :
+1. First, it creates a mask of 1s based on maximumBit. For example, if maximumBit is 3, mask becomes 7 (111 in binary)
+2. It creates a result array (res) of the same length as the input array
+3. Then it goes through each number in the array and:
+	- Keeps track of running XOR in 'curr'
+	- For each position, finds a number that would give maximum XOR with current running XOR
+	- Stores results in reverse order (that's why we use n-i-1)
+4. The magic happens with ~curr & mask:
+	- ~curr flips all bits
+	- mask keeps only the relevant bits (up to maximumBit)
+	- This combination gives us the number that produces maximum XOR
+
+# For example:
+If curr = 101 and maximumBit = 3
+~curr = 010 (after masking with 111)
+This 010 will give maximum XOR with 101
+Works bcs uses the fact that to get maximum XOR, you want opposite bits wherever possible within your bit limit.
+
+# Complexity :
+- Time : O(n)
+- Space : O(n)

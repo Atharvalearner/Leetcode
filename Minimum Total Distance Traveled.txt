@@ -1,0 +1,51 @@
+class Solution {
+    private Long[][] dp;
+    public long minimumTotalDistance(List<Integer> robotList, int[][] factory) {
+        int[] robot = robotList.stream().mapToInt(i -> i).toArray();
+        Arrays.sort(robot);
+        Arrays.sort(factory, (a, b) -> Integer.compare(a[0], b[0]));
+        dp = new Long[robot.length][factory.length];
+        return dfs(0, 0, robot, factory);
+    }
+    private long dfs(int robotIdx, int factoryIdx, int[] robot, int[][] factory) {
+        if (robotIdx == robot.length){
+            return 0;
+        }
+        if (factoryIdx == factory.length) {
+            return Long.MAX_VALUE;
+        }
+        if (dp[robotIdx][factoryIdx] != null){
+            return dp[robotIdx][factoryIdx];
+        }
+        long res = dfs(robotIdx, factoryIdx + 1, robot, factory);
+        long cost = 0;
+        for (int k = 0; k < factory[factoryIdx][1] && robotIdx + k < robot.length; ++k) {
+            cost += Math.abs(robot[robotIdx + k] - factory[factoryIdx][0]);
+            long next = dfs(robotIdx + k + 1, factoryIdx + 1, robot, factory);
+            if (next != Long.MAX_VALUE) {
+                res = Math.min(res, cost + next);
+            }
+        }
+        return dp[robotIdx][factoryIdx] = res;
+    }
+}
+
+# Intuition :
+We have robots and factories placed at various positions on the X-axis:
+1. Robots: Each robot has a unique position.
+2. Factories: Each factory has a position and a limit, which represents the maximum number of robots it can repair.
+The goal is to determine the minimum total distance that all robots need to travel to be repaired at the factories.
+
+# Approach :
+1. Sorting: To optimize distance calculations, we first sort both the robot and factory lists by their positions on the X-axis. Sorting ensures that we can assign robots to the closest available factories, minimizing travel distance.
+2. Dynamic Programming (DP) with DFS: We use DFS to explore all possible ways to assign robots to factories.
+We use DP (memoization) to store intermediate results for subproblems, avoiding redundant calculations.
+3. Recursive DFS Function: Our recursive function dfs(robotIdx, factoryIdx) calculates the minimum distance required for all robots from robotIdx onwards to reach a set of factories from factoryIdx onwards.
+4. At each recursive call: 
+	- Skip Factory: We can choose to skip the current factory if it’s not beneficial to assign robots to it.
+	- Assign Robots to Current Factory: We iteratively assign robots to the current factory until its limit is reached, calculating the cumulative distance traveled by each group of robots. We then make a recursive call to assign the remaining robots to subsequent factories.
+5. Memoization: We use a 2D DP array dp[robotIdx][factoryIdx] to store results for subproblems. If a subproblem has already been solved, we retrieve the stored result, saving computation time.
+
+# Complexity :
+- Time : O(N * M * limit) — n is the number of robots, m is the number of factories, and each robot-factory pair can have up to limit assignments in the worst case.
+- Space : O(N * M) — for the memoization table dp.

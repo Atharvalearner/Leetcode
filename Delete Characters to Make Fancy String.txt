@@ -1,0 +1,27 @@
+class Solution {
+    public String makeFancyString(String s) {
+        if(s.length() < 3){
+            return s;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(s.charAt(0));
+        sb.append(s.charAt(1));
+        for(int i = 2; i < s.length(); i++){
+            int n = sb.length();
+            if(s.charAt(i) == sb.charAt(n - 1) && s.charAt(i) == sb.charAt(n - 2)){
+                continue;
+            }else{
+                sb.append(s.charAt(i));
+            }
+        }
+        return sb.toString();
+    }
+}
+
+# Approach :
+we will append elements to the result string ,only if last two elements in result string doesn't match with the current index of our string s[i].
+This make sure no char is repeated more than 2x.
+
+# Complexity :
+- Time : O(n)
+- Space : O(n)
