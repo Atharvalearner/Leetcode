@@ -1,0 +1,33 @@
+class Solution {
+    public int shortestSubarray(int[] nums, int k) {
+        int n = nums.length, sum = 0, min = Integer.MAX_VALUE;
+        long[] prefix = new long[n + 1];
+        for(int i = 0; i < n; i++){
+            prefix[i + 1] = nums[i] + prefix[i];
+        }
+        Deque<Integer> dq = new LinkedList<>();
+        for(int i = 0; i <= n; i++){
+            while(!dq.isEmpty() && prefix[i] - prefix[dq.getFirst()] >= k){
+                int index = dq.pollFirst();
+                min = Math.min(min, i - index);
+            }
+            while(!dq.isEmpty() && prefix[i] <= prefix[dq.getLast()]){
+                dq.pollLast();
+            }
+            dq.add(i);
+        }
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+}
+
+# Approach :
+1. Make a prefix sum array
+2. Declare an empty deque to store the index of prefix sum
+3. Loop each prefix sum in the prefix sum array
+4. while the current prefix sum can form a valid subarray sum with the prefix sum of the index at the head of the deque, update the result min. and poll the head out as it is useless now
+5. while the current prefix sum is smaller or equal to the prefix sum at the end of the deque, poll out the last of the deque
+6. add the index of current prefix sum to the dequeue
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)
