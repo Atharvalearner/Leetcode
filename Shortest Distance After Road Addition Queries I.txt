@@ -1,0 +1,53 @@
+class Solution {
+    public int[] shortestDistanceAfterQueries(int n, int[][] queries) {
+        int[] dis = new int[n];
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            dis[i] = n - i - 1;
+        }
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int i = 0; i + 1 < n; ++i){
+            graph.get(i + 1).add(i);
+        }
+        int[] res = new int[queries.length];
+        int ind = 0;
+        for(int[] query : queries){
+            int src = query[0], targ = query[1];
+            graph.get(targ).add(src);
+            dis[src] = Math.min(dis[src], dis[targ] + 1);
+            updateDist(graph, src, dis);
+            res[ind++] = dis[0];
+        }
+        return res;
+    }
+    private void updateDist(List<List<Integer>> graph, int src, int[] dis){
+        int newDist = dis[src] + 1;
+        for(int neighbor : graph.get(src)){
+            if(dis[neighbor] <= newDist){
+                continue;
+            }
+            dis[neighbor] = newDist;
+            updateDist(graph, neighbor, dis);
+        }
+    }
+}
+
+# Approach (DFS) :
+1. updateDistances Update distances after adding a new edge
+	- Takes a graph, current node, and distances array as parameters
+	- For each neighbor of current node, if we can improve its distance (make it smaller), we update it and recursively proces that neighbor
+	- The new distance is always current node's distance + 1
+2. shortestDistanceAfterQueries: Processes queries
+	- Initializes distances array where each node i starts with distance n-1 to node 0
+	- Creates initial directed graph where each node i+1 connects to node i
+	- For each query (source, target):
+		- Adds new edge from target to source
+		- Updates source's distance if needed based on target's distance
+		- Recursively updates distances of nodes reachable from source
+	- Records distance to node 0 in the answer
+
+# Complexity :
+- Time : O(N ^ 2)
+- Space : O(N)

@@ -1,0 +1,45 @@
+class Solution {
+    int[][] dir = new int[][] {{-1,0}, {1,0}, {0,-1}, {0,1}};
+    public int minimumObstacles(int[][] grid) {
+        int count = 0, n = grid.length, m = grid[0].length;
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{0,0});
+        grid[0][0] = -1;
+        while(!q.isEmpty()){
+            Queue<int[]> neighbors = new LinkedList<>();
+            while(!q.isEmpty()){
+                int[] curr = q.poll();
+                if(curr[0] == n - 1 && curr[1] == m - 1){
+                    return count;
+                }
+                for(int i = 0; i < 4; i++){
+                    int rowDir = curr[0] + dir[i][0];
+                    int colDir = curr[1] + dir[i][1];
+                    if(rowDir < 0 || colDir < 0 || rowDir >= n || colDir >= m){
+                        continue;
+                    }
+                    if(grid[rowDir][colDir] == 0){
+                        q.add(new int[]{rowDir, colDir});
+                    }else if(grid[rowDir][colDir] == 1){
+                        neighbors.add(new int[]{rowDir, colDir});
+                    }
+                    grid[rowDir][colDir] = -1;
+                }
+            }
+            count++;
+            q = neighbors;
+        }
+        return -1;
+    }
+}
+
+# Intuition :
+The idea is that we will move to next obstacle cells in each step.
+Step 0: states = [[0, 0]] // all empty cells can be reached from [0, 0]
+Step 1: states = [[0, 1], [1, 0]] // all obstacle neighbors can be reached from Step 0
+Step 2: states = [[2, 0], [1, 1], [0, 2]] // all obstacle neighbors can be reached from Step 1
+Now, we can reach target cell from [1, 1] or [0, 2], so 2 will be the result (need to remove 1 cell in Step 1 and 1 cell in Step 2).
+
+# Complexity :
+- Time : O(N * M)
+- Space : O(N * M)

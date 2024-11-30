@@ -1,0 +1,51 @@
+class Solution {
+    public long maxMatrixSum(int[][] matrix) {
+        long res = 0;
+        int negCount = 0, min = Integer.MAX_VALUE;
+        for(int row = 0; row < matrix.length; row++){
+            for(int col = 0; col < matrix[row].length; col++){
+                int curr = matrix[row][col];
+                if(curr < 0){
+                    negCount++;
+                }
+                res = res + Math.abs(curr);
+                if(Math.abs(curr) < min){
+                    min = Math.abs(curr);
+                }
+            }
+        }
+        if(negCount % 2 == 0){
+            return res;
+        }
+        return res - 2 * min;
+    }
+}
+
+# Intuition :
+There could be below cases possible:
+1. if all the numbers in matrix are positive ==> sum of all would be the answer.
+2. if there are negative numbers as well but they are in even number of time then also we can make them positibe using our adjacent -1 multiply operation.
+3. if in case of negative numbers that too in odd frequency we know that even after apply the -1 multiply operation, there would be always 1 number left negative , now we should try to make the negative number to the one that have smallest absolute value like in below matrix below has 3 negative numbers
+
+10 40 -5
+2 -30 20
+4, -10 10
+
+above matrix can be easily brought to below matrix after doing our -1 muitiply operation, this will produce highest sum :-
+
+10 40 5
+-2 30 20
+4 10 10
+
+after doing all -1 operation on adjacent numbers we can easily make our minimum absolute value (2) as left negative element so that we would still have higest sum.
+
+in single loop we can count the negative frequency and the sume of absolute values in the matrix and the smallest absolute value in matrix.
+
+now if frequency of negative number is even ==> return sum.
+if its odd ==> return sum - 2*minAbsolute value
+
+why 2*minAbsolute value?? ===> because when we were making sum we added everything as absolute values====> now as we now our absolute value would be left negative in case our frequency of negative numbers is odd ===> we have to deduct it two times.
+
+# Complexity :
+- Time : O(N*M)
+- Space : O(1)

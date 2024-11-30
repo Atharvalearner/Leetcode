@@ -1,0 +1,57 @@
+class Solution {
+    public int minimumTime(int[][] grid) {
+        int n = grid.length, m = grid[0].length;
+        if(grid[0][1] > 1 && grid[1][0] > 1){
+            return -1;
+        }
+        int[][] dir = new int[][]{{-1,0},{1,0},{0,1},{0,-1}};
+        boolean[][] visited = new boolean[n][m];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]);
+        pq.offer(new int[]{grid[0][0], 0, 0});
+        while(!pq.isEmpty()){
+            int[] curr = pq.poll();
+            int time = curr[0], row = curr[1], col = curr[2];
+            if(row == n - 1 && col == m - 1){
+                return time;
+            }
+            if(visited[row][col]){
+                continue;
+            }
+            visited[row][col] = true;
+            for(int[] direction : dir){
+                int r = row + direction[0], c = col + direction[1];
+                if(r < 0 || c < 0 || r >= n || c >= m || visited[r][c]){
+                    continue;
+                }
+                int roundTime = ((grid[r][c] - time) % 2 == 0) ? 1 : 0;
+                pq.offer(new int[]{Math.max(grid[r][c] + roundTime, time + 1), r, c});
+            }
+        }
+        return -1;
+    }
+}
+
+# Intuition :
+We want to find minimum time to reach bottom right cell. We'll have to traverse the matrix as the time in each cell allows. We can use a priority queue to keep track of time.
+If we can not move to the neighboring cells from starting position we can not move anywhere in the matrix hence answer is -1.
+But if we can move to the neighboring cells from starting position, we can move anywhere in the matrix. We can wait by playing "ping pong" between previous cell and current cell till a neighboring cell opens up.
+
+# Approach :
+1. If grid[0][1] > 1 and grid[1][0] > 1 we can not move anywhere from cell grid[0][0], hence answer is -1.
+2. Use priority queue to find next cell with minimum time to move to it
+3. If time for a neighbor (target) cell is > 1 + time for current cell. We can not directly move to target cell. We will have to "ping pong" between previous cell and current cell. When playing ping pong between previous and current cell there can be two cases.
+	- I. Let's say time for target cell is 4 and current time is 2, difference = 2 (even).
+	- Move to prev cell, time = 3
+	- Move to curr cell, time = 4
+	- Move to target cell, time = 5.
+	- Hence we reach target cell with time: target cell time + 1 when difference between target cell time and curr cell time is even.
+	- II. Let's say time for target cell is 5 and current time is 2, difference = 3 (odd).
+	- Move to prev cell, time = 3
+	- Move to curr cell, time = 4
+	- Move to target cell, time = 5.
+	- Hence we reach target cell with time: target cell time when difference between target cell time and curr cell time is odd.
+	- This "ping pong" is captured in the wait variable in the code
+
+# Complexity :
+- Time : O(m * n log(m * n))
+- Space : O(m * n)

@@ -1,0 +1,38 @@
+class Solution {
+    public int findChampion(int n, int[][] edges) {
+        int[] indegree = new int[n];
+        for(int[] edge : edges){
+            indegree[edge[1]]++;
+        }
+        int winner = -1, count = 0;
+        for(int node = 0; node < n; node++){
+            if(indegree[node] == 0){
+                count++;
+                winner = node;
+            }
+        }
+        return count > 1 ? -1 : winner;
+    }
+}
+
+# Approach :
+from given Constraint, DAG graph there is never a cycle.
+also as we know that in edges (u, v) => means there is an edge from u to v ===> it means the team u is stronger than v
+
+so if we found only one team that doesn't stay at position of v means this team is most strong. ===> means the Indegree of strongest team would be 0
+
+so now we have to find the indegree of all nodes.
+1. if there is only one node having indegree = 0 ===> winner team
+2. if there are more than 1 node having indegree = 0 ==> return -1
+
+we will create an array indegree[] = new int[n];
+
+now we will traverse through array edges[][]
+for int edge[] : edges
+indegree[edge[1]]++ ===> here i am increasing the indegree of 2nd team like in (1, 2) ===> indegree of 2 would incremented by 1
+
+now calculate in indegree array if there is only one 0 then return the index, otherwise return -1
+
+# Complexity :
+- Time : O(N)
+- Space : O(N)
