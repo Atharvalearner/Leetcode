@@ -1,0 +1,28 @@
+class Solution {
+    public int maxTwoEvents(int[][] events) {
+        Arrays.sort(events, (a, b) -> a[0] - b[0]);
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[1] - b[1]);
+        int maxEvent = 0, res = 0;
+        for(int[] event : events){
+            while(!pq.isEmpty() && pq.peek()[1] < event[0]){
+                maxEvent = Math.max(maxEvent, pq.poll()[2]);
+            }
+            res = Math.max(res, maxEvent + event[2]);
+            pq.offer(event);
+        }
+        return res;
+    }
+}
+
+# Intuition :
+1. First sort all events by start time. If start time of two events are equal, sort them by end time.
+2. Then take a priority queue that takes an array containing [endtime, value]. Priority queue will sort elements on the basis of end time. current event and maintain a maximum-valued previous event to combine with curr events[i] answer will either be using two or one event sine value is non-negative.
+3. iterate through events 
+4. if endtime of priorityQueue event's endtime is less than start time of current event then update maxEvent.
+5. update the result by comparing max value between previous result and maxEvent value + current event value.
+6. add current event to priorityQueue.
+7. return result.
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

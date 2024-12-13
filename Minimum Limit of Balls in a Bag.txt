@@ -1,0 +1,54 @@
+class Solution {
+    public int minimumSize(int[] nums, int maxOperations) {
+        Arrays.sort(nums);
+        int leastBalls = 1, maxBalls = nums[nums.length - 1];
+        int res = maxBalls;
+        while(leastBalls <= maxBalls){
+            int mid = leastBalls + (maxBalls - leastBalls) / 2;
+            if(canDivide(mid, nums, maxOperations)){
+                res = mid;
+                maxBalls = mid - 1;
+            }else{
+                leastBalls = mid + 1;
+            }
+        }
+        return res;
+    }
+    public boolean canDivide(int mid, int[] nums, int maxOperations){
+        int currOperation = 0;
+        for(int i = nums.length - 1; i >= 0; i--){
+            if(nums[i] <= mid){
+                break;
+            }
+            currOperation += (nums[i] - 1) / mid;
+            if(currOperation > maxOperations){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+# Intuition :
+The problem aims to minimize the size of the largest ball bag maxBalls by distributing balls using at most maxOperations. This involves splitting larger bags into smaller ones. To achieve the minimum size of the largest bag, we leverage binary search to efficiently find the smallest feasible maxBalls.
+
+# Approach :
+Step 1 Sort the Array : Sorting nums ensures that we address larger bags first, as they are the most likely to exceed a given maxBalls limit. This simplifies feasibility checking later.
+Step 2 Define Binary Search Range :
+	- low : Smallest possible size for maxBalls (1, since a bag must contain at least one ball).
+	- high : The size of the largest bag (nums[nums.length - 1]).
+Step 3 Binary Search for Minimum maxBalls : Use a mid-point mid to test if it's feasible to make all bags <= mid using maxOperations.
+	- Update the search range based on feasibility:
+	- If feasible, update result = mid & shrink the range high = mid - 1.
+	- If not feasible, increase the range low = mid + 1.
+Step 4 Feasibility Check :
+	- Iterate through the sorted array in reverse largest to smallest.
+	- For each bag:
+	- If the bag size is greater than maxBalls, calculate how many splits are required using (nums[i] - 1) / maxBalls.
+	- Accumulate the operations and check if they exceed maxOperations.
+	- If all bags can be made smaller or equal to maxBalls within maxOperations, return true; otherwise, return false.
+Step 5 Return the Result : After the binary search concludes, the result holds the minimum possible size of the largest bag.
+
+# Complexity :
+- Time : O(nlogn+n⋅log(max(nums)))
+- Space : O(1)

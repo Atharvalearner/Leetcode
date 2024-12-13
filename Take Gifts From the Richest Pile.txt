@@ -1,0 +1,27 @@
+class Solution {
+    public long pickGifts(int[] gifts, int k) {
+        long sum = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> b - a);
+        for(int gift : gifts){
+            pq.add(gift);
+        }
+        while(k-- > 0){
+            pq.add((int)Math.sqrt(pq.poll()));
+        }
+        while(!pq.isEmpty()){
+            sum += pq.poll();
+        }
+        return sum;
+    }
+}
+
+# Approach :
+1. for storing highest gifts first we used priority queue which stores gifts in higher to lower.
+2. add gifts to pq then by internal adjusting pq will store it in descending order.
+3. remove k elements from pq one by one and add current gift square root to sum and again push square root value to pq.
+4. after adding k gifts we can directly add other remaining gifts to sum.
+5. return sum.
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

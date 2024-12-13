@@ -1,0 +1,36 @@
+class Solution {
+    public int maximumLength(String s) {
+        List<String> substrs = new ArrayList<>();
+        for(int i = 0; i < s.length(); i++){
+            int index = i;
+            while(index < s.length() && s.charAt(i) == s.charAt(index)){
+                substrs.add(s.substring(i, index + 1));
+                index++;
+            }
+        }
+        Map<String, Integer> hm = new HashMap<>();
+        for(String str : substrs){
+            hm.put(str, hm.getOrDefault(str, 0) + 1);
+        }
+        int max = 0;
+        for(Map.Entry<String, Integer> str : hm.entrySet()){
+            String currStr = str.getKey();
+            int currStrCount = str.getValue();
+            if(currStrCount >= 3){
+                max = Math.max(max, currStr.length());
+            }
+        }
+        return max == 0 ? -1 : max;
+    }
+}
+
+# Approach :
+1. create a list for storing substring.
+2. iterate the string s from each index position iterate string of consecutive same character strings and store that if occurs in above list of substrings.
+3. iterate substring list and store each string occurances in hashmap.
+4. iterate hashmap entries one by one and check current string count if count >= 3 then update max variable.
+5. if maxlength is greater than 0 then return maxLength else return -1.
+
+# Complexity :
+- Time : O(N^2)
+- Space : O(N)

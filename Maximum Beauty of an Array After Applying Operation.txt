@@ -1,0 +1,28 @@
+class Solution {
+    public int maximumBeauty(int[] nums, int k) {
+        Arrays.sort(nums);
+        int res = 0, left = 0;
+        for(int right = 0; right < nums.length; right++){
+            int diff = nums[right] - nums[left];
+            if(diff > 2 * k){
+                left++;
+                diff = nums[right] - nums[left];
+            }
+            res = Math.max(res, right - left + 1);
+        }
+        return res;
+    }
+}
+
+# Intuition :
+The goal is to find the maximum size subarray such that the difference between the maximum and minimum elements in that subarray is at most (2 \times k). This can be done by utilizing a sliding window approach, where we maintain a window of elements and adjust its boundaries dynamically to ensure the condition is satisfied.
+
+# Approach :
+1. Sort the array: First, sort the array so that the smallest elements are at the beginning and the largest are at the end. This allows us to efficiently calculate the difference between the maximum and minimum elements in any subarray.
+2. Sliding window: Use two pointers (left and right) to define the window. Start by expanding the right pointer and compute the difference between nums[right] and nums[left].
+3. Condition check: If the difference exceeds (2 \times k), move the left pointer to shrink the window until the condition is met.
+4. Track maximum window size: At each step, update the maximum size of the window that satisfies the condition.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
