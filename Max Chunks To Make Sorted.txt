@@ -1,0 +1,46 @@
+class Solution {
+    public int maxChunksToSorted(int[] arr) {
+        int sum = 0, indexSum = 0, chunkCount = 0;
+        for(int i = 0; i < arr.length; i++){
+            sum = sum + arr[i];
+            indexSum = indexSum + i;
+            if(sum == indexSum){
+                chunkCount++;
+            }
+        }
+        return chunkCount;
+    }
+}
+
+# Intuition :
+- We aim to split the array into chunks where each chunk can be individually sorted, and their concatenation results in a sorted array. By leveraging the properties of permutations and indices, we can determine valid chunks based on running sums.
+- If the sum of values ( sum) equals the sum of indices ( indexSum), it guarantees that the values within the chunk form a permutation of [start, end] and can be independently sorted to match their positions.
+
+# Approach :
+1. Use two variables:  sum (sum of elements so far) and  indexSum (sum of indices so far).
+2. Traverse the array. If  sum ==  indexSum, we can form a chunk since all elements up to the current index are in the correct order after sorting.
+3. Count the number of such chunks and return the result.
+4. Here’s a detailed breakdown of the process for solving the problem:
+
+# Dry Run :
+Example 1: Input: arr = [4, 3, 2, 1, 0]
+Process:
+At index 0:  sum = 4,  indexSum = 0 → Not a chunk.
+At index 1:  sum = 7,  indexSum = 1 → Not a chunk.
+At index 2:  sum = 9,  indexSum = 3 → Not a chunk.
+At index 3:  sum = 10,  indexSum = 6 → Not a chunk.
+At index 4:  sum = 10,  indexSum = 10 → Chunk found.
+Output: 1
+
+Example 2: Input: arr = [1, 0, 2, 3, 4]
+Process:
+At index 0:  sum = 1,  indexSum = 0 → Not a chunk.
+At index 1:  sum = 1,  indexSum = 1 → Chunk found.
+At index 2:  sum = 3,  indexSum = 3 → Chunk found.
+At index 3:  sum = 6,  indexSum = 6 → Chunk found.
+At index 4:  sum = 10,  indexSum = 10 → Chunk found.
+Output: 4
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

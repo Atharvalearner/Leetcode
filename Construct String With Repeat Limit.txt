@@ -1,0 +1,57 @@
+class Solution {
+    public String repeatLimitedString(String s, int repeatLimit) {
+        char[] str = s.toCharArray();
+        Arrays.sort(str);
+        int count = 0, j = str.length - 1;
+        StringBuilder sb = new StringBuilder();
+        for(int i = str.length - 1; i >= 0; --i){
+            if(sb.length() > 0 && sb.charAt(sb.length() - 1) == str[i]){
+                if(count < repeatLimit){
+                    sb.append(str[i]);
+                    count++;
+                }else{
+                    while(j >= 0 && (str[j] == str[i] || j > i)){
+                        j--;
+                    }
+                    if(j >= 0){
+                        sb.append(str[j]);
+                        char temp = str[i];
+                        str[i] = str[j];
+                        str[j] = temp;
+                        count = 1;
+                    }else{
+                        break;
+                    }
+                }
+            }else{
+                sb.append(str[i]);
+                count = 1;
+            }
+        }
+        return sb.toString();
+    }
+}
+
+#  Intuition :
+tasked is constructing the lexicographically largest string possible from the string s, while ensuring that no character appears more than repeatLimit times consecutively.
+
+To achieve this, we need to:
+1. Maximize lexicographical order: We prioritize placing the lexicographically largest characters in the result first.
+2. Avoid exceeding the repeat limit: We need to carefully manage the addition of characters to avoid placing any character more than repeatLimit times consecutively.
+3. Sorting in Descending Order: Sorting the characters of the string in descending order allows us to first try to place the largest characters. This helps in creating the lexicographically largest string.
+4. Consecutive Occurrences: We need to ensure that we don't violate the constraint that no character appears more than repeatLimit times consecutively. If we try to add a character that would exceed this limit, we must skip it and use another character.
+
+# Approach :
+1. Sort the String: We first sort the string s in descending order using sort. This ensures that the largest characters appear first, giving us the lexicographically largest possible result when constructing the string.
+2. Iterate Over the Sorted String: We need to iterate through the sorted string and build the result string, while managing the consecutive occurrences of characters.
+3. For each character in the string: If it's the same as the last character added to the result, we check if it has already appeared repeatLimit times consecutively. If it has, we skip it and attempt to add a different character.
+	- If it's a different character, we add it directly to the result string.
+4. Handling the Repeat Limit: For every character added to the result, we track how many times that character has appeared using a variable freq.
+	- If a character appears repeatLimit times consecutively, we move on to the next available character, which may involve skipping over repeated characters using a pointer.
+5. Pointer Management: If we encounter a character that has already appeared repeatLimit times consecutively, we use a pointer to find the next distinct character in the sorted string and add that to the result.
+	- The pointer ensures that we don't violate the repeat limit and helps us find the next valid character to place.
+6. Final Output: After processing all the characters and carefully managing the repeat limit, we return the constructed string as the result.
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

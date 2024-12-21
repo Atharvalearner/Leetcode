@@ -1,0 +1,42 @@
+class Solution {
+    public long continuousSubarrays(int[] nums) {
+        long count = 0;
+        TreeMap<Integer, Integer> tm = new TreeMap<>();
+        int left = 0;
+        for(int right = 0; right < nums.length; right++){
+            tm.put(nums[right], tm.getOrDefault(nums[right], 0) + 1);
+            while(tm.lastKey() - tm.firstKey() > 2){
+                tm.put(nums[left], tm.get(nums[left]) - 1);
+                if(tm.get(nums[left]) == 0){
+                    tm.remove(nums[left]);
+                }
+                left++;
+            }
+            count += right - left + 1;
+        }
+        return count;
+    }
+}
+
+# Intuition :
+The problem requires counting all continuous subarrays where the difference between the maximum and minimum elements in the subarray is at most 2. A brute-force approach to generate and check all subarrays would be inefficient, especially for large arrays. Instead, the solution leverages a sliding window technique with a sorted map to efficiently maintain the range of elements in the current window.
+
+# Idea : 
+For any valid subarray ending at index right, all subarrays starting from any index between left and right are also valid. Thus, for every right, we can directly count the number of valid subarrays ending at right as right - left + 1.
+
+# Approach : (Sliding Window )
+1. Use two pointers, left and right, to represent the bounds of the current window.
+2. Initialize treemap which automatically sort the array in ascending order.
+3. Expand the window by moving the right pointer and adding nums[right] to a frequency map.
+4. Tracking Min and Max in the Window:
+	- Use a map to maintain the frequency of elements in the current window.
+	- The smallest key or val of Treemap stored array represents the minimum value in the window.
+	- The largest key or val of Treemap stored array represents the maximum value in the window.
+5. Validating the Window: If the condition (max - min <= 2) is violated, 
+	- shrink the window by moving the left pointer and updating the map. 
+	- Remove elements from the map if their frequency becomes 0.
+6. Counting Subarrays: For every valid position of right, all subarrays starting from left to right are valid. Add right - left + 1 to the count.
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)

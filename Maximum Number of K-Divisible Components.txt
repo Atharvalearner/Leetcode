@@ -1,0 +1,64 @@
+class Solution {
+    public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
+        if(n < 2){
+            return 1;
+        }
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            graph.add(new ArrayList<>());
+        }
+        int[] indegree = new int[n];
+        for(int[] edge : edges){
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+            indegree[edge[0]]++;
+            indegree[edge[1]]++;
+        }
+        long[] nodes = new long[n];
+        for(int i = 0; i < n; i++){
+            nodes[i] = values[i];
+        }
+        Queue<Integer> leaf = new LinkedList<>();
+        for(int i = 0; i < n; i++){
+            if(indegree[i] == 1){
+                leaf.add(i);
+            }
+        }
+        int count = 0;
+        while(!leaf.isEmpty()){
+            int currNode = leaf.poll();
+            indegree[currNode]--;
+            long carry = 0;
+            if(nodes[currNode] % k == 0){
+                count++;
+            }else{
+                carry = nodes[currNode];
+            }
+            for(int neighbor : graph.get(currNode)){
+                if(indegree[neighbor] == 0){
+                    continue;
+                }
+                indegree[neighbor]--;
+                nodes[neighbor] += carry;
+                if(indegree[neighbor] == 1){
+                    leaf.add(neighbor);
+                }
+            }
+        }
+        return count;
+    }
+}
+
+# Intuition :
+The problem can be approached by considering the graph as a tree and processing it using leaf nodes. The goal is to maximize the number of connected components where the sum of values is divisible by (k).
+
+# Approach :
+1. Graph Construction: Represent the graph as an adjacency list and track the degree of each node.
+2. Leaf Node Processing: Start with all leaf nodes (degree = 1). Use a queue to process nodes level by level.
+3. Value Propagation: For each leaf node, if its value is divisible by (k), increment the result counter. Otherwise, propagate the remainder value to its parent.
+4. Repeat: Continue this process until all nodes are processed.
+5. Result: The number of divisible components is stored in the result counter.
+
+# Complexity :
+- Time : O(N + E)
+- Space : O(N + E)

@@ -1,0 +1,30 @@
+class Solution {
+    public TreeNode reverseOddLevels(TreeNode root) {
+        bfs(root.left, root.right, 0);
+        return root;
+    }
+    private void bfs(TreeNode node1, TreeNode node2, int level) {
+        if (node1 == null || node2 == null){
+            return;
+        }
+        if (level % 2 == 0) {
+            int val = node1.val;
+            node1.val = node2.val;
+            node2.val = val;
+        }
+        bfs(node1.left, node2.right, level + 1);
+        bfs(node1.right, node2.left, level + 1);
+    }
+}
+
+# Intuition :
+1. Recursive Symmetric Traversal: Begin with the left and right children of the root.
+ - At each odd level, swap the values of the paired nodes.
+ - Recursively traverse further to reverse values in subtrees at the next odd levels.
+2. Base Case: Stop when either node is null (reached leaf level).
+3. Recursive Swapping: For a pair of nodes, swap their values if the current level is odd.
+- Recursively call the function on their corresponding children (node1.left with node2.right and node1.right with node2.left).
+
+# Complexity :
+- Time : O(N)
+- Space : O(h)
