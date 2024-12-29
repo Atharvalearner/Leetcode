@@ -1,0 +1,22 @@
+class Solution {
+    public int maxScoreSightseeingPair(int[] nums) {
+        int max = 0, left = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            max = Math.max(max, left + nums[i] - i);
+            left = Math.max(left, nums[i] + i);
+        }
+        return max;
+    }
+}
+
+# Intuition :
+The problem revolves around maximizing the score of two sightseeing spots by efficiently managing the difference between their indices and maximizing the sum of their values.
+
+# Approach :
+1. Maintain a running maximum (Prev) of ( values[i] + i ), which represents the best value of the first spot up to the current index.
+2. Iterate through the array and for each index (j), compute the score of the pair (i, j) using ( Prev + values[j] - j ).
+3. Update the maximum score (ans) and Prev as you progress.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)

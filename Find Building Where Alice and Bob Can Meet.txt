@@ -1,0 +1,57 @@
+    public int[] leftmostBuildingQueries(int[] heights, int[][] queries) {
+        int n = heights.length, n = queries.length;
+        List<int[]>[] que = new ArrayList[n];
+        for (int i = 0; i < n; i++){
+            que[i] = new ArrayList();
+        }
+        PriorityQueue<int[]> h = new PriorityQueue<>(Comparator.comparingInt(heights -> heights[0]));
+        int[] ans = new int[n];
+        Arrays.fill(ans, -1);
+        for (int qi = 0; qi < n; qi++) {
+            int i = queries[qi][0], j = queries[qi][1];
+            if (i < j && heights[i] < heights[j]) {
+                ans[qi] = j;
+            } else if (i > j && heights[i] > heights[j]) {
+                ans[qi] = i;
+            } else if (i == j) {
+                ans[qi] = i;
+            } else {
+                que[Math.max(i, j)].add(new int[]{Math.max(heights[i], heights[j]), qi});
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            while (!h.isEmpty() && h.peek()[0] < heights[i]) {
+                ans[h.poll()[1]] = i;
+            }
+            for (int[] q : que[i]) {
+                h.add(q);
+            }
+        }
+
+        return ans;
+    }
+
+# Complexity :
+- Time : O(N log N)
+- Space : O(N)
+
+# Approach :
+1. For each query [i,j],
+- if i < j and A[i] < A[j], then Alice and Bob meet at j.
+- if i > j and A[i] > A[j], then Alice and Bob meet at i.
+- if i == j, then Alice and Bob already meet at i.
+
+2. For the remaining queries,
+- we arrange them by position,
+- a query [i,j] can be answered after index max(i,j),
+
+- We will(not now) put a query in a minimum priority queue,
+- sorted by key max(A[i], A[j]),
+- so we can answer the query with minimum height first.
+
+3. Then we iterate heights A[i] from left to right, and check if we can answer any not answered queries.
+- After we answer all queries we can answer with A[i],
+- we will push new queries that we can answer from now,
+- new queries are arranged from step 2.
+
+4. Finally return the answer res.
