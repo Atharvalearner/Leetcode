@@ -1,0 +1,33 @@
+func minimumLength(s string) int {
+    hashMap := make([]int, 26)
+    resLen := 0
+    for _, char := range s{
+        hashMap[char - 'a']++
+    }
+    for _, val := range hashMap{
+        if val == 0{
+            continue
+        }
+        if val % 2 == 0{
+            resLen += 2
+        }else {
+            resLen +=1
+        }
+    }
+    return resLen
+}
+
+# Intuition :
+1. Use an array of size 26 to count occurrences of each character.
+2. For each character frequency:
+	- If the frequency is even, add 2 to the total length.
+	- If the frequency is odd, add 1 to the total length.
+
+# Approach :
+1. Track each character's frequency:
+- For even frequencies, characters can be removed in pairs.
+- For odd frequencies, one character remains.
+
+# Complexity:
+- Time: O(N)
+- Space: O(1)

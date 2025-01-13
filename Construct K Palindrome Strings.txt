@@ -1,0 +1,25 @@
+func canConstruct(s string, k int) bool {
+    if len(s) < k {
+        return false
+    }
+    hashMap := make(map[rune]int)
+    for _, currChar := range s {
+        hashMap[currChar]++
+    }
+    countOddFreq := 0
+    for _, count := range hashMap {
+        if count % 2 == 1 {
+            countOddFreq++
+        }
+    }
+    return k >= countOddFreq
+}
+
+# Intuition :
+1. Count the frequency of each character in the string using a Counter.
+2. Determine how many characters have an odd frequency.
+3. If the number of odd frequencies is greater than k, constructing k palindromes is not possible. Otherwise, it is possible.
+
+# Complexity :
+- Time : O(N)
+- Space : O(1)
