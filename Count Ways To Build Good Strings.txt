@@ -1,0 +1,38 @@
+class Solution {
+    public int countGoodStrings(int low, int high, int zero, int one) {
+        int[] dp = new int[high + 1];
+        int count = 0, mod = 1000000007;
+        dp[0] = 1;
+        for(int i = 1; i <= high ; i++){
+            if(i >= zero){
+                dp[i] = (dp[i] + dp[i - zero]) % mod;
+            }
+            if(i >= one){
+                dp[i] = (dp[i] + dp[i - one]) % mod;
+            }
+            if(i >= low){
+                count = (count + dp[i]) % mod;
+            }
+        }
+        return count;
+    }
+}
+
+# Intuition :
+Define dp[i] as the number of good strings of length i. Then we can use the following recurrence relation to calculate dp[i]:
+
+dp[i] = dp[i-zero] + dp[i-one]
+
+Here, dp[i-zero] represents the number of good strings of length i that end with a zero, and dp[i-one] represents the number of good strings of length i that end with a one. The total number of good strings of length i is the sum of these two.
+
+To count the number of good strings in the given range, we can use dp[i] to calculate the answer for all i between low and high, and add them up
+
+# Approach :
+1. Initialize an array dp[] of size high+1 with dp[0]=1, since there is only one good string of length 0, which is the empty string.
+2. Iterate from i=1 to high and use the recurrence relation to calculate dp[i].
+3. If i is between low and high, add dp[i] to the answer variable ans.
+4. Return the answer.
+
+# Complexity :
+- Time : O(high)
+- Space : O(high)
